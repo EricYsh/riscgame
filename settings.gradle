@@ -9,12 +9,12 @@
 
 rootProject.name = 'riscgame'
 include('app')
-include 'untitled'
-include 'Clients'
-include 'riscgame.Server'
+//include 'untitled'
+//include 'Clients'
+//include 'riscgame.Server'
+//include 'Server'
 include 'Server'
-include 'Server'
-include 'riscgame.server'
-include 'riscgame.Client'
+//include 'riscgame.server'
+//include 'riscgame.Client'
 include 'Client'
 
