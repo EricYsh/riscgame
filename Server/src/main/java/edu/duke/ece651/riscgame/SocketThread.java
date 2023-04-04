@@ -1,4 +1,4 @@
-package edu.duke.ece651.riscgame.endSystem;
+package edu.duke.ece651.riscgame;
 
 import java.net.Socket;
 

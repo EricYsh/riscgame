@@ -1,4 +1,4 @@
-package edu.duke.ece651.riscgame.endSystem;
+package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 
