@@ -1,3 +1,4 @@
 package edu.duke.ece651.riscgame;
-public class ClientTest {
+
+public class Player {
 }

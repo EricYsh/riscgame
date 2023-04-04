@@ -16,6 +16,8 @@ repositories {
     mavenCentral()
 }
 
+group 'edu.duke.ece651.riscgame'
+
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
