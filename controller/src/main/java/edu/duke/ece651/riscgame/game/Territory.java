@@ -1,8 +1,16 @@
 package edu.duke.ece651.riscgame.game;
 
-public class Territory {
-    private String name;
+import java.util.HashSet;
 
+public class Territory {
+    private final String name;
+    private int ownId;
+    private int unitNum;
+    private HashSet<Territory> neighbors;
+
+    public Territory() {
+        name = null;
+    }
     public String getName() {
         return name;
     }

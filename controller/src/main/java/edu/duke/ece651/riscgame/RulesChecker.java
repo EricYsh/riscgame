@@ -1,6 +1,4 @@
-package edu.duke.ece651.riscgame.rule;
-
-import edu.duke.ece651.riscgame.order.Order;
+package edu.duke.ece651.riscgame;
 
 public abstract class RuleChecker<T> {
     private final RuleChecker<T> next;
@@ -11,14 +9,14 @@ public abstract class RuleChecker<T> {
     public RuleChecker(RuleChecker<T> next) {
         this.next = next;
     }
-    protected abstract String checkMyRule(Order theOrder);
+    protected abstract String checkMyRule(Order order);
     /**
      * To check the order with rules if it follows every rule, return null
      * @param theOrder the order we want to check
      * return null if the order follows every rule otherwise return the corresponding prompt
      */
     public String checkOrder (Order theOrder) {
-        //if we fail our own rule: stop the order is not legal
+        //if we fail our own rule: stop the placement is not legal
         String tmp = checkMyRule(theOrder);
         if (tmp!= null) {
             return tmp;
@@ -30,4 +28,4 @@ public abstract class RuleChecker<T> {
         //if there are no more rules, then the placement is legal
         return null;
     }
-};
+}
