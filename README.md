@@ -1,6 +1,8 @@
 # riscgame
 
+## add dev branch
 
+put all combination to dev branch, main branch for evol1, evol2 and evol3 only
 
 ## Getting started
 
