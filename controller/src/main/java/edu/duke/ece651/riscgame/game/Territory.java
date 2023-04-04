@@ -1,4 +1,4 @@
-package edu.duke.ece651.riscgame;
+package edu.duke.ece651.riscgame.game;
 
 import java.util.HashSet;
 
