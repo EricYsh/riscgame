@@ -1,6 +1,8 @@
-package edu.duke.ece651.riscgame;
+package edu.duke.ece651.riscgame.rule;
 
-public class DestChecker<T> extends RuleChecker<T>{
+import edu.duke.ece651.riscgame.order.Order;
+
+public class DestChecker<T> extends RuleChecker<T> {
     /**
      * Constructs a RuleChecker
      *
