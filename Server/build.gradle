@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(path:':app')
+    implementation project(path:':Controller')
     implementation project(path:':Client')
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'

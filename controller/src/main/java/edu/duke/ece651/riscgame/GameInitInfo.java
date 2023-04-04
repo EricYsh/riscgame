@@ -1,8 +1,9 @@
 package edu.duke.ece651.riscgame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameInitInfo {
+public class GameInitInfo implements Serializable {
     String testStr = "HELLO, this is a GameInitInfo";
     ArrayList<Territory> terrList;
 
@@ -14,3 +15,4 @@ public class GameInitInfo {
         return testStr;
     }
 }
+
