@@ -11,13 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Client" />
-            <option value="$PROJECT_DIR$/Clients" />
             <option value="$PROJECT_DIR$/Server" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/riscgame.Client" />
-            <option value="$PROJECT_DIR$/riscgame.Server" />
-            <option value="$PROJECT_DIR$/riscgame.server" />
-            <option value="$PROJECT_DIR$/untitled" />
           </set>
         </option>
       </GradleProjectSettings>
