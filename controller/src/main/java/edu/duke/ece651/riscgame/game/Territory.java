@@ -14,4 +14,29 @@ public class Territory {
     public String getName() {
         return name;
     }
+
+    public int getOwnId() {
+        return ownId;
+    }
+
+    public int getUnitNum() {
+        return unitNum;
+    }
+
+    public HashSet<Territory> getNeighbors() {
+        return neighbors;
+    }
+
+    public void setOwnId(int ownId) {
+        this.ownId = ownId;
+    }
+
+    public void setUnitNum(int unitNum) {
+        this.unitNum = unitNum;
+    }
+
+    public void setNeighbors(HashSet<Territory> neighbors) {
+        this.neighbors = neighbors;
+    }
+
 }
