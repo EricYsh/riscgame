@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,29 +8,25 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import edu.duke.ece651.riscgame.GameInitInfo;
-
-public class Client {
+public class NetClient {
     private Socket clientSocket;
     private InputStream socketInputStream;
     private OutputStream socketOutputStream;
     private int clientID;
 
-    public Client(int port) { // String host,
+    public NetClient ( int port) { // String host,
         try {
-            this.clientSocket = new Socket("localhost", port);
+            this.clientSocket = new Socket("localhost",port);
             this.socketInputStream = clientSocket.getInputStream();
             this.socketOutputStream = clientSocket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public void socketInit() {
+    public void socketInit () {
 
     }
-
-    public GameInitInfo receiveGameInitInfo() {
+    public GameInitInfo receiveGameInitInfo () {
         GameInitInfo info = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
@@ -41,24 +38,20 @@ public class Client {
         }
         return info;
     }
-
-    public void sendUnitAssignment() {
+    public void sendUnitAssignment () {
 
     }
 
     /**
      * this func is designed to send one action, not send all actions
      */
-    public void sendActionInfo() {
+    public void sendActionInfo () {
 
     }
-
-    public void receiveRoundRes() {
+    public void receiveRoundRes () {
 
     }
-
-    public void receiveGameOverInfo() {
+    public void receiveGameOverInfo () {
 
     }
 }
-

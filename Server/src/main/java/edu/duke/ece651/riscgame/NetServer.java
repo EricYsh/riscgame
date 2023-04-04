@@ -1,5 +1,7 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,7 +9,8 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server {
+
+public class NetServer {
     // this class is designed to set up socket connection with clients
     // and be responsible to send information to clients and receive information
     // firstly, the server need to be able to accept multiple socket connection
@@ -23,8 +26,8 @@ public class Server {
     /**
      * constructor
      */
-    public Server(int numClient, int poolSize, int port) {
-        this.numClient = numClient;
+    public NetServer (int numClient, int poolSize, int port) {
+        this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
         this.lostClientSockets = new Vector<Socket>();
         try {
@@ -32,7 +35,7 @@ public class Server {
             // threadPool.execute(new SocketThread(socket));
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
@@ -41,7 +44,7 @@ public class Server {
      * this func is blocking because of accept()
      * this function connect with all clients and store their sockets in vector
      */
-    public void connectWithMultiClients() {
+    public void connectWithMultiClients () {
         int count = 0;
         while (count < numClient) {
             try {
@@ -53,9 +56,8 @@ public class Server {
             count++;
         }
     }
-
     //TODO: fulfill the information needed in GameInitInfo
-    public void sendGameInitInfo(GameInitInfo info) {
+    public void sendGameInitInfo (GameInitInfo info) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
             try {
@@ -71,15 +73,13 @@ public class Server {
     /**
      * for orders from one player, firstly judge whether it is legal
      * if legal then record; it not, send one info back to ask remake it until receive a commit
-     *
      * @return
      */
-    public int receiveActionOrders() {
+    public int receiveActionOrders () {
 
         return 1;
     }
-
-    public void sendRoundResult() {
+    public void sendRoundResult () {
 
     }
 }

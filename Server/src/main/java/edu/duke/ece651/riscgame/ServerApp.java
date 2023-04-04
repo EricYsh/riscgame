@@ -7,5 +7,11 @@ public class ServerApp {
 
     public static void main(String[] args) {
         System.out.println(new ServerApp().getGreeting());
+
+        int numClient = 3;
+        GameServer gameServer = new GameServer(numClient);
+        gameServer.GameInit();
+        gameServer.playRounds();
+        gameServer.gameOver();
     }
 }
