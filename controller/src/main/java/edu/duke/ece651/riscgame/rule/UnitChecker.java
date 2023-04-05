@@ -2,23 +2,35 @@ package edu.duke.ece651.riscgame.rule;
 
 import edu.duke.ece651.riscgame.order.Order;
 
-public class UnitChecker<T> extends RuleChecker<T>{
+/**
+ * The UnitChecker class is a RuleChecker that checks if the number of units
+ * being moved or used for an attack in a given order is legal in the RISC game.
+ *
+ * this rule checker is for Move and Attack orders
+ *
+ * @param <T> The generic type for the RuleChecker.
+ */
+public class UnitChecker<T> extends RuleChecker<T> {
+
     /**
-     * Constructs a RuleChecker
+     * Constructs a UnitChecker.
      *
-     * @param next the next rule we want to check
+     * @param next The next rule we want to check.
      */
     public UnitChecker(RuleChecker<T> next) {
         super(next);
     }
+
     /**
-     * Checks if the destination is legal
-     * @param theOrder the order we want to check
-     * @return null if the placement is perfect else return the corresponding prompt
+     * Checks if the number of units being moved or used for an attack in a given order is legal.
+     * The number of units must be less than or equal to the total number of units in the source territory.
+     *
+     * @param theOrder The order we want to check.
+     * @return null if the number of units is legal, otherwise returns an error message.
      */
     @Override
     protected String checkMyRule(Order theOrder) {
-        if(!theOrder.getSrc().getName().equals(theOrder.getDest().getName()) && theOrder.getSrc().getUnitNum() < theOrder.getUnitNum()) {
+        if (!theOrder.getSrc().getName().equals(theOrder.getDest().getName()) && theOrder.getSrc().getUnitNum() < theOrder.getUnitNum()) {
             return "Error: there is not that much Units from the source : " + theOrder.getSrc().getName();
         }
         return null;
