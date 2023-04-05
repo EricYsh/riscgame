@@ -2,32 +2,53 @@ package edu.duke.ece651.riscgame.rule;
 
 import edu.duke.ece651.riscgame.order.Order;
 
+/**
+ * The RuleChecker is an abstract class that represents a rule checker
+ * for a given order in the RISC game.
+ *
+ * @param <T> The generic type for the RuleChecker.
+ */
 public abstract class RuleChecker<T> {
     private final RuleChecker<T> next;
+
     /**
-     * Constructs a RuleChecker
-     * @param next the next rule we want to check
+     * Constructs a RuleChecker.
+     *
+     * @param next The next rule we want to check.
      */
     public RuleChecker(RuleChecker<T> next) {
         this.next = next;
     }
-    protected abstract String checkMyRule(Order theOrder);
+
     /**
-     * To check the order with rules if it follows every rule, return null
-     * @param theOrder the order we want to check
-     * return null if the order follows every rule otherwise return the corresponding prompt
+     * Abstract method to be implemented by derived classes.
+     * Checks if the order follows the rule defined by this RuleChecker.
+     *
+     * @param theOrder The order we want to check.
+     * @return null if the order follows the rule, otherwise returns an error message.
      */
-    public String checkOrder (Order theOrder) {
-        //if we fail our own rule: stop the order is not legal
+    protected abstract String checkMyRule(Order theOrder);
+
+    /**
+     * To check the order with rules if it follows every rule, return null.
+     * This method checks the current rule and then continues checking the next rule in the chain.
+     *
+     * @param theOrder The order we want to check.
+     * @return null if the order follows every rule, otherwise returns the corresponding prompt.
+     */
+    public String checkOrder(Order theOrder) {
+        // If the order fails the current rule: stop, the order is not legal
         String tmp = checkMyRule(theOrder);
-        if (tmp!= null) {
+        if (tmp != null) {
             return tmp;
         }
-        //otherwise, ask the rest of the chain.
+
+        // Otherwise, ask the rest of the chain.
         if (next != null) {
             return next.checkOrder(theOrder);
         }
-        //if there are no more rules, then the placement is legal
+
+        // If there are no more rules, then the placement is legal
         return null;
     }
-};
+}
