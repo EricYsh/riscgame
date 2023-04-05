@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.*;
@@ -46,7 +47,18 @@ public class NetClient {
             e.printStackTrace();
         }
     }
-
+    public IllegalOrder receiveIllegalOrder () {
+        IllegalOrder illegal = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
+            illegal = (IllegalOrder) objectInputStream.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return illegal;
+    }
     /**
      * this func is designed to send one action, not send all actions
      */

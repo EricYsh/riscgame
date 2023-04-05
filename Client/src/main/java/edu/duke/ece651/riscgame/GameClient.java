@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -29,8 +30,11 @@ public class GameClient {
         GameInitInfo info = netClient.receiveGameInitInfo();
         ownedTerr = info.getTerrList();
         updateLocalGameMap(); // based on received info
-        assignUnit(30);
-        netClient.sendUnitAssignment(ownedTerr);
+        while (receiveACK()) {
+            assignUnit(30);
+            netClient.sendUnitAssignment(ownedTerr);
+        }
+
     }
     private void updateLocalGameMap() {}
     //TODO: this is only a API for testing
@@ -64,7 +68,6 @@ public class GameClient {
             }
             ownedTerr.get(i).setUnitNum(numUnitInOneTerr);
         }
-        // } while (!receiveACK());
     }
     public void playRounds () {
         while (gameIsNotEnd()) {
@@ -102,7 +105,9 @@ public class GameClient {
      * @return
      */
     private boolean receiveACK () {
-        return false;
+        IllegalOrder illegal = netClient.receiveIllegalOrder();
+        System.out.println(illegal.getErrMessage());
+        return illegal.isLegal();
     }
 
     public Order issueOneOrder () {

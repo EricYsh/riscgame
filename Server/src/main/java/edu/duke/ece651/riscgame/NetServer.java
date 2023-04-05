@@ -1,7 +1,9 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.rule.InputRuleChecker;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -70,10 +72,16 @@ public class NetServer {
             }
         }
     }
-    public void validateUnitAssignment () {
-
-        Vector<Territory> terrVec = receiveUnitAssignment(clientSockets.get(0));
-
+    public String validateUnitAssignment (int numUnit) {
+        while (true) {
+            Vector<Territory> terrVec = receiveUnitAssignment(clientSockets.get(0));
+            String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
+            if (check == null) {
+                break;
+            }
+            sendIllegalOrder(clientSockets.get(0), new IllegalOrder(check));
+        }
+        return "Receive success";
     }
     public Vector<Territory> testReceiveUnitAssignment () {
         return receiveUnitAssignment(clientSockets.get(0));
@@ -100,6 +108,16 @@ public class NetServer {
 
         return 1;
     }
+    public void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
+        try {
+            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+            objOut.writeObject(illegal);
+            objOut.flush(); // end output and prompt cache/buffer to send info
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendRoundResult () {
 
     }
