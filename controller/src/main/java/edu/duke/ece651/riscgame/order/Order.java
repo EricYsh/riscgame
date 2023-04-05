@@ -12,8 +12,16 @@ public abstract class Order {
     private int unitNum;
     private Territory src;
     private Territory dest;
-    private RuleChecker rules;
+//    private RuleChecker rules;
     private Type type;
+
+    public Order(int unitNum, Territory src, Territory dest, Type type) {
+        this.unitNum = unitNum;
+        this.src = src;
+        this.dest = dest;
+        this.type = type;
+    }
+
 
     // Getters
 
@@ -29,9 +37,9 @@ public abstract class Order {
         return dest;
     }
 
-    public RuleChecker getRules() {
-        return rules;
-    }
+//    public RuleChecker getRules() {
+//        return rules;
+//    }
 
     public Type getType() {
         return type;
@@ -43,7 +51,7 @@ public abstract class Order {
      * Executes the specific order action.
      * This method must be implemented by derived classes like Attack, Move, etc.
      */
-    protected abstract void run();
+    public abstract void run();
 
     // Other methods
 

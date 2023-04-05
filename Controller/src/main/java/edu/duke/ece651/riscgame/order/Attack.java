@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.rule.Type;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.rule.*;
 
 import java.util.Random;
 
@@ -10,12 +11,14 @@ import java.util.Random;
  */
 public class Attack extends Order {
 
+//    RuleChecker ruleChecker;
+
     /**
      * Constructor for the Attack class.
      */
-    public Attack() {
-        super();
-        // this.ruleChecker = new DestChecker(new UnitChecker());
+    public Attack(int unitNum, Territory src, Territory dest, Type type) {
+        super(unitNum, src, dest, type);
+//        this.ruleChecker = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
     }
 
     /**
@@ -29,7 +32,7 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    protected void run() {
+    public void run() {
         if (this.getType().equals(Type.Attack)) {
             int attckUnitNum = this.getUnitNum(); // use how many units to attack
             int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
