@@ -1,12 +1,11 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.game.Territory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.Vector;
 
 public class NetClient {
     private Socket clientSocket;
@@ -38,8 +37,14 @@ public class NetClient {
         }
         return info;
     }
-    public void sendUnitAssignment () {
-
+    public void sendUnitAssignment (Vector<Territory> territoryVector) {
+        try {
+            ObjectOutputStream objOut = new ObjectOutputStream(socketOutputStream);
+            objOut.writeObject(territoryVector);
+            objOut.flush(); // end output and prompt cache/buffer to send info
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

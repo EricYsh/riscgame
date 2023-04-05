@@ -9,7 +9,9 @@ import edu.duke.ece651.riscgame.order.testOrder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Vector;
 
 
@@ -18,27 +20,40 @@ public class GameClient {
     private BoardMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
-    private final InputStream localIn = System.in;
+    private final InputStream localIn;
+    private Scanner scanner;
+    public GameClient () {
+        this.localIn = System.in;
+        this.scanner = new Scanner(localIn);
+    }
     public void gameInit () throws IOException {
         netClient.socketInit();
         GameInitInfo info = netClient.receiveGameInitInfo();
         ownedTerr = info.getTerrList();
         updateLocalGameMap(); // based on received info
-        assignUnit();
-        netClient.sendUnitAssignment();
+        assignUnit(30);
+        netClient.sendUnitAssignment(ownedTerr);
     }
     private void updateLocalGameMap() {}
-    private void assignUnit () throws IOException {
-        while (!receiveACK()) {
-            HashMap<String, Integer> assignment = null;
-            System.out.println("Please assign your units in territories");
-            System.out.println("You have 30 units");
-            for (int i = 0; i < ownedTerr.size(); i++) {
-                System.out.println("How many units do you want to place in " + ownedTerr.get(i).toString());
-                assignment.put(ownedTerr.get(i).getName(), localIn.read());
-            }
-        }
 
+    /**
+     * this func read Integer inputs from player to assign units for each territory
+     * @param numUnit
+     * @return
+     * @throws IOException
+     */
+    private void assignUnit (int numUnit) throws IOException {
+        // do {
+
+        // ArrayList<Territory> assignment = null;
+        System.out.println("Please assign your units in each territory");
+        System.out.println("You have " + numUnit + " units");
+        for (int i = 0; i < ownedTerr.size(); i++) {
+            System.out.println("How many units do you want to place in " + ownedTerr.get(i).getName());
+            int numUnitInOneTerr = scanner.nextInt();
+            ownedTerr.get(i).setUnitNum(numUnitInOneTerr);
+        }
+        // } while (!receiveACK());
     }
     public void playRounds () {
         while (gameIsNotEnd()) {

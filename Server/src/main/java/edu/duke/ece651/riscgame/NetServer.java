@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -68,6 +69,19 @@ public class NetServer {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Vector<Territory> receiveUnitAssignment (Socket socket) {
+        Vector<Territory> territoryVector = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            territoryVector = (Vector<Territory>) objectInputStream.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return territoryVector;
     }
 
     /**
