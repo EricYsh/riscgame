@@ -17,7 +17,9 @@ public class Move extends Order {
             if(this.getSrc().equals(this.getDest())){
                 return; // do nothing if they have same src and dest
             }
-
+            int count = this.getUnitNum();
+            this.getSrc().minusUnit(count);
+            this.getDest().addUnit(count);
         }
     }
 }

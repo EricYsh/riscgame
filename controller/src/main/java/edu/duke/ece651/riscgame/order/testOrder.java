@@ -11,8 +11,4 @@ public class testOrder extends Order {
 
     }
 
-    @Override
-    protected void checkRule() {
-
-    }
 }
