@@ -1,8 +1,9 @@
 package edu.duke.ece651.riscgame.game;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class Territory {
+public class Territory implements Serializable {
     private final String name;
     private int ownId;
     private int unitNum;
