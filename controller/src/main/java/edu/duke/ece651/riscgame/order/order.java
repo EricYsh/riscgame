@@ -33,8 +33,6 @@ public abstract class Order {
 
     protected abstract void run();
 
-    protected abstract void checkRule();
-
     public boolean isFromOnePlayer() {
         return dest.getOwnId() == src.getOwnId();
     }
