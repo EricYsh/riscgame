@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame.game;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * The Territory class represents a territory in the RISC game.
@@ -77,12 +78,12 @@ public class Territory implements Serializable {
     }
 
     /**
-     * Adds a neighboring territory to the territory's set of neighbors.
+     * Adds a list of neighboring territory to the territory's set of neighbors.
      *
-     * @param t1 The neighboring territory to add.
+     * @param t1 The neighboring territory list to add.
      */
-    public void addNeighbor(Territory t1) {
-        neighbors.add(t1);
+    public void addNeighbor(Territory... t1) {
+        neighbors.addAll(List.of(t1));
     }
 
     /**
