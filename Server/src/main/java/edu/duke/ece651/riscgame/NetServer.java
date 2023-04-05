@@ -70,6 +70,11 @@ public class NetServer {
             }
         }
     }
+    public void validateUnitAssignment () {
+
+        Vector<Territory> terrVec = receiveUnitAssignment(clientSockets.get(0));
+
+    }
     public Vector<Territory> testReceiveUnitAssignment () {
         return receiveUnitAssignment(clientSockets.get(0));
     }
