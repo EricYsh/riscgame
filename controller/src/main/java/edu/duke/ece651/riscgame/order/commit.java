@@ -1,18 +1,13 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.rule.Type;
-
 public class Commit extends Order {
+    @Override
+    protected void run() {
 
-    public Commit() {
-        super();
-//        this.ruleChecker = new DestChecker(new UnitChecker());
     }
 
     @Override
-    protected void run() {
-        if (type.equals(Type.Commit)) {
+    protected void checkRule() {
 
-        }
     }
 }
