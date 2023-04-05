@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 public class MovePathChecker<T> extends RuleChecker<T>{
     HashSet<Territory> used;
-    boolean ifPathExist(Territory src, Territory dest) {
+    public boolean ifPathExist(Territory src, Territory dest) {
         if (src.getNeighbors().contains(dest) && src.getOwnId() == dest.getOwnId()){
             return true;
         }
@@ -35,7 +35,7 @@ public class MovePathChecker<T> extends RuleChecker<T>{
      */
     @Override
     protected String checkMyRule(Order theOrder) {
-        if (!ifPathExist(theOrder.getSrc(), theOrder.getDest())){
+        if (theOrder.getType().equals(Type.Move) && !ifPathExist(theOrder.getSrc(), theOrder.getDest())){
             return "Error: there is no path to move";
         }
         return null;
