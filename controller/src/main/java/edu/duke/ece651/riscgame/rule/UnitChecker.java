@@ -18,12 +18,9 @@ public class UnitChecker<T> extends RuleChecker<T>{
      */
     @Override
     protected String checkMyRule(Order theOrder) {
-        if (theOrder.type.equals(Type.Move)){
-
+        if(!theOrder.getSrc().getName().equals(theOrder.getDest().getName()) && theOrder.getSrc().getUnit() < theOrder.getUnitNum()) {
+            return "Error: there is not that much Units from the source : " + theOrder.getSrc().getName();
         }
-        else if (theOrder.type.equals(Type.Attack)){
-
-        }
-        return "Error: the Order type is illegal";
+        return null;
     }
 }
