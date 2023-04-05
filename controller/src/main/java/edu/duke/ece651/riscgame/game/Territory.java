@@ -8,9 +8,11 @@ public class Territory {
     private int unitNum;
     private HashSet<Territory> neighbors;
 
-    public Territory() {
-        name = null;
+    public Territory(String tname) {
+        this.name = tname;
+        neighbors = new HashSet<>();
     }
+
     public String getName() {
         return name;
     }
@@ -27,16 +29,35 @@ public class Territory {
         return neighbors;
     }
 
-    public void setOwnId(int ownId) {
-        this.ownId = ownId;
+    public void setOwnId(int oid) {
+        ownId = oid;
     }
 
-    public void setUnitNum(int unitNum) {
-        this.unitNum = unitNum;
+    public void setUnitNum(int num) {
+        unitNum = num;
     }
 
-    public void setNeighbors(HashSet<Territory> neighbors) {
-        this.neighbors = neighbors;
+    public void addUnit(int num) {
+        unitNum += num;
     }
 
+    public void minusUnit(int num) {
+        unitNum -= num;
+    }
+
+    public void addNeighbor(Territory t1) {
+        neighbors.add(t1);
+    }
+
+    public String displayInfo() {
+        StringBuilder info = new StringBuilder("");
+        String format = unitNum + " units in " + name + " (next to: ";
+        info.append(format);
+        for (Territory t1 : neighbors) {
+            info.append(t1.getName()).append(", ");
+        }
+        info.delete(info.length() - 2, info.length());//delete the last two character (", ")
+        info.append(")");
+        return info.toString();
+    }
 }

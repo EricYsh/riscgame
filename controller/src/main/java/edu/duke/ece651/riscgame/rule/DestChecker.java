@@ -18,11 +18,13 @@ public class DestChecker<T> extends RuleChecker<T> {
      */
     @Override
     protected String checkMyRule(Order theOrder) {
-        if (theOrder.type.equals(Type.Move)){
-
+        if (theOrder.getType().equals(Type.Move)){//the destination and source must from one player
+            if (!theOrder.isFromOnePlayer()) return "Error: the source and destination should come from one player.";
+            return null;
         }
-        else if (theOrder.type.equals(Type.Attack)){
-
+        else if (theOrder.getType().equals(Type.Attack)){
+            if (theOrder.isFromOnePlayer()) return "Error: the source and destination should come from different players.";
+            return null;
         }
         return "Error: the Order type is illegal";
     }
