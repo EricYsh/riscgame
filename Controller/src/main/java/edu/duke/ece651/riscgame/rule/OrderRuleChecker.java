@@ -8,15 +8,15 @@ import edu.duke.ece651.riscgame.order.Order;
  *
  * @param <T> The generic type for the RuleChecker.
  */
-public abstract class RuleChecker<T> {
-    private final RuleChecker<T> next;
+public abstract class OrderRuleChecker<T> {
+    private final OrderRuleChecker<T> next;
 
     /**
      * Constructs a RuleChecker.
      *
      * @param next The next rule we want to check.
      */
-    public RuleChecker(RuleChecker<T> next) {
+    public OrderRuleChecker(OrderRuleChecker<T> next) {
         this.next = next;
     }
 

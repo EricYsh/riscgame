@@ -2,7 +2,7 @@ package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
-import edu.duke.ece651.riscgame.rule.RuleChecker;
+import edu.duke.ece651.riscgame.rule.OrderRuleChecker;
 
 /**
  * The Order class represents an abstract order in the RISC game.
@@ -12,7 +12,7 @@ public abstract class Order {
     private int unitNum;
     private Territory src;
     private Territory dest;
-    private RuleChecker rules;
+    private OrderRuleChecker rules;
     private Type type;
 
     // Getters
@@ -29,7 +29,7 @@ public abstract class Order {
         return dest;
     }
 
-    public RuleChecker getRules() {
+    public OrderRuleChecker getRules() {
         return rules;
     }
 

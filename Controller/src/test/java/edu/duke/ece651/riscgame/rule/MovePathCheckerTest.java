@@ -1,15 +1,10 @@
-package edu.duke.ece651.riscgame;
+package edu.duke.ece651.riscgame.rule;
 
-import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.MovePathChecker;
-import edu.duke.ece651.riscgame.rule.RuleChecker;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import edu.duke.ece651.riscgame.*;
 
 public class MovePathCheckerTest {
     @Test
