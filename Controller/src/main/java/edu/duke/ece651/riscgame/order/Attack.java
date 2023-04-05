@@ -18,8 +18,9 @@ public class Attack extends Order {
     @Override
     protected void run() {
         if (this.getType().equals(Type.Attack)) {
-            int attckUnitNum = this.getSrc().getUnitNum();
-            int defendUnitNum = this.getDest().getUnitNum();
+            //
+            int attckUnitNum = this.getUnitNum(); // use how many to attack
+            int defendUnitNum = this.getDest().getUnitNum(); // defender unit
             while(attckUnitNum > 0 && defendUnitNum > 0) {
                 Random random = new Random();
                 int randomNumberAttack = random.nextInt(20) + 1;
