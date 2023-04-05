@@ -13,6 +13,13 @@ public class Territory {
         neighbors = new HashSet<>();
     }
 
+    public Territory(String tname, int oId, int units) {
+        this.name = tname;
+        this.ownId = oId;
+        this.unitNum = units;
+        neighbors = new HashSet<>();
+    }
+
     public String getName() {
         return name;
     }
