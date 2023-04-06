@@ -2,13 +2,13 @@ package edu.duke.ece651.riscgame.rule;
 
 import edu.duke.ece651.riscgame.order.Order;
 
-public class AdjacentChecker<T> extends RuleChecker<T>{
+public class AdjacentChecker<T> extends OrderRuleChecker<T> {
     /**
      * Constructs a RuleChecker to ckeck if adjacent terrtories in the attack action
      *
      * @param next the next rule we want to check
      */
-    public AdjacentChecker(RuleChecker<T> next) {
+    public AdjacentChecker(OrderRuleChecker<T> next) {
         super(next);
     }
     /**
@@ -24,6 +24,6 @@ public class AdjacentChecker<T> extends RuleChecker<T>{
             }
             return null;
         }
-        return "Error: it is not a attack action";
+        return "Error: it is not a attack order";
     }
 }

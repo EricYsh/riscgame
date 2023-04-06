@@ -5,7 +5,7 @@ import edu.duke.ece651.riscgame.order.Order;
 
 import java.util.HashSet;
 
-public class MovePathChecker<T> extends RuleChecker<T>{
+public class MovePathChecker<T> extends OrderRuleChecker<T> {
     HashSet<Territory> used;
     public boolean ifPathExist(Territory src, Territory dest) {
         if (src.getNeighbors().contains(dest) && src.getOwnId() == dest.getOwnId()){
@@ -24,7 +24,7 @@ public class MovePathChecker<T> extends RuleChecker<T>{
      *
      * @param next the next rule we want to check
      */
-    public MovePathChecker(RuleChecker<T> next) {
+    public MovePathChecker(OrderRuleChecker<T> next) {
         super(next);
         used = new HashSet<>();
     }
@@ -35,9 +35,10 @@ public class MovePathChecker<T> extends RuleChecker<T>{
      */
     @Override
     protected String checkMyRule(Order theOrder) {
-        if (theOrder.getType().equals(Type.Move) && !ifPathExist(theOrder.getSrc(), theOrder.getDest())){
-            return "Error: there is no path to move";
+        if (theOrder.getType().equals(Type.Move)){
+            if (!ifPathExist(theOrder.getSrc(), theOrder.getDest()))  return "Error: there is no path to move";
+            return null;
         }
-        return null;
+        return "Error: it is not a attack order";
     }
 }

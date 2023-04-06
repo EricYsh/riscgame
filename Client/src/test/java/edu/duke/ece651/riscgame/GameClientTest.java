@@ -1,15 +1,13 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.game.Territory;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Vector;
 
-public class ClientApp {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-    public static Vector<Territory> terrGen() {
+public class GameClientTest {
+    public Vector<Territory> terrGen () {
         Territory t1 = new Territory("A", 1, 5);
         Territory t2 = new Territory("B", 2, 5);
         Territory t3 = new Territory("C", 1, 5);
@@ -23,18 +21,10 @@ public class ClientApp {
         territoryVector1.add(t3);
         return territoryVector1;
     }
-    public static void main(String[] args) {
-        System.out.println(new ClientApp().getGreeting());
-
-        GameClient gameClient = new GameClient();
-//        try {
-//            gameClient.gameInit();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        gameClient.playRounds();
-//        gameClient.gameOver();
-        gameClient.setOwnedTerr(terrGen());
-        gameClient.assignUnit(30);
+    @Test
+    public void testAssignUnit () {
+        GameClient gc = new GameClient();
+        gc.setOwnedTerr(terrGen());
+        gc.assignUnit(30);
     }
 }

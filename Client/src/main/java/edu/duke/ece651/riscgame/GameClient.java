@@ -9,10 +9,8 @@ import edu.duke.ece651.riscgame.order.testOrder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class GameClient {
@@ -35,22 +33,35 @@ public class GameClient {
         netClient.sendUnitAssignment(ownedTerr);
     }
     private void updateLocalGameMap() {}
-
+    //TODO: this is only a API for testing
+    public void setOwnedTerr (Vector<Territory> terrVec) {
+        this.ownedTerr = terrVec;
+    }
+    public static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("\\d*");
+        return pattern.matcher(str).matches();
+    }
     /**
      * this func read Integer inputs from player to assign units for each territory
      * @param numUnit
      * @return
      * @throws IOException
      */
-    private void assignUnit (int numUnit) throws IOException {
-        // do {
-
-        // ArrayList<Territory> assignment = null;
+    public void assignUnit (int numUnit) {
         System.out.println("Please assign your units in each territory");
         System.out.println("You have " + numUnit + " units");
         for (int i = 0; i < ownedTerr.size(); i++) {
             System.out.println("How many units do you want to place in " + ownedTerr.get(i).getName());
-            int numUnitInOneTerr = scanner.nextInt();
+            int numUnitInOneTerr = 0;
+            while(true){
+                //numUnitInOneTerr = scanner.nextInt();
+                String input = scanner.nextLine();
+                if (isNumeric(input)) {
+                    numUnitInOneTerr = Integer.parseInt(input);
+                    if (numUnitInOneTerr > 0 && numUnitInOneTerr < numUnit) break;
+                }
+                System.out.println("Please enter a valid Integer");
+            }
             ownedTerr.get(i).setUnitNum(numUnitInOneTerr);
         }
         // } while (!receiveACK());
@@ -103,8 +114,8 @@ public class GameClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Order temp = new testOrder(c);
-        return temp;
+//        Order temp = new testOrder(c);
+        return null;
     }
 
     public void gameOver () {

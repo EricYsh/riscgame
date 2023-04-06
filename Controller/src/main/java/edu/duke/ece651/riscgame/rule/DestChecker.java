@@ -10,14 +10,14 @@ import edu.duke.ece651.riscgame.order.Order;
  *
  * @param <T> The generic type for the RuleChecker.
  */
-public class DestChecker<T> extends RuleChecker<T> {
+public class DestChecker<T> extends OrderRuleChecker<T> {
 
     /**
      * Constructs a DestChecker.
      *
      * @param next The next rule we want to check.
      */
-    public DestChecker(RuleChecker<T> next) {
+    public DestChecker(OrderRuleChecker<T> next) {
         super(next);
     }
 
