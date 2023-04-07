@@ -3,7 +3,9 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
+import edu.duke.ece651.riscgame.game.Territory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
@@ -31,12 +33,11 @@ public class GameServer {
         int numUnit = 30;
         netServer.connectWithMultiClients();
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
-        netServer.validateUnitAssignment(numUnit);
-        //TODO: not finished
-
-        // netServer.sendRoundResult();
+        ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
+        gameMap.setTerritories(assignments);
+        //TODO:
+        netServer.sendRoundResult(); // null
     }
-    public void assignTerritory () {}
 
     public void playRounds () {
         while (gameIsNotEnd()) {

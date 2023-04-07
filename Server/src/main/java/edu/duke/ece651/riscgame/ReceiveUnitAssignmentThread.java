@@ -25,10 +25,8 @@ public class ReceiveUnitAssignmentThread extends SocketThread{
             sendIllegalOrder(socket, new IllegalOrder(check));
             if (check == null) {
                 System.out.println("receive valid assignment");
-                return  terrVec;
-
+                return terrVec;
             }
         }
-
     }
 }

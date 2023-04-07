@@ -68,10 +68,17 @@ public class NetClient {
     public void sendActionInfo () {
 
     }
-    public void receiveRoundRes () {
+    public void receiveRoundResult () {
 
     }
     public void receiveGameOverInfo () {
 
+    }
+    public void close () {
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

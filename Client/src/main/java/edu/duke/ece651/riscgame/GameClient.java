@@ -39,7 +39,8 @@ public class GameClient {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-
+        //TODO:
+        netClient.receiveRoundResult();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
@@ -99,7 +100,7 @@ public class GameClient {
     }
     private void oneRound () {
         issueOrders(); // create orders
-        netClient.receiveRoundRes();
+        netClient.receiveRoundResult();
     }
 
     /**
@@ -144,5 +145,8 @@ public class GameClient {
         closeConnection();
     }
     private void printGameOverInfo () {}
-    private void closeConnection () {}
+    private void closeConnection () {
+        netClient.close();
+        // scanner.close();
+    }
 }
