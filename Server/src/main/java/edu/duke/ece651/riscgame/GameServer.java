@@ -22,7 +22,7 @@ public class GameServer {
 
     public void GameInit () {
         int numUnit = 30;
-        netServer.connectWithMultiClients();
+        netServer.connectWithMultiClients(); // TODO:pass their client ID
         //TODO: select primary Map for the game
 
         // gameMap.getRandomMap(numClient);

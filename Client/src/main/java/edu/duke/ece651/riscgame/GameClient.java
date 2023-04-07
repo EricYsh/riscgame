@@ -6,7 +6,7 @@ import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
-import edu.duke.ece651.riscgame.order.testOrder;
+// import edu.duke.ece651.riscgame.order.testOrder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,7 +103,7 @@ public class GameClient {
         boolean isCommitted = false;
         while (!isCommitted) {
             while (!receiveACK()) { // loop until one order is ACKed
-                Order oneOrder = issueOneOrder(); // three actions: move, attack, commit
+                Order oneOrder =  issueOneOrder(); // three actions: move, attack, commit
                 netClient.sendActionInfo(); // para: oneOrder
             }
         }
