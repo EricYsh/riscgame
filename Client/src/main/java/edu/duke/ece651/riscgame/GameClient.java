@@ -115,15 +115,15 @@ public class GameClient {
             }
         }
     }
-    //TODO: this function seems need to call socket to communicate, which may block the program
+
     /**
-     *
-     * @return
+     * this function is blocking
+     * @return true when no error message while false when error happen
      */
     public boolean receiveACK () {
         IllegalOrder illegal = netClient.receiveIllegalOrder();
         if (!illegal.isLegal())
-        System.out.println(illegal.getErrMessage());
+            System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
     }
 
