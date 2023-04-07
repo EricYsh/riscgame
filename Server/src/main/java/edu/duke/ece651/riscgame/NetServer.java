@@ -76,22 +76,13 @@ public class NetServer {
             }
         }
     }
-    public String validateUnitAssignment (int numUnit) {
+    public void validateUnitAssignment (int numUnit) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
-
-        }
-        while (true) {
-            Vector<Territory> terrVec = receiveUnitAssignment(clientSockets.get(0));
-            System.out.println("receive one assignment");
-            String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
-            if (check == null) {
-                break;
-            }
-            sendIllegalOrder(clientSockets.get(0), new IllegalOrder(check));
+            threadPool.execute(new ReceiveUnitAssignmentThread(socket, numUnit));
         }
 
-        return "Receive success";
+        // return "Receive success";
     }
 
     //TODO: delete when finished
@@ -104,7 +95,7 @@ public class NetServer {
      * @param socket determine receive from which player
      * @return received unit assignment information, assigned in each Territory
      */
-    public Vector<Territory> receiveUnitAssignment (Socket socket) {
+    public static Vector<Territory> receiveUnitAssignment (Socket socket) {
         Vector<Territory> territoryVector = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -124,7 +115,7 @@ public class NetServer {
 
         return 1;
     }
-    public void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
+    public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
         try {
             ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
             objOut.writeObject(illegal);
