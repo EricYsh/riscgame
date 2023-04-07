@@ -6,12 +6,17 @@ public class ServerApp {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ServerApp().getGreeting());
+        // System.out.println(new ServerApp().getGreeting());
 
-        int numClient = 3;
+        int numClient = 1;
         GameServer gameServer = new GameServer(numClient);
-        gameServer.GameInit();
-        gameServer.playRounds();
-        gameServer.gameOver();
+
+//        gameServer.GameInit();
+//        gameServer.playRounds();
+//        gameServer.gameOver();
+
+        //TODO: the two lines below for testing assign units manually
+//        String str = gameServer.assignUnit();
+//        System.out.println(str);
     }
 }

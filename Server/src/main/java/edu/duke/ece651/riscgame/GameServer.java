@@ -17,6 +17,7 @@ public class GameServer {
     public GameServer (int numClient) {
         this.numClient = numClient;
         this.gameMap = new BoardMap();
+        this.netServer= new NetServer(1, 2, 8888);
     }
 
     public void GameInit () {
@@ -37,8 +38,9 @@ public class GameServer {
      * and then record them in Game
      */
     //TODO:
-    private void assignUnit () {
-
+    public String assignUnit () {
+        netServer.connectWithMultiClients(); // pass client gameID
+        return netServer.validateUnitAssignment(30);
     }
     public void playRounds () {
         while (gameIsNotEnd()) {

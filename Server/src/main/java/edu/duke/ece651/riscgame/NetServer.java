@@ -75,6 +75,7 @@ public class NetServer {
     public String validateUnitAssignment (int numUnit) {
         while (true) {
             Vector<Territory> terrVec = receiveUnitAssignment(clientSockets.get(0));
+            System.out.println("receive one assignment");
             String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
             if (check == null) {
                 break;

@@ -24,6 +24,7 @@ public class GameClient {
     public GameClient (InputStream in) {
         this.localIn = in;
         this.scanner = new Scanner(localIn);
+        this.netClient = new NetClient(8888);
     }
     public void gameInit () throws IOException {
         netClient.socketInit();
@@ -31,13 +32,21 @@ public class GameClient {
         ownedTerr = info.getTerrList();
         updateLocalGameMap(); // based on received info
 
-        while (receiveACK()) {
-            assignUnit(30);
-            netClient.sendUnitAssignment(ownedTerr);
-        }
+//        while (receiveACK()) {
+//            assignUnit(30);
+//            netClient.sendUnitAssignment(ownedTerr);
+//        }
 
     }
+    //TODO: this is only a testing func, should be deleted latterly
+    public void test () {
+        do {
+            assignUnit(30);
+            netClient.sendUnitAssignment(ownedTerr);
+        } while  (!receiveACK());
+    }
     private void updateLocalGameMap() {}
+
     //TODO: this is only a API for testing
     public void setOwnedTerr (Vector<Territory> terrVec) {
         this.ownedTerr = terrVec;
@@ -59,7 +68,6 @@ public class GameClient {
             System.out.println("How many units do you want to place in " + ownedTerr.get(i).getName());
             int numUnitInOneTerr = 0;
             while(true){
-                //numUnitInOneTerr = scanner.nextInt();
                 String input = scanner.nextLine();
                 if (isNumeric(input)) {
                     numUnitInOneTerr = Integer.parseInt(input);
@@ -105,7 +113,7 @@ public class GameClient {
      *
      * @return
      */
-    private boolean receiveACK () {
+    public boolean receiveACK () {
         IllegalOrder illegal = netClient.receiveIllegalOrder();
         System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
@@ -120,8 +128,8 @@ public class GameClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Order temp = new testOrder(c);
-        return temp;
+         Order temp = new testOrder();
+         return temp;
     }
 
     public void gameOver () {

@@ -9,6 +9,10 @@ public class testOrder extends Order {
     public testOrder(int unitNum, Territory src, Territory dest, Type type) {
         super(unitNum, src, dest, type);
     }
+    public testOrder () {
+        super(1, new Territory("A"), new Territory("B"), Type.Move);
+
+    }
 
     @Override
     public void run() {

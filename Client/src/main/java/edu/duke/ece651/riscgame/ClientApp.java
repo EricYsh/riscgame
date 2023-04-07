@@ -9,10 +9,10 @@ public class ClientApp {
     public String getGreeting() {
         return "Hello World!";
     }
-    public static Vector<Territory> terrGen() {
-        Territory t1 = new Territory("A", 1, 5);
-        Territory t2 = new Territory("B", 2, 5);
-        Territory t3 = new Territory("C", 1, 5);
+    public static Vector<Territory> terrGen(int unit1, int unit2, int unit3) {
+        Territory t1 = new Territory("A", 1, unit1);
+        Territory t2 = new Territory("B", 2, unit2);
+        Territory t3 = new Territory("C", 1, unit3);
         t1.addNeighbor(t2);
         t2.addNeighbor(t1);
         t2.addNeighbor(t3);
@@ -34,7 +34,9 @@ public class ClientApp {
 //        }
 //        gameClient.playRounds();
 //        gameClient.gameOver();
-        gameClient.setOwnedTerr(terrGen());
-        gameClient.assignUnit(30);
+
+        //TODO: the two lines below for testing assign units manually
+//        gameClient.setOwnedTerr(terrGen(5, 5, 5));
+//        gameClient.test();
     }
 }

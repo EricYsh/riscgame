@@ -1,6 +1,8 @@
 package edu.duke.ece651.riscgame.commuMedium;
 
-public class IllegalOrder {
+import java.io.Serializable;
+
+public class IllegalOrder implements Serializable {
     private String errMessage;
     public IllegalOrder (String err) {
         this.errMessage = err;

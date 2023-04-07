@@ -31,9 +31,7 @@ public class NetClient {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
             info = (GameInitInfo) objectInputStream.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return info;
@@ -52,9 +50,7 @@ public class NetClient {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
             illegal = (IllegalOrder) objectInputStream.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return illegal;

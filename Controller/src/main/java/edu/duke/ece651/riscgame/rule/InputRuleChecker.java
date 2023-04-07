@@ -24,9 +24,9 @@ public class InputRuleChecker<T> {
             int sum = 0;
             for(Territory t : terrVec) {
                 sum += t.getUnitNum();
-                if (sum > numUnit) return "Error: The units you have assigned exceeds the total number of units!";
+                if (sum > numUnit) return "The units you have assigned exceeds the total number of units!"; // Error:
             }
-            if (sum != numUnit) return "Error: you should use all the units!";
+            if (sum != numUnit) return "You should use all the units!"; // Error:
             return null;
         }
 
