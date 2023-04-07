@@ -48,6 +48,7 @@ public class NetServer {
     /**
      * this func is blocking because of accept()
      * this function connect with all clients and store their sockets in vector
+     * and send clientID
      */
     public void connectWithMultiClients () {
         int count = 0;
@@ -55,9 +56,10 @@ public class NetServer {
             try {
                 Socket socket = serverSocket.accept();
                 clientSockets.add(socket);
-                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 out.writeInt(count);
                 out.flush();
+                System.out.println("Player " + count + " connects");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -81,6 +83,10 @@ public class NetServer {
             }
         }
     }
+    /**
+     * this func receive unit assignment info from clients
+     * and then record them in Game
+     */
     public void validateUnitAssignment (int numUnit) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
@@ -92,11 +98,6 @@ public class NetServer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    //TODO: delete when finished
-    public Vector<Territory> testReceiveUnitAssignment () {
-        return receiveUnitAssignment(clientSockets.get(0));
     }
 
     /**
@@ -136,5 +137,15 @@ public class NetServer {
 
     public void sendRoundResult () {
 
+    }
+    public void close () {
+        try {
+            for (Socket s: clientSockets) {
+                s.close();
+            }
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
