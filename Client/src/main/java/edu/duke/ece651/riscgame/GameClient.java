@@ -21,8 +21,8 @@ public class GameClient {
     private Vector<Territory> ownedTerr;
     private final InputStream localIn;
     private Scanner scanner;
-    public GameClient () {
-        this.localIn = System.in;
+    public GameClient (InputStream in) {
+        this.localIn = in;
         this.scanner = new Scanner(localIn);
     }
     public void gameInit () throws IOException {
@@ -30,6 +30,7 @@ public class GameClient {
         GameInitInfo info = netClient.receiveGameInitInfo();
         ownedTerr = info.getTerrList();
         updateLocalGameMap(); // based on received info
+
         while (receiveACK()) {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);

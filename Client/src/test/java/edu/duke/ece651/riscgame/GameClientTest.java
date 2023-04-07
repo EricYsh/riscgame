@@ -23,7 +23,7 @@ public class GameClientTest {
     }
     @Test
     public void testAssignUnit () {
-        GameClient gc = new GameClient();
+        GameClient gc = new GameClient(System.in);
         gc.setOwnedTerr(terrGen());
         gc.assignUnit(30);
     }

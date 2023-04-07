@@ -81,6 +81,7 @@ public class NetServer {
             }
             sendIllegalOrder(clientSockets.get(0), new IllegalOrder(check));
         }
+
         return "Receive success";
     }
     public Vector<Territory> testReceiveUnitAssignment () {

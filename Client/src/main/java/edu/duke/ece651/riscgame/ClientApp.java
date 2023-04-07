@@ -26,7 +26,7 @@ public class ClientApp {
     public static void main(String[] args) {
         System.out.println(new ClientApp().getGreeting());
 
-        GameClient gameClient = new GameClient();
+        GameClient gameClient = new GameClient(System.in);
 //        try {
 //            gameClient.gameInit();
 //        } catch (IOException e) {
