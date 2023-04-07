@@ -11,7 +11,6 @@ public abstract class Order {
     private int unitNum;
     private Territory src;
     private Territory dest;
-    //    private RuleChecker rules;
     private Type type;
 
     public Order(int unitNum, Territory src, Territory dest, Type type) {
