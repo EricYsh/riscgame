@@ -6,7 +6,6 @@ import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
-// import edu.duke.ece651.riscgame.order.testOrder;
 
 import java.io.IOException;
 import java.io.InputStream;

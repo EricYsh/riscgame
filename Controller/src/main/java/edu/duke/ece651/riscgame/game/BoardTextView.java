@@ -1,4 +1,5 @@
 package edu.duke.ece651.riscgame.game;
+package edu.duke.ece651.riscgame.order;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,17 +44,147 @@ public class BoardTextView {
     }
 
     public void printPlayerMap(String playerName) {
-        System.out.println("Player " + playerName + " :");
+        System.out.println(playerName + " Player:");
         System.out.println("-------------");
         for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
             System.out.println(territory.displayInfo());
         }
     }
 
-    public boolean printDeathInfo(String playerName) {
-        // print the death info to the player (lose all territories) and asked if he wants to continue watching the game
-        System.out.println("Player " + playerName + " has lost all territories!");
-        System.out.println("You have been defeated. Do you want to continue watching the game? (Y/N)");
+    public order issueOneOrder(String playerName) {
+        System.out.println("What would you like to do?");
+        System.out.println("(M)ove");
+        System.out.println("(A)ttack");
+        System.out.println("(D)one");
+        try (Scanner scanner = new Scanner(System.in)) {
+            String input = scanner.nextLine();
+            if(input.equals("M")) {
+                return issueMoveOrder(playerName);
+            } else if(input.equals("A")) {
+                return issueAttackOrder(playerName);
+            } else if(input.equals("D")) {
+                return issueCommitOrder(playerName);
+            } else {
+                System.out.println("Please enter M, A or D");
+                continue;
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter M, A or D");
+            continue;
+        }
+    }
+
+    private int getNumUnitsFromUser(int maxNumUnits) {
+        while(true) {
+            try (Scanner scanner = new Scanner(System.in)) {
+                int input = scanner.nextInt();
+                if(input > 0 && input <= maxNumUnits) {
+                    return input;
+                } else {
+                    System.out.println("Please enter a valid number");
+                    continue;
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid number");
+                continue;
+            }
+        }
+    }
+
+    // get start territory name from user and check if its belongs to the player and has enough units
+    private String getStartTerritoryNameFromUser(int playerId) {
+        while(true) {
+            try (Scanner scanner = new Scanner(System.in)) {
+                String input = scanner.nextLine();
+                if(boardMap.getTerritoryByName(input) != null) {
+                    if(boardMap.getTerritoryByName(input).getOwnerName().equals(playerName)) {
+                        if(boardMap.getTerritoryByName(input).getUnitNum() > 1) {
+                            return input;
+                        } else {
+                            System.out.println("You don't have enough units to move from " + input);
+                            continue;
+                        }
+                    } else {
+                        System.out.println("You don't own " + input);
+                        continue;
+                    }
+                } else {
+                    System.out.println("Please enter a valid territory name");
+                    continue;
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid territory name");
+                continue;
+            }
+        }
+    }
+
+    private boolean checkNeighbor(String fromTerritoryName, String toTerritoryName) {
+        for(Territory neighbor : boardMap.getTerritoryByName(fromTerritoryName).getNeighbors()) {
+            if(neighbor.getName().equals(toTerritoryName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // get the destination territory name from user and check if its a neighbor of the start territory, if it is MOVE order, check if it belongs to the player
+    private String getDestTerritoryNameFromUser(int playerId, String fromTerritoryName, String orderType) {
+        while(true) {
+            try (Scanner scanner = new Scanner(System.in)) {
+                String input = scanner.nextLine();
+                if(boardMap.getTerritoryByName(input) != null) {
+                    if(checkNeighbor(fromTerritoryName, input)) {
+                        if(orderType.equals("MOVE")) {
+                            if(boardMap.getTerritoryByName(input).getOwnerName().equals(boardMap.getPlayerById(playerId).getName())) {
+                                return input;
+                            } else {
+                                System.out.println("You can't move to " + input);
+                                continue;
+                            }
+                        } else {
+                            return input;
+                        }
+                    } else {
+                        System.out.println(input + " is not a neighbor of " + fromTerritoryName);
+                        continue;
+                    }
+                } else {
+                    System.out.println("Please enter a valid territory name");
+                    continue;
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid territory name");
+                continue;
+            }
+        }
+    }
+
+    public MoveOrder issueMoveOrder(int playerId) {
+        System.out.println("Please enter the territory you want to move from:");
+        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+        System.out.println("Please enter the territory you want to move to:");
+        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
+        System.out.println("Please enter the number of units you want to move:");
+        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        return new Move(fromTerritoryName, toTerritoryName, numUnits);
+    }
+
+    public AttackOrder issueAttackOrder(int playerId) {
+        System.out.println("Please enter the territory you want to attack from:");
+        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+        System.out.println("Please enter the territory you want to attack:");
+        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
+        System.out.println("Please enter the number of units you want to attack with:");
+        int numUnits = getNumUnitsFromUser();
+        return new Attack(fromTerritoryName, toTerritoryName, numUnits);
+    }
+
+    public CommitOrder issueCommitOrder(int playerId) {
+        return new Commit();
+    }
+
+    private boolean scanYN() throws IOException {
         while(true) {
             try (Scanner scanner = new Scanner(System.in)) {
                 String input = scanner.nextLine();
@@ -72,7 +203,23 @@ public class BoardTextView {
         }
     }
 
-    public void printEndInfo(String playerName) {
+    public boolean printDeathInfo(String playerName) throws IOException {
+        // print the death info to the player (lose all territories) and asked if he wants to continue watching the game
+        System.out.println(playerName + " Player has lost all territories!");
+        System.out.println("You have been defeated. Do you want to continue watching the game? (Y/N)");
+        return scanYN();
+    }
 
+    public boolean printEndInfo() {
+        System.out.println("Game Over!");
+        System.out.println("-------------");
+        for(Territory territory : boardMap.getTerritories()) {
+            System.out.println(territory.displayInfo());
+        }
+        System.out.println("-------------");
+        System.out.println("Winner: " + boardMap.getWinner());
+        System.out.println("Would you like to play again? (Y/N)");
+        return scanYN();
     }
 }
+
