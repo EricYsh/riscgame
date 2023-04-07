@@ -12,9 +12,12 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class BoardTextView {
-    private boolean isFailed;
     private BoardMap boardMap;
-    
+
+    public BoardTextView(BoardMap boardMap) {
+        this.boardMap = boardMap;
+    }
+
     public void printGameStartInfo(String playerName) {
         System.out.println("You are the "+ playerName + " player, what would you like to do?");
         System.out.println("(M)ove");

@@ -1,10 +1,11 @@
 package edu.duke.ece651.riscgame.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class BoardMap {
+public class BoardMap implements Serializable {
     private ArrayList<Territory> territories;
 
     /**
@@ -36,7 +37,7 @@ public class BoardMap {
         }
     }
 
-
+    //TODO: try not to assign unit when create territory
     private void initByPlayerNumber2() {
         Territory t1 = new Territory("T1", 0, 10);
         Territory t2 = new Territory("T2", 0, 10);

@@ -90,7 +90,7 @@ public class NetServer {
     public void validateUnitAssignment (int numUnit) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
-            threadPoolForUnitAssign.execute(new ReceiveUnitAssignmentThread(socket, numUnit));
+            threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
         }
         threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
         try {

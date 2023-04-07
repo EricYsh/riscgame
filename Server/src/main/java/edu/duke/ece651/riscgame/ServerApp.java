@@ -8,7 +8,7 @@ public class ServerApp {
     public static void main(String[] args) {
         // System.out.println(new ServerApp().getGreeting());
 
-        int numClient = 1;
+        int numClient = 2;
         GameServer gameServer = new GameServer(numClient);
 
 //        gameServer.GameInit();
