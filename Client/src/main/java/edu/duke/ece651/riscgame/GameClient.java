@@ -129,8 +129,8 @@ public class GameClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-         Order temp = new testOrder();
-         return temp;
+//        Order temp = new testOrder(c);
+        return null;
     }
 
     public void gameOver () {
