@@ -1,6 +1,9 @@
 package edu.duke.ece651.riscgame.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
+
 public class BoardMap {
     private ArrayList<Territory> territories;
 
@@ -69,6 +72,7 @@ public class BoardMap {
         t11.addNeighbors(t8, t10, t12);
         t12.addNeighbors(t9, t11);
 
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12);
     }
     private void initByPlayerNumber5(){
         Territory t1 = new Territory("t1", 0, 10);
@@ -107,6 +111,7 @@ public class BoardMap {
         t11.addNeighbors(t8, t10, t12, t14);
         t12.addNeighbors(t9, t11, t15);
 
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12);
     }
     /**
      * @description: This function sets the territories
@@ -146,7 +151,7 @@ public class BoardMap {
     public ArrayList<Territory> getTerritoriesByOwnerName(String ownerName) {
         ArrayList<Territory> res = new ArrayList<Territory>();
         for (Territory t : territories) {
-            if (t.getOwnerName() == ownerName) {
+            if (Objects.equals(t.getOwnerName(), ownerName)) {
                 res.add(t);
             }
         }
