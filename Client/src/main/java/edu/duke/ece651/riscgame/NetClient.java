@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Order;
 
 import java.io.*;
 import java.net.Socket;
@@ -65,8 +66,14 @@ public class NetClient {
     /**
      * this func is designed to send one action, not send all actions
      */
-    public void sendActionInfo () {
-
+    public void sendActionInfo (Order oneOrder) {
+        try {
+            ObjectOutputStream objOut = new ObjectOutputStream(socketOutputStream);
+            objOut.writeObject(oneOrder);
+            objOut.flush(); // end output and prompt cache/buffer to send info
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void receiveRoundResult () {
 

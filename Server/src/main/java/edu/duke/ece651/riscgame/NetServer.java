@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Order;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -58,10 +59,10 @@ public class NetServer {
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 out.writeInt(count);
                 out.flush();
-                System.out.println("Player " + count + " connects");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println("Player " + count + " connects");
             count++;
         }
     }
@@ -126,6 +127,16 @@ public class NetServer {
     public int receiveActionOrders () {
 
         return 1;
+    }
+    public static Order receiveOneOrder (Socket socket) {
+        Order oneOrder = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            oneOrder = (Order) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return oneOrder;
     }
     public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
         try {

@@ -3,11 +3,13 @@ package edu.duke.ece651.riscgame.order;
 import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
 
+import java.io.Serializable;
+
 /**
  * The Order class represents an abstract order in the RISC game.
  * It serves as a base class for different types of orders like Attack, Move, etc.
  */
-public abstract class Order {
+public abstract class Order implements Serializable {
     private int unitNum;
     private Territory src;
     private Territory dest;

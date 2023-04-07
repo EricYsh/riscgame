@@ -22,7 +22,7 @@ public class ReceiveUnitAssignmentThread extends SocketThread{
             Vector<Territory> terrVec = receiveUnitAssignment(socket);
             System.out.println("receive one assignment");
             String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
-            sendIllegalOrder(socket, new IllegalOrder(check));
+            sendIllegalOrder(socket, new IllegalOrder(check, false));
             if (check == null) {
                 System.out.println("receive valid assignment");
                 return terrVec;

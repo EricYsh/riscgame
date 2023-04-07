@@ -50,7 +50,7 @@ public class GameClient {
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
-        } while  (!receiveACK());
+        } while (!receiveACK());
     }
     private void updateLocalGameMap() {}
 
@@ -107,13 +107,17 @@ public class GameClient {
      * lost players do not and should not need to issue orders
      */
     private void issueOrders () {
-        boolean isCommitted = false;
-        while (!isCommitted) {
-            while (!receiveACK()) { // loop until one order is ACKed
-                Order oneOrder =  issueOneOrder(); // three actions: move, attack, commit
-                netClient.sendActionInfo(); // para: oneOrder
-            }
-        }
+//        boolean isCommitted = false;
+//        do {
+//            do {
+//                Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
+//                netClient.sendActionInfo(oneOrder);
+//            } while (!receiveACK()); // loop until one order is ACKed
+//        } while (!isCommitted);
+        do {
+            Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
+            netClient.sendActionInfo(oneOrder);
+        } while (!receiveCommitted()); // loop until one order is ACKed
     }
 
     /**
@@ -126,18 +130,11 @@ public class GameClient {
             System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
     }
-
-    public Order issueOneOrder () {
-        System.out.println("Please enter your order: ");
-        char c = ' ';
-        try {
-            c = (char) localIn.read();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-//        Order temp = new testOrder(c);
-        return null;
+    public boolean receiveCommitted () {
+        IllegalOrder illegal = netClient.receiveIllegalOrder();
+        if (!illegal.isLegal())
+            System.out.println(illegal.getErrMessage());
+        return illegal.isLegal()&&illegal.isCommitted();
     }
 
     public void gameOver () {
