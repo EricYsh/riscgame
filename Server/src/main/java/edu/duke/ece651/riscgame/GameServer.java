@@ -16,7 +16,7 @@ public class GameServer {
      */
     public GameServer (int numClient) {
         this.numClient = numClient;
-        this.gameMap = new BoardMap();
+        this.gameMap = new BoardMap(numClient);
         this.netServer= new NetServer(1, 2, 8888);
     }
 
