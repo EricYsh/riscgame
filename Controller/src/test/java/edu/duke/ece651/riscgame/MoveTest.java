@@ -5,7 +5,7 @@ import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Move;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.MovePathChecker;
-import edu.duke.ece651.riscgame.rule.RuleChecker;
+import edu.duke.ece651.riscgame.rule.OrderRuleChecker;
 import edu.duke.ece651.riscgame.rule.Type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
