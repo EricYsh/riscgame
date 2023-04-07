@@ -81,7 +81,7 @@ public class NetServer {
             Socket socket = clientSockets.get(i);
             threadPool.execute(new ReceiveUnitAssignmentThread(socket, numUnit));
         }
-
+        threadPool.shutdown();
         // return "Receive success";
     }
 

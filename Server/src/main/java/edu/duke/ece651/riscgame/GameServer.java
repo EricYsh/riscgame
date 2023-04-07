@@ -17,7 +17,7 @@ public class GameServer {
     public GameServer (int numClient) {
         this.numClient = numClient;
         this.gameMap = new BoardMap();
-        this.netServer= new NetServer(1, 2, 8888);
+        this.netServer= new NetServer(2, 2, 8888);
     }
 
     public void GameInit () {
@@ -35,7 +35,9 @@ public class GameServer {
         netServer.sendGameInitInfo(new GameInitInfo()); // aim to pass map
         netServer.validateUnitAssignment(numUnit);
         // assignUnit(30); // let netServer to communicate with clients and done this job
-        netServer.sendRoundResult();
+        //TODO: not finished
+
+        // netServer.sendRoundResult();
     }
     public void assignTerritory () {}
     /**

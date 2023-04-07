@@ -22,10 +22,10 @@ public class ReceiveUnitAssignmentThread extends SocketThread{
             Vector<Territory> terrVec = receiveUnitAssignment(socket);
             System.out.println("receive one assignment");
             String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
+            sendIllegalOrder(socket, new IllegalOrder(check));
             if (check == null) {
                 break;
             }
-            sendIllegalOrder(socket, new IllegalOrder(check));
         }
         System.out.println("receive valid assignment");
     }

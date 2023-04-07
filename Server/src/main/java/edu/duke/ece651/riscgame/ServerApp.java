@@ -16,7 +16,7 @@ public class ServerApp {
 //        gameServer.gameOver();
 
         //TODO: the two lines below for testing assign units manually
-//        String str = gameServer.assignUnit();
-//        System.out.println(str);
+        gameServer.GameInit();
+        System.out.println("received correctly");
     }
 }

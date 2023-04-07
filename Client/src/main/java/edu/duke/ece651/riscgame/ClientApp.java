@@ -35,8 +35,9 @@ public class ClientApp {
 //        gameClient.playRounds();
 //        gameClient.gameOver();
 
-        //TODO: the two lines below for testing assign units manually
-//        gameClient.setOwnedTerr(terrGen(5, 5, 5));
-//        gameClient.test();
+//        TODO: the two lines below for testing assign units manually
+        gameClient.setOwnedTerr(terrGen(5, 5, 5));
+        gameClient.test();
+        System.out.println("passes correctly");
     }
 }

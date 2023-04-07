@@ -31,15 +31,15 @@ public class GameClient {
         GameInitInfo info = netClient.receiveGameInitInfo();
         ownedTerr = info.getTerrList();
         updateLocalGameMap(); // based on received info
-
-//        while (receiveACK()) {
-//            assignUnit(30);
-//            netClient.sendUnitAssignment(ownedTerr);
-//        }
+        do {
+            assignUnit(30);
+            netClient.sendUnitAssignment(ownedTerr);
+        } while  (!receiveACK());
 
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
+        GameInitInfo info = netClient.receiveGameInitInfo();
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
@@ -47,7 +47,7 @@ public class GameClient {
     }
     private void updateLocalGameMap() {}
 
-    //TODO: this is only a API for testing
+    //TODO: this is only a API for testing, should be deleted latterly
     public void setOwnedTerr (Vector<Territory> terrVec) {
         this.ownedTerr = terrVec;
     }
@@ -115,6 +115,7 @@ public class GameClient {
      */
     public boolean receiveACK () {
         IllegalOrder illegal = netClient.receiveIllegalOrder();
+        if (!illegal.isLegal())
         System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
     }
