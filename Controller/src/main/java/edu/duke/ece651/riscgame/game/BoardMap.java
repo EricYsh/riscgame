@@ -55,7 +55,6 @@ public class BoardMap {
         t6.addNeighbors(t3, t5);
 
         Collections.addAll(territories,t1, t2, t3, t4, t5, t6);
-
     }
 
     private void initByPlayerNumber3() {
@@ -156,10 +155,6 @@ public class BoardMap {
         t7.addNeighbors(t4, t8, t10);
         t8.addNeighbors(t5, t7, t9, t11);
         t9.addNeighbors(t6, t8, t12);
-
-        t10.addNeighbors(t7, t11, t13);
-        t11.addNeighbors(t8, t10, t12, t14);
-        t12.addNeighbors(t9, t11, t15);
 
         t10.addNeighbors(t7, t11, t13);
         t11.addNeighbors(t8, t10, t12, t14);
