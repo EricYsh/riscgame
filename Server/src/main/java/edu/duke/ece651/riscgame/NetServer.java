@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.InputRuleChecker;
 
@@ -56,6 +57,7 @@ public class NetServer {
             try {
                 Socket socket = serverSocket.accept();
                 clientSockets.add(socket);
+                //send client id
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 out.writeInt(count);
                 out.flush();
@@ -135,7 +137,14 @@ public class NetServer {
         }
     }
 
-    public void sendRoundResult () {
+    public void sendRoundResult (Socket socket, RoundResult res) {
+        try {
+            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+            objOut.writeObject(res);
+            objOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     public void close () {
