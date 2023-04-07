@@ -59,7 +59,11 @@ public class NetServer {
             count++;
         }
     }
-    //TODO: fulfill the information needed in GameInitInfo
+
+    /**
+     * this func send necessary GameInitInfo to all players
+     * @param info contains TODO: what?
+     */
     public void sendGameInitInfo (GameInitInfo info) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
@@ -73,6 +77,10 @@ public class NetServer {
         }
     }
     public String validateUnitAssignment (int numUnit) {
+        for (int i = 0; i < numClient; i++) {
+            Socket socket = clientSockets.get(i);
+
+        }
         while (true) {
             Vector<Territory> terrVec = receiveUnitAssignment(clientSockets.get(0));
             System.out.println("receive one assignment");
@@ -85,17 +93,23 @@ public class NetServer {
 
         return "Receive success";
     }
+
+    //TODO: delete when finished
     public Vector<Territory> testReceiveUnitAssignment () {
         return receiveUnitAssignment(clientSockets.get(0));
     }
+
+    /**
+     * this func receive one unit assignment from one player, which may not be valid
+     * @param socket determine receive from which player
+     * @return received unit assignment information, assigned in each Territory
+     */
     public Vector<Territory> receiveUnitAssignment (Socket socket) {
         Vector<Territory> territoryVector = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             territoryVector = (Vector<Territory>) objectInputStream.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return territoryVector;

@@ -21,16 +21,21 @@ public class GameServer {
     }
 
     public void GameInit () {
-        netServer.connectWithMultiClients(); // pass client gameID
+        int numUnit = 30;
+        netServer.connectWithMultiClients();
+        //TODO: select primary Map for the game
+
+        // gameMap.getRandomMap(numClient);
+
         // the assign of territory are determined by server
         // which can be associated with gameID
+
         assignTerritory();
-        //TODO: select primary Map for the game
-        // gameMap.getRandomMap(numClient);
+
         netServer.sendGameInitInfo(new GameInitInfo()); // aim to pass map
-
-        assignUnit(); // let netServer to communicate with clients and done this job
-
+        netServer.validateUnitAssignment(numUnit);
+        // assignUnit(30); // let netServer to communicate with clients and done this job
+        netServer.sendRoundResult();
     }
     public void assignTerritory () {}
     /**
@@ -38,9 +43,9 @@ public class GameServer {
      * and then record them in Game
      */
     //TODO:
-    public String assignUnit () {
-        netServer.connectWithMultiClients(); // pass client gameID
-        return netServer.validateUnitAssignment(30);
+    public void assignUnit (int numUnit) {
+        // netServer.connectWithMultiClients(); // pass client gameID
+        netServer.validateUnitAssignment(numUnit);
     }
     public void playRounds () {
         while (gameIsNotEnd()) {
