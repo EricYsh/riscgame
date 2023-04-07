@@ -4,6 +4,7 @@ import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.InputRuleChecker;
 
 import java.io.*;
@@ -103,6 +104,23 @@ public class NetServer {
     }
 
     /**
+     * this func receive action orders from clients
+     * and then record them in Game
+     */
+    public void validateActionOrders () {
+        for (int i = 0; i < numClient; i++) {
+            Socket socket = clientSockets.get(i);
+            threadPoolForActionOrder.execute(new ReceiveActionOrderThread(socket));
+        }
+        threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
+        try {
+            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * this func receive one unit assignment from one player, which may not be valid
      * @param socket determine receive from which player
      * @return received unit assignment information, assigned in each Territory
@@ -123,9 +141,10 @@ public class NetServer {
      * if legal then record; it not, send one info back to ask remake it until receive a commit
      * @return
      */
-    public int receiveActionOrders () {
+    public Order receiveActionOrder (Socket socket) {
 
-        return 1;
+
+
     }
     public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
         try {
