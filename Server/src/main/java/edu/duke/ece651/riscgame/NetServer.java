@@ -55,6 +55,9 @@ public class NetServer {
             try {
                 Socket socket = serverSocket.accept();
                 clientSockets.add(socket);
+                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                out.writeInt(count);
+                out.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }

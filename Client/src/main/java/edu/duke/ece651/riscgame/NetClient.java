@@ -23,8 +23,15 @@ public class NetClient {
             e.printStackTrace();
         }
     }
-    public void socketInit () {
-
+    public int receiveClientID () {
+        int number = 0;
+        try {
+            DataInputStream in = new DataInputStream(socketInputStream);
+            number = in.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return number;
     }
     public GameInitInfo receiveGameInitInfo () {
         GameInitInfo info = null;
