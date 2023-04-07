@@ -3,9 +3,10 @@ package edu.duke.ece651.riscgame.order;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.Type;
 
-public class Commit extends Order {
+public class testOrder extends Order {
+    String str;
 
-    public Commit(int unitNum, Territory src, Territory dest, Type type) {
+    public testOrder(int unitNum, Territory src, Territory dest, Type type) {
         super(unitNum, src, dest, type);
     }
 
@@ -13,4 +14,5 @@ public class Commit extends Order {
     public void run() {
 
     }
+
 }
