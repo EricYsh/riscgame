@@ -41,6 +41,7 @@ public class GameClient {
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
+        this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
         do {
             assignUnit(30);
@@ -49,7 +50,7 @@ public class GameClient {
     }
     private void updateLocalGameMap() {}
 
-    //TODO: this is only a API for testing, should be deleted latterly
+    //TODO: this is only an API for testing, should be deleted latterly
     public void setOwnedTerr (Vector<Territory> terrVec) {
         this.ownedTerr = terrVec;
     }

@@ -34,21 +34,12 @@ public class GameServer {
 
         netServer.sendGameInitInfo(new GameInitInfo()); // aim to pass map
         netServer.validateUnitAssignment(numUnit);
-        // assignUnit(30); // let netServer to communicate with clients and done this job
         //TODO: not finished
 
         // netServer.sendRoundResult();
     }
     public void assignTerritory () {}
-    /**
-     * this func receive unit distribution info from clients
-     * and then record them in Game
-     */
-    //TODO:
-    public void assignUnit (int numUnit) {
-        // netServer.connectWithMultiClients(); // pass client gameID
-        netServer.validateUnitAssignment(numUnit);
-    }
+
     public void playRounds () {
         while (gameIsNotEnd()) {
             oneRound();
@@ -100,6 +91,6 @@ public class GameServer {
      * end the game: close socket connection and prompt users to start a new one or exit
      */
     public void gameOver () {
-
+        netServer.close();
     }
 }
