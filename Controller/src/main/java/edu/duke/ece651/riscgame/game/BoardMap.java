@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class BoardMap {
     private ArrayList<Territory> territories;
@@ -48,16 +49,13 @@ public class BoardMap {
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);
         t3.addNeighbors(t2, t6);
+
         t4.addNeighbors(t1, t5);
         t5.addNeighbors(t2, t4, t6);
         t6.addNeighbors(t3, t5);
 
-        territories.add(t1);
-        territories.add(t2);
-        territories.add(t3);
-        territories.add(t4);
-        territories.add(t5);
-        territories.add(t6);
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6);
+
     }
 
     private void initByPlayerNumber3() {
@@ -76,22 +74,17 @@ public class BoardMap {
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);
         t3.addNeighbors(t2, t6);
+
         t4.addNeighbors(t1, t5, t7);
         t5.addNeighbors(t2, t4, t6, t8);
         t6.addNeighbors(t3, t5, t9);
+
         t7.addNeighbors(t4, t8);
         t8.addNeighbors(t5, t7, t9);
         t9.addNeighbors(t6, t8);
 
-        territories.add(t1);
-        territories.add(t2);
-        territories.add(t3);
-        territories.add(t4);
-        territories.add(t5);
-        territories.add(t6);
-        territories.add(t7);
-        territories.add(t8);
-        territories.add(t9);
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6, t7, t8, t9);
+
     }
 
     private void initByPlayerNumber4() {
@@ -114,15 +107,21 @@ public class BoardMap {
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);
         t3.addNeighbors(t2, t6);
+
         t4.addNeighbors(t1, t5, t7);
         t5.addNeighbors(t2, t4, t6, t8);
         t6.addNeighbors(t3, t5, t9);
+
         t7.addNeighbors(t4, t8, t10);
         t8.addNeighbors(t5, t7, t9, t11);
         t9.addNeighbors(t6, t8, t12);
+
         t10.addNeighbors(t7, t11);
         t11.addNeighbors(t8, t10, t12);
         t12.addNeighbors(t9, t11);
+
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12);
+
     }
 
     private void initByPlayerNumber5() {
@@ -161,6 +160,16 @@ public class BoardMap {
         t10.addNeighbors(t7, t11, t13);
         t11.addNeighbors(t8, t10, t12, t14);
         t12.addNeighbors(t9, t11, t15);
+
+        t10.addNeighbors(t7, t11, t13);
+        t11.addNeighbors(t8, t10, t12, t14);
+        t12.addNeighbors(t9, t11, t15);
+
+        t13.addNeighbors(t10, t14);
+        t14.addNeighbors(t11, t13, t15);
+        t15.addNeighbors(t12, t14);
+
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15);
 
     }
 
