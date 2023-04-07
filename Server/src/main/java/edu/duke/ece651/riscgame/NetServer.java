@@ -142,9 +142,14 @@ public class NetServer {
      * @return
      */
     public Order receiveActionOrder (Socket socket) {
-
-
-
+        Order order = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            order = (Order) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return order;
     }
     public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
         try {
