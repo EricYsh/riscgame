@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class NetServer {
@@ -19,7 +20,8 @@ public class NetServer {
     // firstly, the server need to be able to accept multiple socket connection
 
     private ServerSocket serverSocket;
-    private ExecutorService threadPool;
+    private ExecutorService threadPoolForUnitAssign;
+    private ExecutorService threadPoolForActionOrder;
     private Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
@@ -34,8 +36,8 @@ public class NetServer {
         this.clientSockets = new Vector<Socket>();
         this.lostClientSockets = new Vector<Socket>();
         try {
-            this.threadPool = Executors.newFixedThreadPool(poolSize);
-            // threadPool.execute(new SocketThread(socket));
+            this.threadPoolForUnitAssign = Executors.newFixedThreadPool(poolSize);
+            this.threadPoolForActionOrder = Executors.newFixedThreadPool(poolSize);
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");
         }catch (IOException e){
@@ -79,10 +81,14 @@ public class NetServer {
     public void validateUnitAssignment (int numUnit) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
-            threadPool.execute(new ReceiveUnitAssignmentThread(socket, numUnit));
+            threadPoolForUnitAssign.execute(new ReceiveUnitAssignmentThread(socket, numUnit));
         }
-        threadPool.shutdown();
-        // return "Receive success";
+        threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
+        try {
+            threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO: delete when finished
