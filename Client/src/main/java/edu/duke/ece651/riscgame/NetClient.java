@@ -26,8 +26,8 @@ public class NetClient {
     public int receiveClientID () {
         int number = 0;
         try {
-            DataInputStream in = new DataInputStream(socketInputStream);
-            number = in.readInt();
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
+            number = objectInputStream.readInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
