@@ -29,10 +29,11 @@ public class ClientApp {
         GameClient gameClient = new GameClient(System.in);
         try {
             gameClient.gameInit();
+            gameClient.playRounds();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        gameClient.playRounds();
 //        gameClient.gameOver();
 
 //         the two lines below for testing assign units manually
