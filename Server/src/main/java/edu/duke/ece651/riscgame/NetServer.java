@@ -93,11 +93,12 @@ public class NetServer {
     public ArrayList<Territory> validateUnitAssignment (int numUnit) {
         ArrayList<Territory> container = new ArrayList<>();
         try {
-            for (int i = 0; i < numClient; i++) {
+            for (int i = 0; i < numClient - 1; i++) {
                 Socket socket = clientSockets.get(i);
                 Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
                 container.addAll(temp.get());
             }
+            container.addAll(receiveUnitAssignment(clientSockets.get(numClient - 1)));
             threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {

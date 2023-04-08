@@ -50,18 +50,10 @@ public class GameServer {
     }
 
     public void playRounds () {
-        while (gameIsNotEnd()) {
+        while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
         sendGameOverInfo();
-    }
-    //TODO: this func must be replaced latterly with a ruleChecker
-    /**
-     * currently, it works simply for operation
-     * @return
-     */
-    private boolean gameIsNotEnd () {
-        return true;
     }
 
     /**

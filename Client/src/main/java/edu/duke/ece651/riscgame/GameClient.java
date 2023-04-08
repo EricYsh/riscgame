@@ -40,9 +40,6 @@ public class GameClient {
         for (String s: info.getPlayerName()) {
             gameView.printPlayerMap(s);
         }
-        for (Territory terr: gameMap.getTerritories()) {
-            System.out.println(terr.displayInfo());
-        }
 
         do {
             assignUnit(info.getNumUnit());
@@ -59,7 +56,10 @@ public class GameClient {
             netClient.sendUnitAssignment(ownedTerr);
         } while (!receiveACK());
     }
-    //TODO:
+
+    /**
+     * this func is blocking because of netClient.receiveRoundResult()
+     */
     private void updateLocalGameMap() {
         RoundResult result = netClient.receiveRoundResult();
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
@@ -99,22 +99,14 @@ public class GameClient {
         }
     }
     public void playRounds () {
-        while (gameIsNotEnd()) {
+        while (gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
     }
-    //TODO: this func must be replaced latterly with a ruleChecker
-    /**
-     * currently, it works simply for operation
-     * @return
-     */
-    private boolean gameIsNotEnd () {
-        //relate to round result.
-        return true;
-    }
+
     private void oneRound () {
         issueOrders(); // create orders
-        netClient.receiveRoundResult();
+        updateLocalGameMap();
     }
 
     /**
