@@ -15,11 +15,14 @@ public abstract class Order implements Serializable {
     private Territory dest;
     private Type type;
 
-    public Order(int unitNum, Territory src, Territory dest, Type type) {
+    private int orderOwnId;
+
+    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
         this.unitNum = unitNum;
         this.src = src;
         this.dest = dest;
         this.type = type;
+        this.orderOwnId = orderOwnId;
     }
 
 

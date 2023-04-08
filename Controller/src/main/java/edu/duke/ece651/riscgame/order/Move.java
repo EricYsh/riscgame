@@ -14,8 +14,8 @@ public class Move extends Order {
     /**
      * Constructor for the Move class.
      */
-    public Move(int unitNum, Territory src, Territory dest, Type type) {
-        super(unitNum, src, dest, type);
+    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
+        super(unitNum, src, dest, type, orderOwnId);
 //        this.ruleChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
         // this.ruleChecker = new DestChecker(new UnitChecker());
     }

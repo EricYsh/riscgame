@@ -179,7 +179,7 @@ public class BoardTextView {
         // Change: create a local variable to prevent multiple calling function
         Territory territory = boardMap.getTerritoryByName(fromTerritoryName);
         int numUnits = getNumUnitsFromUser(territory.getUnitNum());
-        return new Move(numUnits, territory, territory, Type.Move);
+        return new Move(numUnits, territory, territory, Type.Move, playerId);
     }
 
     public Attack issueAttackOrder(int playerId) {
@@ -189,11 +189,11 @@ public class BoardTextView {
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
         System.out.println("Please enter the number of units you want to attack with:");
         int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack);
+        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
     }
 
     public Commit issueCommitOrder(int playerId) {
-        return new Commit(0, null, null, Type.Commit);
+        return new Commit(0, null, null, Type.Commit, playerId);
     }
 
     private boolean scanYN() throws IOException {
