@@ -21,11 +21,12 @@ public class ServerApp {
         GameServer gameServer = new GameServer(numClient);
 
 //        gameServer.GameInit();
-//        gameServer.playRounds();
 //        gameServer.gameOver();
 
         // the two lines below for testing assign units manually
         gameServer.GameInit();
+        gameServer.playRounds();
+
         System.out.println("received correctly");
     }
 }

@@ -7,6 +7,7 @@ import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.Type;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,11 +72,23 @@ public class GameServer {
 
     private void executeOrders (ArrayList<Order> orders) {
         // make modification to gameMap
-        // record the result of battle : modification of units, change of control
+        for (Order o : orders) {
+            if (o.getType().equals(Type.Move)) {
+                o.run();
+            }
+        }
 
-        // classify
-        // move
-        // attack
+        for(Order o : orders) {
+            if (o.getType().equals(Type.Attack)) {
+                o.getSrc().minusUnit(o.getUnitNum());
+            }
+        }
+
+        for(Order o : orders) {
+            if (o.getType().equals(Type.Attack)) {
+                o.run();
+            }
+        }
 
     }
 

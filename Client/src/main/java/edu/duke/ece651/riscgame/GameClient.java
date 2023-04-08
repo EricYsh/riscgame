@@ -37,15 +37,15 @@ public class GameClient {
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = (Vector<Territory>) gameMap.getTerritoriesByOwnId(clientID);
         this.playerName = info.getPlayerName(clientID);
-        for (String s: info.getPlayerName()) {
-            gameView.printPlayerMap(s);
-        }
 
         do {
             assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
         updateLocalGameMap();
+        for (String s: info.getPlayerName()) {
+            gameView.printPlayerMap(s);
+        }
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
