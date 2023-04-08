@@ -33,17 +33,17 @@ public class Move extends Order {
                 return; // do nothing if they have the same source and destination
             }
             int count = this.getUnitNum();
-            for(Territory t : boardMap.getTerritories()) {
-                if(t.equals(this.getSrc())) {
-                    t.minusUnit(count);
-                }
-                if(t.equals(this.getDest())) {
-                    t.addUnit(count);
-                }
-            }
-            String name = ownership.get(this.getOrderOwnId());
-            boardMap.getTerritoryByName(name).minusUnit(count);
-            boardMap.getTerritoryByName(name).addUnit(count);
+//            for(Territory t : boardMap.getTerritories()) {
+//                if(t.equals(this.getSrc())) {
+//                    t.minusUnit(count);
+//                }
+//                if(t.equals(this.getDest())) {
+//                    t.addUnit(count);
+//                }
+//            }
+//            String name = ownership.get(this.getOrderOwnId());
+            boardMap.getTerritoryByName(this.getSrc().getName()).minusUnit(count);
+            boardMap.getTerritoryByName(this.getDest().getName()).addUnit(count);
 //            this.getSrc().minusUnit(count);
 //            this.getDest().addUnit(count);
         }

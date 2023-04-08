@@ -90,7 +90,8 @@ public class GameServer {
 
         for(Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                o.getSrc().minusUnit(o.getUnitNum());
+                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
+//                o.getSrc().minusUnit(o.getUnitNum());
             }
         }
 

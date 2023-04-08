@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardMap;
+import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -41,7 +42,11 @@ public class Attack extends Order {
      */
     @Override
     public void run(BoardMap gameMap) {
+        BoardTextView b1 = new BoardTextView(gameMap);
         if (this.getType().equals(Type.Attack)) {
+
+            b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
+
             int attckUnitNum = this.getUnitNum(); // use how many units to attack
             int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
 
@@ -63,19 +68,21 @@ public class Attack extends Order {
 //                this.getDest().setUnitNum(defendUnitNum);
             } else { // attack wins
                 String name = ownership.get(this.getOrderOwnId());
-                gameMap.getTerritoryByName(name).setOwnerName(name);
-                gameMap.getTerritoryByName(name).setOwnId(this.getOrderOwnId());
-                gameMap.getTerritoryByName(name).setUnitNum(attckUnitNum);
+                gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(name);
+                gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
+                gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
 //                this.getDest().setOwnerName(this.getSrc().getOwnerName());
 //                this.getDest().setOwnId(this.getOrderOwnId());
 //                this.getDest().setUnitNum(attckUnitNum);
             }
         }
-        System.out.println("Attack order is executed");
-        System.out.println("The source territory is " + this.getSrc().getName());
-        System.out.println("The destination territory is " + this.getDest().getName());
-        System.out.println("The number of units is " + this.getUnitNum());
-        System.out.println("The owner of the source territory is " + this.getSrc().getOwnerName());
-        System.out.println("The owner of the destination territory is " + this.getDest().getOwnerName());
+//        System.out.println("Attack order is executed");
+//        System.out.println("The source territory is " + this.getSrc().getName());
+//        System.out.println("The destination territory is " + this.getDest().getName());
+//        System.out.println("The number of units is " + this.getUnitNum());
+//        System.out.println("The owner of the source territory is " + this.getSrc().getOwnerName());
+//        System.out.println("The owner of the destination territory is " + this.getDest().getOwnerName());
+
+        b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
     }
 }
