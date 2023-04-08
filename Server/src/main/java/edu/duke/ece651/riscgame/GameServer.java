@@ -5,6 +5,7 @@ import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Order;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,7 @@ public class GameServer {
         System.out.println(1);
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
-        ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
+        ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
         System.out.println(3);
         gameMap.setTerritories(assignments);
         System.out.println(4);
@@ -60,32 +61,21 @@ public class GameServer {
      * this function is responsible for actions in one round
      */
     private void oneRound () {
-        int temp = receiveOrders(); // this func is designed to be thread-safe but may not be achieved
+        ArrayList<Order> orders = netServer.validateActionOrders();
         // a barrier until all players commit their order
-        int tempContainer = executeOrders(temp);
+        executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
     }
 
-    /**
-     * this func is designed to receive all orders in one round from each player
-     * @return the type of return order is not determined, use int instead
-     */
-    private int receiveOrders () {
-        netServer.validateActionOrders();
-        // return netServer.receiveActionOrders();
-        return 0;
-    }
-
-    /**
-     * return a container of information updating/action result
-     * @param temp: temp variable, type undefined
-     * @return the type of return order is not determined, use int instead
-     */
-    private int executeOrders (int temp) {
+    private void executeOrders (ArrayList<Order> orders) {
         // make modification to gameMap
         // record the result of battle : modification of units, change of control
-        return 1;
+
+        // classify
+        // move
+        // attack
+
     }
 
     private void sendGameOverInfo () {}
