@@ -52,6 +52,7 @@ public class GameClient {
             netClient.sendUnitAssignment(ownedTerr);
         } while (!receiveACK());
     }
+    //TODO:
     private void updateLocalGameMap() {}
 
     //TODO: this is only an API for testing, should be deleted latterly
