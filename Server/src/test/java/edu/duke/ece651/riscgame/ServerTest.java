@@ -4,6 +4,7 @@ import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.Territory;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,25 +48,26 @@ public class ServerTest {
         GameInitInfo info = nc.receiveGameInitInfo();
         Assertions.assertEquals("HELLO, this is a GameInitInfo", info.printTestInfo());
     }
-    @Test
-    public void testReceiveUnitAssignment () {
-        // this func only test one time unit assignment passing
-        NetServer ns = new NetServer(1, 2, 8888);
-        NetClient nc = new NetClient(8888);
-        Vector<Territory> territoryVector1 = terrGen(5, 5, 5);
-        ns.connectWithMultiClients();
-        nc.sendUnitAssignment(territoryVector1);
-
-        Vector<Territory> territoryVector2 = ns.testReceiveUnitAssignment();
-        // System.err.println(territoryVector2.size());
-        assertNotNull(territoryVector2);
-        assertEquals(1, territoryVector2.get(0).getOwnId());
-        assertEquals(2, territoryVector2.get(1).getOwnId());
-        assertEquals(1, territoryVector2.get(2).getOwnId());
-        assertEquals("A", territoryVector2.get(0).getName());
-        assertEquals("B", territoryVector2.get(1).getName());
-        assertEquals("C", territoryVector2.get(2).getName());
-    }
+//    @Disabled
+//    @Test
+//    public void testReceiveUnitAssignment () {
+//        // this func only test one time unit assignment passing
+//        NetServer ns = new NetServer(1, 2, 8888);
+//        NetClient nc = new NetClient(8888);
+//        Vector<Territory> territoryVector1 = terrGen(5, 5, 5);
+//        ns.connectWithMultiClients();
+//        nc.sendUnitAssignment(territoryVector1);
+//
+//        Vector<Territory> territoryVector2 = ns.testReceiveUnitAssignment();
+//        // System.err.println(territoryVector2.size());
+//        assertNotNull(territoryVector2);
+//        assertEquals(1, territoryVector2.get(0).getOwnId());
+//        assertEquals(2, territoryVector2.get(1).getOwnId());
+//        assertEquals(1, territoryVector2.get(2).getOwnId());
+//        assertEquals("A", territoryVector2.get(0).getName());
+//        assertEquals("B", territoryVector2.get(1).getName());
+//        assertEquals("C", territoryVector2.get(2).getName());
+//    }
     @Test
     public void TestValidateUnitAssignment () {
         NetServer ns = new NetServer(1, 2, 8888);

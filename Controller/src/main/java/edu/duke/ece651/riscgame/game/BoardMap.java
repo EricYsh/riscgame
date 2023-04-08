@@ -277,4 +277,14 @@ public class BoardMap implements Serializable {
             return null;
         }
     }
+    /* Determines whether the specified player has lost the game based on the territories they currently own.
+    * @param playerId the ID of the player to check for loss
+    * @return true if the player has lost (i.e. does not own any territories), false otherwise
+    */
+    public boolean isLose(int playerId) {
+        for(Territory t : territories) {
+            if (t.getOwnId() == playerId) return false;
+        }
+        return true;
+    }
 }
