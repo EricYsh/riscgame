@@ -48,7 +48,7 @@ public class GameClient {
             assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-//        updateLocalGameMap();
+        updateLocalGameMap();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {

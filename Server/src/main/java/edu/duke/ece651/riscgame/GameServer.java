@@ -42,11 +42,11 @@ public class GameServer {
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
         ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
-//        System.out.println(3);
-//        gameMap.setTerritories(assignments);
-//        System.out.println(4);
-//        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
-//        System.out.println(5);
+        System.out.println(3);
+        gameMap.setTerritories(assignments);
+        System.out.println(4);
+        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+        System.out.println(5);
     }
 
     public void playRounds () {
