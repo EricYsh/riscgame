@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.Type;
 
@@ -10,7 +11,7 @@ public class Commit extends Order {
     }
 
     @Override
-    public void run() {
+    public void run(BoardMap gameMap) {
 
     }
 }

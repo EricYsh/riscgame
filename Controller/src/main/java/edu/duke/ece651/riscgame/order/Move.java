@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -26,14 +27,25 @@ public class Move extends Order {
      * If the source and destination territories are the same, no action is taken.
      */
     @Override
-    public void run() {
+    public void run(BoardMap boardMap) {
         if (this.getType().equals(Type.Move)) {
             if (this.getSrc().equals(this.getDest())) {
                 return; // do nothing if they have the same source and destination
             }
             int count = this.getUnitNum();
-            this.getSrc().minusUnit(count);
-            this.getDest().addUnit(count);
+            for(Territory t : boardMap.getTerritories()) {
+                if(t.equals(this.getSrc())) {
+                    t.minusUnit(count);
+                }
+                if(t.equals(this.getDest())) {
+                    t.addUnit(count);
+                }
+            }
+            String name = ownership.get(this.getOrderOwnId());
+            boardMap.getTerritoryByName(name).minusUnit(count);
+            boardMap.getTerritoryByName(name).addUnit(count);
+//            this.getSrc().minusUnit(count);
+//            this.getDest().addUnit(count);
         }
     }
 }

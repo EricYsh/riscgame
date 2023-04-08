@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -11,7 +12,7 @@ import java.util.Random;
  * It extends the Order class and defines the behavior for an attack action.
  */
 public class Attack extends Order {
-    // private HashMap<Integer, String> ownership;
+//     private HashMap<Integer, String> ownership;
 //    RuleChecker ruleChecker;
 
     /**
@@ -20,12 +21,12 @@ public class Attack extends Order {
     public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
         super(unitNum, src, dest, type, orderOwnId);
 //        this.ruleChecker = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
-        // ownership = new HashMap<>();
-        // ownership.put(0, "Avalon");
-        // ownership.put(1, "Braglavia");
-        // ownership.put(2, "Calador");
-        // ownership.put(3, "Excrier");
-        // ownership.put(4, "Ceyland");
+//         ownership = new HashMap<>();
+//         ownership.put(0, "Avalon");
+//         ownership.put(1, "Braglavia");
+//         ownership.put(2, "Calador");
+//         ownership.put(3, "Excrier");
+//         ownership.put(4, "Ceyland");
     }
 
     /**
@@ -39,7 +40,7 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    public void run() {
+    public void run(BoardMap gameMap) {
         if (this.getType().equals(Type.Attack)) {
             int attckUnitNum = this.getUnitNum(); // use how many units to attack
             int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
@@ -58,11 +59,16 @@ public class Attack extends Order {
 
             // Update territory information based on battle outcome
             if (defendUnitNum > 0) { // defend wins
-                this.getDest().setUnitNum(defendUnitNum);
+                gameMap.getEqualTerritory(this.getDest()).setUnitNum(defendUnitNum);
+//                this.getDest().setUnitNum(defendUnitNum);
             } else { // attack wins
-                this.getDest().setOwnerName(this.getSrc().getOwnerName());
-                this.getDest().setOwnId(this.getSrc().getOwnId());
-                this.getDest().setUnitNum(attckUnitNum);
+                String name = ownership.get(this.getOrderOwnId());
+                gameMap.getTerritoryByName(name).setOwnerName(name);
+                gameMap.getTerritoryByName(name).setOwnId(this.getOrderOwnId());
+                gameMap.getTerritoryByName(name).setUnitNum(attckUnitNum);
+//                this.getDest().setOwnerName(this.getSrc().getOwnerName());
+//                this.getDest().setOwnId(this.getOrderOwnId());
+//                this.getDest().setUnitNum(attckUnitNum);
             }
         }
         System.out.println("Attack order is executed");

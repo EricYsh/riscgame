@@ -84,7 +84,7 @@ public class GameServer {
         System.out.println("orders size:" + orders.size());
         for (Order o : orders) {
             if (o.getType().equals(Type.Move)) {
-                o.run();
+                o.run(gameMap);
             }
         }
 
@@ -96,7 +96,7 @@ public class GameServer {
 
         for(Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                o.run();
+                o.run(gameMap);
             }
         }
 

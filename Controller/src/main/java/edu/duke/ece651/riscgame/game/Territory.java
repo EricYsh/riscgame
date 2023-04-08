@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame.game;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 
 import javax.print.DocFlavor.STRING;
 
@@ -92,5 +93,17 @@ public class Territory implements Serializable {
         info.delete(info.length() - 2, info.length());//delete the last two character (", ")
         info.append(")");
         return info.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Territory territory = (Territory) o;
+        return ownId == territory.ownId &&
+//                unitNum == territory.unitNum &&;
+                Objects.equals(name, territory.name); //&&
+//                Objects.equals(ownerName, territory.ownerName) &&
+//                Objects.equals(neighbors, territory.neighbors);
     }
 }
