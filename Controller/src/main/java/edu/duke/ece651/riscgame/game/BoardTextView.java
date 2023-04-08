@@ -13,14 +13,17 @@ import java.util.Scanner;
 
 public class BoardTextView {
     private BoardMap boardMap;
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
 
     public BoardTextView(BoardMap boardMap) {
         this.boardMap = boardMap;
+        scanner = new Scanner(System.in);
     }
+
     public void updateBoardMap(BoardMap boardMap) {
         this.boardMap = boardMap;
     }
+
     public void printGameStartInfo(String playerName) {
         System.out.println("You are the "+ playerName + " player, what would you like to do?");
         System.out.println("(M)ove");
@@ -28,31 +31,31 @@ public class BoardTextView {
         System.out.println("(D)one");
     }
 
-    public HashMap<String, Integer> initUnitAssignment(String playerName, int initTotalUnits) throws IOException {
-        System.out.println("Please set your units: E.g. Narnia 10 Midkemia 12 Oz 8");
-        int numUnits = initTotalUnits;
-        HashMap<String, Integer> res = new HashMap<String, Integer>();
-        for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
-            while(true) {
-                try (Scanner scanner = new Scanner(System.in)) {
-                    System.out.println("How many units do you want to place in " + territory.getName() + "? (You have " + numUnits + " units left)");
-                    int numUnitInTerr = scanner.nextInt();
-                    if(numUnitInTerr > numUnits) {
-                        System.out.println("You don't have enough units to place in " + territory.getName());
-                        continue;
-                    }
-                    territory.setUnitNum(numUnitInTerr);
-                    numUnits -= numUnitInTerr;
-                    res.put(territory.getName(), numUnitInTerr);
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid number:");
-                    continue;
-                }
-            }
-        }
-        return res;
-    }
+    // public HashMap<String, Integer> initUnitAssignment(String playerName, int initTotalUnits) throws IOException {
+    //     System.out.println("Please set your units: E.g. Narnia 10 Midkemia 12 Oz 8");
+    //     int numUnits = initTotalUnits;
+    //     HashMap<String, Integer> res = new HashMap<String, Integer>();
+    //     for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
+    //         while(true) {
+    //             try (Scanner scanner = new Scanner(System.in)) {
+    //                 System.out.println("How many units do you want to place in " + territory.getName() + "? (You have " + numUnits + " units left)");
+    //                 int numUnitInTerr = scanner.nextInt();
+    //                 if(numUnitInTerr > numUnits) {
+    //                     System.out.println("You don't have enough units to place in " + territory.getName());
+    //                     continue;
+    //                 }
+    //                 territory.setUnitNum(numUnitInTerr);
+    //                 numUnits -= numUnitInTerr;
+    //                 res.put(territory.getName(), numUnitInTerr);
+    //                 break;
+    //             } catch (Exception e) {
+    //                 System.out.println("Please enter a valid number:");
+    //                 continue;
+    //             }
+    //         }
+    //     }
+    //     return res;
+    // }
 
     public void printPlayerMap(String playerName) {
         System.out.println("\n" + playerName + " Player:");
@@ -63,7 +66,7 @@ public class BoardTextView {
     }
 
     public Order issueOneOrder(int playerId) {
-        System.out.println("What would you like to do?");
+        System.out.println("\nWhat would you like to do?");
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
         System.out.println("(D)one");
@@ -109,7 +112,6 @@ public class BoardTextView {
         String input = "";
         boolean validInput = false;
         while (!validInput) {
-            System.out.println("get in while");
             input = scanner.nextLine();
             if (boardMap.getTerritoryByName(input) != null) {
                 if (boardMap.getTerritoryByName(input).getOwnId() == playerId) {
@@ -180,7 +182,7 @@ public class BoardTextView {
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
         System.out.println("Please enter the number of units you want to move:");
         int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
+        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
     }
 
     public Attack issueAttackOrder(int playerId) {

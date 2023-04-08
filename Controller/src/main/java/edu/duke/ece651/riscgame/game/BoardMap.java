@@ -266,7 +266,9 @@ public class BoardMap implements Serializable {
             if (t.getOwnId() != ownId) {
                 return false;
             }
+            // System.out.println(t.getOwnId());
         }
+        System.out.println("true");
         return true;
     }
 

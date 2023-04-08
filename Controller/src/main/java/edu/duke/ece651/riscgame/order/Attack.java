@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame.order;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Random;
  * It extends the Order class and defines the behavior for an attack action.
  */
 public class Attack extends Order {
-
+    // private HashMap<Integer, String> ownership;
 //    RuleChecker ruleChecker;
 
     /**
@@ -19,6 +20,12 @@ public class Attack extends Order {
     public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
         super(unitNum, src, dest, type, orderOwnId);
 //        this.ruleChecker = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
+        // ownership = new HashMap<>();
+        // ownership.put(0, "Avalon");
+        // ownership.put(1, "Braglavia");
+        // ownership.put(2, "Calador");
+        // ownership.put(3, "Excrier");
+        // ownership.put(4, "Ceyland");
     }
 
     /**
@@ -58,5 +65,11 @@ public class Attack extends Order {
                 this.getDest().setUnitNum(attckUnitNum);
             }
         }
+        System.out.println("Attack order is executed");
+        System.out.println("The source territory is " + this.getSrc().getName());
+        System.out.println("The destination territory is " + this.getDest().getName());
+        System.out.println("The number of units is " + this.getUnitNum());
+        System.out.println("The owner of the source territory is " + this.getSrc().getOwnerName());
+        System.out.println("The owner of the destination territory is " + this.getDest().getOwnerName());
     }
 }

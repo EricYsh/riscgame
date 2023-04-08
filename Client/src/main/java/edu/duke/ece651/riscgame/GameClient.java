@@ -24,6 +24,8 @@ public class GameClient {
     private Vector<Territory> ownedTerr;
     private final InputStream localIn;
     private Scanner scanner;
+    private Collection<String> playerList;
+
     public GameClient (InputStream in) {
         this.localIn = in;
         this.scanner = new Scanner(localIn);
@@ -37,6 +39,7 @@ public class GameClient {
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = (Vector<Territory>) gameMap.getTerritoriesByOwnId(clientID);
         this.playerName = info.getPlayerName(clientID);
+        this.playerList = info.getPlayerName();
 
         do {
             assignUnit(info.getNumUnit());
@@ -102,6 +105,9 @@ public class GameClient {
     public void playRounds () {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
+            for (String s: playerList) {
+                gameView.printPlayerMap(s);
+            }
         }
         System.out.println("Please wait for the game to end");
         System.out.println(netClient.receiveGameOverInfo().getWinnerName()+" wins!");
@@ -112,7 +118,9 @@ public class GameClient {
         if (!gameMap.isLose(clientID)) {
             issueOrders(); // create orders
         }
+        System.out.println("test1");
         updateLocalGameMap();
+        System.out.println("test2");
     }
 
     /**

@@ -28,6 +28,10 @@ public abstract class Order implements Serializable {
 
     // Getters
 
+    public int getOrderOwnId() {
+        return orderOwnId;
+    }
+
     public int getUnitNum() {
         return unitNum;
     }

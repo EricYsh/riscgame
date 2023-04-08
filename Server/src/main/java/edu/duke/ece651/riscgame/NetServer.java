@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
@@ -130,17 +131,17 @@ public class NetServer {
             for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
                 if (lostClientSockets.contains(i)) continue;
                 Socket socket = clientSockets.get(i);
-                FutureTask<Order> temp = new FutureTask<Order>(new ReceiveActionOrderThread(socket));
+                FutureTask<Vector<Order> > temp = new FutureTask<Vector<Order> >(new ReceiveActionOrderThread(socket));
                 Thread thread = new Thread(temp);
                 thread.start();
                 // Future<Order> temp = threadPoolForActionOrder.submit();
-                container.add(temp.get());
+                container.addAll(temp.get());
             }
-            while (true) {
-                if (container.size() == (numClient - lostClientSockets.size()) * 3) {
-                    break;
-                }
-            }
+            // while (true) {
+            //     if (container.size() == (numClient - lostClientSockets.size()) * 3) {
+            //         break;
+            //     }
+            // }
 //            threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
 //            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
@@ -171,14 +172,14 @@ public class NetServer {
      * @return
      */
     public static Order receiveActionOrder (Socket socket) {
-        Order order = null;
+        ActionInfo info = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            order = (Order) objectInputStream.readObject();
+            info = (ActionInfo) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return order;
+        return info.getOrder();
     }
 
     public static Order receiveOneOrder (Socket socket) {

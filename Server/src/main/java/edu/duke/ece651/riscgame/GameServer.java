@@ -68,7 +68,7 @@ public class GameServer {
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(), gameMap.getTerritoryNameAndOwnership()));
     }
 
     private void playerLost() {
@@ -81,6 +81,7 @@ public class GameServer {
 
     private void executeOrders (ArrayList<Order> orders) {
         // make modification to gameMap
+        System.out.println("orders size:" + orders.size());
         for (Order o : orders) {
             if (o.getType().equals(Type.Move)) {
                 o.run();
