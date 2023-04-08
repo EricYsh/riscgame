@@ -13,9 +13,16 @@ import java.util.Scanner;
 
 public class BoardTextView {
     private BoardMap boardMap;
+    private HashMap<Integer, String> idToName;
 
     public BoardTextView(BoardMap boardMap) {
         this.boardMap = boardMap;
+        idToName = new HashMap<>();
+        idToName.put(0, "Avalon");
+        idToName.put(1, "Braglavia");
+        idToName.put(2, "Calador");
+        idToName.put(3, "Excrier");
+        idToName.put(4, "Ceyland");
     }
 
     public void updateBoardMap(BoardMap boardMap) {
@@ -59,6 +66,14 @@ public class BoardTextView {
         System.out.println("\n" + playerName + " Player:");
         System.out.println("-------------");
         for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
+            System.out.println(territory.displayInfo());
+        }
+    }
+
+    public void printPlayerMap(int playerId) {
+        System.out.println("\n" + idToName.get(playerId) + " Player:");
+        System.out.println("-------------");
+        for(Territory territory : boardMap.getTerritoriesByOwnId(playerId)) {
             System.out.println(territory.displayInfo());
         }
     }

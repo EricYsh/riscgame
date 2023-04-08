@@ -8,16 +8,16 @@ public class ServerApp {
     public static void main(String[] args) {
         // System.out.println(new ServerApp().getGreeting());
 
-//        if (args.length != 1) {
-//            System.out.println("usage: <number of players>");
-//        }
-//        int numClient = Integer.parseInt(args[0]);
-//
-//        if (numClient < 2 || numClient > 5) {
-//            System.out.println("err: number of player must between 2 and 5");
-//            return;
-//        }
-        int numClient = 2;
+        if (args.length != 1) {
+            System.out.println("usage: <number of players>");
+        }
+        int numClient = Integer.parseInt(args[0]);
+
+        if (numClient < 2 || numClient > 5) {
+            System.out.println("err: number of player must between 2 and 5");
+            return;
+        }
+//        int numClient = 2;
         GameServer gameServer = new GameServer(numClient);
 
 //        gameServer.GameInit();

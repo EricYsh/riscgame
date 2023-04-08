@@ -60,10 +60,10 @@ public class GameClient {
         // for (int i = 0; i < result.getUnits().size(); i++) {
         // System.out.println(result.getUnits().get("T1"));
         // }
-        System.out.println(result.getOwnership());
-        System.out.println("game client output as above");
+//        System.out.println(result.getOwnership());
+//        System.out.println("game client output as above");
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
-        System.out.println(gameMap.getTerritoryNameAndOwnership());
+//        System.out.println(gameMap.getTerritoryNameAndOwnership());
         gameMap.setTerritoryNameAndUnitNums(result.getUnits());
 //        gameMap.setTerritoryNameAndPlayerName(result.getUpdatePlayerName());
 //        gameView.updateBoardMap(gameMap);
@@ -113,8 +113,11 @@ public class GameClient {
     public void playRounds() {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
-            for (String s : playerList) {
-                gameView.printPlayerMap(s);
+//            for (String s : playerList) {
+//                gameView.printPlayerMap(s);
+//            }
+            for (int i = 0; i < playerList.size(); i++) {
+                gameView.printPlayerMap(i);
             }
         }
         System.out.println("Please wait for the game to end");
@@ -126,9 +129,9 @@ public class GameClient {
         if (!gameMap.isLose(clientID)) {
             issueOrders(); // create orders
         }
-        System.out.println("test1");
+//        System.out.println("test1");
         updateLocalGameMap();
-        System.out.println("test2");
+//        System.out.println("test2");
     }
 
     /**

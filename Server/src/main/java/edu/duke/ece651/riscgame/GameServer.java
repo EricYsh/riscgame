@@ -89,13 +89,6 @@ public class GameServer {
     }
 
     private void executeOrders (ArrayList<Order> orders) {
-        System.out.println("before");
-        for (Territory t: gameMap.getTerritories()) {
-            System.out.println(t.displayInfo());
-            System.out.print("************");
-            System.out.println(t.getOwnerName());
-        }
-        System.out.println("---------------------");
         // make modification to gameMap
         System.out.println("orders size:" + orders.size());
         for (Order o : orders) {
@@ -116,15 +109,6 @@ public class GameServer {
                 o.run(gameMap);
             }
         }
-
-        System.out.println("after");
-        for (Territory t: gameMap.getTerritories()) {
-            System.out.println(t.displayInfo());
-            System.out.print("************");
-            System.out.println(t.getOwnerName());
-        }
-        System.out.println("-----------------");
-
     }
 
 

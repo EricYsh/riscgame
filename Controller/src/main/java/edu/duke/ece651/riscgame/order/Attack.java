@@ -42,10 +42,10 @@ public class Attack extends Order {
      */
     @Override
     public void run(BoardMap gameMap) {
-        BoardTextView b1 = new BoardTextView(gameMap);
+//        BoardTextView b1 = new BoardTextView(gameMap);
         if (this.getType().equals(Type.Attack)) {
 
-            b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
+//            b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
 
             int attckUnitNum = this.getUnitNum(); // use how many units to attack
             int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
@@ -83,6 +83,6 @@ public class Attack extends Order {
 //        System.out.println("The owner of the source territory is " + this.getSrc().getOwnerName());
 //        System.out.println("The owner of the destination territory is " + this.getDest().getOwnerName());
 
-        b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
+//        b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
     }
 }

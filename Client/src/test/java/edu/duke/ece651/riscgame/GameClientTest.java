@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.game.Territory;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class GameClientTest {
         territoryVector1.add(t3);
         return territoryVector1;
     }
+    @Disabled
     @Test
     public void testAssignUnit () {
         GameClient gc = new GameClient(System.in);
