@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 public class BoardTextView {
     private BoardMap boardMap;
+    private Scanner scanner = new Scanner(System.in);
 
     public BoardTextView(BoardMap boardMap) {
         this.boardMap = boardMap;
@@ -66,69 +67,69 @@ public class BoardTextView {
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
         System.out.println("(D)one");
-        while(true) {
-            try (Scanner scanner = new Scanner(System.in)) {
-                String input = scanner.nextLine();
-                if(input.equals("M")) {
-                    return issueMoveOrder(playerId);
-                } else if(input.equals("A")) {
-                    return issueAttackOrder(playerId);
-                } else if(input.equals("D")) {
-                    return issueCommitOrder(playerId);
-                } else {
-                    System.out.println("Please enter M, A or D");
-                    continue;
-                }
-            } catch (Exception e) {
-                System.out.println("Please enter M, A or D");
+        String input = "";
+        boolean validInput = false;
+        while (!validInput) {
+            input = scanner.nextLine();
+            if (input.equals("M") || input.equals("m")) {
+                validInput = true;
+                return issueMoveOrder(playerId);
+            } else if (input.equals("A") || input.equals("a")) {
+                validInput = true;
+                return issueAttackOrder(playerId);
+            } else if (input.equals("D") || input.equals("d")) {
+                validInput = true;
+                return new Commit(0, null, null, Type.Commit, playerId);
+            } else {
+                System.out.println("Please enter a valid input");
                 continue;
             }
         }
+        return null;
     }
 
     private int getNumUnitsFromUser(int maxNumUnits) {
-        while(true) {
-            try (Scanner scanner = new Scanner(System.in)) {
-                int input = scanner.nextInt();
-                if(input > 0 && input <= maxNumUnits) {
-                    return input;
-                } else {
-                    System.out.println("Please enter a valid number");
-                    continue;
-                }
-            } catch (Exception e) {
+        int input = 0;
+        boolean validInput = false;
+        while(!validInput) {
+            input = scanner.nextInt();
+            if(input > 0 && input <= maxNumUnits) {
+                validInput = true;
+                return input;
+            } else {
                 System.out.println("Please enter a valid number");
                 continue;
             }
         }
+        return -1;
     }
 
     // get start territory name from user and check if its belongs to the player and has enough units
     private String getStartTerritoryNameFromUser(int playerId) {
-        while(true) {
-            try (Scanner scanner = new Scanner(System.in)) {
-                String input = scanner.nextLine();
-                if(boardMap.getTerritoryByName(input) != null) {
-                    if(boardMap.getTerritoryByName(input).getOwnId() == playerId) {
-                        if(boardMap.getTerritoryByName(input).getUnitNum() > 1) {
-                            return input;
-                        } else {
-                            System.out.println("You don't have enough units to move from " + input);
-                            continue;
-                        }
+        String input = "";
+        boolean validInput = false;
+        while (!validInput) {
+            System.out.println("get in while");
+            input = scanner.nextLine();
+            if (boardMap.getTerritoryByName(input) != null) {
+                if (boardMap.getTerritoryByName(input).getOwnId() == playerId) {
+                    if (boardMap.getTerritoryByName(input).getUnitNum() >= 1) {
+                        validInput = true;
+                        return input;
                     } else {
-                        System.out.println("You don't own " + input);
+                        System.out.println("You don't have enough units to move from " + input);
                         continue;
                     }
                 } else {
-                    System.out.println("Please enter a valid territory name");
+                    System.out.println("You don't own " + input);
                     continue;
                 }
-            } catch (Exception e) {
+            } else {
                 System.out.println("Please enter a valid territory name");
                 continue;
             }
         }
+        return null;
     }
 
     private boolean checkNeighbor(String fromTerritoryName, String toTerritoryName) {
@@ -142,34 +143,34 @@ public class BoardTextView {
 
     // get the destination territory name from user and check if its a neighbor of the start territory, if it is MOVE order, check if it belongs to the player
     private String getDestTerritoryNameFromUser(int playerId, String fromTerritoryName, String orderType) {
-        while(true) {
-            try (Scanner scanner = new Scanner(System.in)) {
-                String input = scanner.nextLine();
-                if(boardMap.getTerritoryByName(input) != null) {
-                    if(checkNeighbor(fromTerritoryName, input)) {
-                        if(orderType.equals("MOVE")) {
-                            if(boardMap.getTerritoryByName(input).getOwnId() == playerId) {
-                                return input;
-                            } else {
-                                System.out.println("You can't move to " + input);
-                                continue;
-                            }
-                        } else {
+        String input = "";
+        boolean validInput = false;
+        while (!validInput) {
+            input = scanner.nextLine();
+            if (boardMap.getTerritoryByName(input) != null) {
+                if (checkNeighbor(fromTerritoryName, input)) {
+                    if (orderType.equals("MOVE")) {
+                        if (boardMap.getTerritoryByName(input).getOwnId() == playerId) {
+                            validInput = true;
                             return input;
+                        } else {
+                            System.out.println("You don't own " + input);
+                            continue;
                         }
                     } else {
-                        System.out.println(input + " is not a neighbor of " + fromTerritoryName);
-                        continue;
+                        validInput = true;
+                        return input;
                     }
                 } else {
-                    System.out.println("Please enter a valid territory name");
+                    System.out.println(input + " is not a neighbor of " + fromTerritoryName);
                     continue;
                 }
-            } catch (Exception e) {
+            } else {
                 System.out.println("Please enter a valid territory name");
                 continue;
             }
         }
+        return input;
     }
 
     public Move issueMoveOrder(int playerId) {
@@ -190,10 +191,6 @@ public class BoardTextView {
         System.out.println("Please enter the number of units you want to attack with:");
         int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
         return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
-    }
-
-    public Commit issueCommitOrder(int playerId) {
-        return new Commit(0, null, null, Type.Commit, playerId);
     }
 
     private boolean scanYN() throws IOException {
