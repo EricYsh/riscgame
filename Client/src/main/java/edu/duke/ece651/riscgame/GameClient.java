@@ -1,7 +1,9 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -16,7 +18,7 @@ import java.util.regex.Pattern;
 public class GameClient {
     private NetClient netClient;
     private int clientID;
-    private String countryName;
+    private String playerName;
     private BoardMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
@@ -27,32 +29,38 @@ public class GameClient {
         this.scanner = new Scanner(localIn);
         this.netClient = new NetClient(8888);
     }
+
     public void gameInit () throws IOException {
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = (Vector<Territory>) info.getMap().getTerritoriesByOwnId(clientID);
-        this.countryName = info.getCountryName(clientID);
-        gameView.printPlayerMap(countryName);
+        this.playerName = info.getPlayerName(clientID);
+        for (String s: info.getPlayerName()) {
+            gameView.printPlayerMap(s);
+        }
         do {
-            assignUnit(30);
+            assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-        //TODO:
-        netClient.receiveRoundResult();
+        updateLocalGameMap();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
-
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
         } while (!receiveACK());
     }
-    private void updateLocalGameMap() {}
+    //TODO:
+    private void updateLocalGameMap() {
+        RoundResult result = netClient.receiveRoundResult();
+        gameMap.setTerritoryNameAndOwnership(result.getOwnership());
+        gameMap.setTerritoryNameAndUnitNums (result.getUnits());
+    }
 
     //TODO: this is only an API for testing, should be deleted latterly
     public void setOwnedTerr (Vector<Territory> terrVec) {
@@ -68,6 +76,7 @@ public class GameClient {
      * @return
      * @throws IOException
      */
+    //TODO: maybe implement in textview part
     public void assignUnit (int numUnit) {
         System.out.println("Please assign your units in each territory");
         System.out.println("You have " + numUnit + " units");
@@ -96,6 +105,7 @@ public class GameClient {
      * @return
      */
     private boolean gameIsNotEnd () {
+        //relate to round result.
         return true;
     }
     private void oneRound () {
@@ -116,7 +126,9 @@ public class GameClient {
 //        } while (!isCommitted);
         do {
             Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
-            netClient.sendActionInfo(oneOrder);
+            ActionInfo info = new ActionInfo(oneOrder);
+
+            netClient.sendActionInfo(info);
         } while (!receiveCommitted()); // loop until one order is ACKed
     }
 

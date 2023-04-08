@@ -2,6 +2,8 @@ package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -56,6 +58,7 @@ public class NetServer {
             try {
                 Socket socket = serverSocket.accept();
                 clientSockets.add(socket);
+                //send client id
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 out.writeInt(count);
                 out.flush();
@@ -104,6 +107,23 @@ public class NetServer {
     }
 
     /**
+     * this func receive action orders from clients
+     * and then record them in Game
+     */
+    public void validateActionOrders () {
+        for (int i = 0; i < numClient; i++) {
+            Socket socket = clientSockets.get(i);
+            threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
+        }
+        threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
+        try {
+            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * this func receive one unit assignment from one player, which may not be valid
      * @param socket determine receive from which player
      * @return received unit assignment information, assigned in each Territory
@@ -124,10 +144,17 @@ public class NetServer {
      * if legal then record; it not, send one info back to ask remake it until receive a commit
      * @return
      */
-    public int receiveActionOrders () {
-
-        return 1;
+    public Order receiveActionOrder (Socket socket) {
+        Order order = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            order = (Order) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return order;
     }
+
     public static Order receiveOneOrder (Socket socket) {
         Order oneOrder = null;
         try {
@@ -148,20 +175,40 @@ public class NetServer {
         }
     }
 
-    public void sendRoundResult (HashMap<String, Integer> ownership, HashMap<String, Integer> units) {
-//        if (ownership != null) {
-//            sendOwnershipChange(ownership);
+    public void sendRoundResult (RoundResult result) {
+        for (int i = 0; i < numClient; i++) {
+            Socket socket = clientSockets.get(i);
+            try {
+                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+                objOut.writeObject(result);
+                objOut.flush(); // end output and prompt cache/buffer to send info
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+//        sendHashMap(gameMap.getTerritoryNameAndOwnership(), socket);
+//        sendHashMap(gameMap.getTerritoryNameAndUnitNums(), socket);
+        // sendOwnershipChange(gameMap.getTerritoryNameAndOwnership());
+        // sendUnitsChange(gameMap.getTerritoryNameAndUnitNums());
+    }
+    private static void sendHashMap (HashMap<String, Integer> hashMap, Socket socket) {
+        try {
+            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+            objOut.writeObject(hashMap);
+            objOut.flush(); // end output and prompt cache/buffer to send info
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+//    private static void sendObject (E object, Socket socket) {
+//        try {
+//            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+//            objOut.writeObject(object);
+//            objOut.flush(); // end output and prompt cache/buffer to send info
+//        } catch (IOException e) {
+//            e.printStackTrace();
 //        }
-        sendOwnershipChange(ownership);
-        sendUnitsChange(units);
-    }
-
-    private void sendUnitsChange(HashMap<String, Integer> units) {
-    }
-
-    private void sendOwnershipChange(HashMap<String, Integer> ownership) {
-    }
-
+//    }
     public void close () {
         try {
             for (Socket s: clientSockets) {

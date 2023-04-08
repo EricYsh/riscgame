@@ -1,7 +1,10 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -66,21 +69,26 @@ public class NetClient {
     /**
      * this func is designed to send one action, not send all actions
      */
-    public void sendActionInfo (Order oneOrder) {
+    public void sendActionInfo (ActionInfo info) {
         try {
             ObjectOutputStream objOut = new ObjectOutputStream(socketOutputStream);
-            objOut.writeObject(oneOrder);
-            objOut.flush(); // end output and prompt cache/buffer to send info
+            objOut.writeObject(info);
+            objOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void receiveRoundResult () {
-
+    public RoundResult receiveRoundResult () {
+        RoundResult res = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
+            res = (RoundResult) objectInputStream.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
     }
-    public void receiveGameOverInfo () {
 
-    }
     public void close () {
         try {
             clientSocket.close();

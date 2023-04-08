@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class BoardMap implements Serializable {
     private ArrayList<Territory> territories;
@@ -237,21 +238,34 @@ public class BoardMap implements Serializable {
 
     public HashMap<String, Integer> getTerritoryNameAndUnitNums() {
         HashMap<String, Integer> territoryNameAndUnitNums = new HashMap<>();
-        for (territory t : this.getTerritories()) {
+        for (Territory t : this.getTerritories()) {
             territoryNameAndUnitNums.put(t.getName(), t.getUnitNum());
         }
         return territoryNameAndUnitNums;
     }
+    public HashMap<String, Integer> getTerritoryNameAndOwnership() {
+        HashMap<String, Integer> territoryNameAndOwnership = new HashMap<>();
+        for (Territory t : this.getTerritories()) {
+            territoryNameAndOwnership.put(t.getName(), t.getOwnId());
+        }
+        return territoryNameAndOwnership;
+    }
 
     public void setTerritoryNameAndUnitNums(HashMap<String, Integer> territoryNameAndUnitNums) {
-        for (territory t : this.getTerritories()) {
+        for (Territory t : this.getTerritories()) {
             t.setUnitNum(territoryNameAndUnitNums.get(t.getName()));
+        }
+    }
+
+    public void setTerritoryNameAndOwnership(HashMap<String, Integer> territoryNameAndOwnership) {
+        for (Territory t : this.getTerritories()) {
+            t.setOwnId(territoryNameAndOwnership.get(t.getName()));
         }
     }
 
     public boolean isAllTerritoryOccupiedByOne() {
         int ownId = this.getTerritories().get(0).getOwnId();
-        for (territory t : this.getTerritories()) {
+        for (Territory t : this.getTerritories()) {
             if (t.getOwnId() != ownId) {
                 return false;
             }
