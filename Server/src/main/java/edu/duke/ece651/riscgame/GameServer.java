@@ -48,7 +48,7 @@ public class GameServer {
         System.out.println(3);
         gameMap.setTerritories(assignments);
         System.out.println(4);
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(), gameMap.getTerritoryNameAndOwnership()));
         System.out.println(5);
     }
 

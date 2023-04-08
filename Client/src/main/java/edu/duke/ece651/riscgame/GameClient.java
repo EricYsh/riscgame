@@ -46,6 +46,7 @@ public class GameClient {
         for (String s: info.getPlayerName()) {
             gameView.printPlayerMap(s);
         }
+
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
@@ -62,8 +63,16 @@ public class GameClient {
      */
     private void updateLocalGameMap() {
         RoundResult result = netClient.receiveRoundResult();
+        // for (int i = 0; i < result.getUnits().size(); i++) {
+            // System.out.println(result.getUnits().get("T1"));
+        // }
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
         gameMap.setTerritoryNameAndUnitNums (result.getUnits());
+        // gameView.updateBoardMap(gameMap);
+//        for (Territory t: gameMap.getTerritories()) {
+//            System.out.println("" + t.getName() + " " + t.getUnitNum());
+//        }
+
     }
 
     //TODO: this is only an API for testing, should be deleted latterly
@@ -100,7 +109,7 @@ public class GameClient {
     }
     //merge demo
     public void playRounds () {
-        while (gameMap.isAllTerritoryOccupiedByOne()) {
+        while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
         System.out.println("you lose, please wait for the game to end");

@@ -17,7 +17,9 @@ public class BoardTextView {
     public BoardTextView(BoardMap boardMap) {
         this.boardMap = boardMap;
     }
-
+    public void updateBoardMap(BoardMap boardMap) {
+        this.boardMap = boardMap;
+    }
     public void printGameStartInfo(String playerName) {
         System.out.println("You are the "+ playerName + " player, what would you like to do?");
         System.out.println("(M)ove");

@@ -7,6 +7,7 @@ import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.InputRuleChecker;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -94,12 +95,17 @@ public class NetServer {
     public ArrayList<Territory> validateUnitAssignment (int numUnit) {
         ArrayList<Territory> container = new ArrayList<>();
         try {
-            for (int i = 0; i < numClient - 1; i++) {
+            for (int i = 0; i < numClient; i++) {
                 Socket socket = clientSockets.get(i);
                 Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
                 container.addAll(temp.get());
             }
-            container.addAll(receiveUnitAssignment(clientSockets.get(numClient - 1)));
+            while (true) {
+                if (container.size() == numClient * 3) {
+                    break;
+                }
+            }
+
             threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
@@ -115,12 +121,16 @@ public class NetServer {
     public ArrayList<Order> validateActionOrders () {
         ArrayList<Order> container = new ArrayList<>();
         try {
-            for (int i = 0; i < numClient - 1; i++) {
+            for (int i = 0; i < numClient; i++) {
                 Socket socket = clientSockets.get(i);
                 Future<Order> temp = threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
                 container.add(temp.get());
             }
-
+            while (true) {
+                if (container.size() == numClient * 3) {
+                    break;
+                }
+            }
             threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
