@@ -9,6 +9,10 @@ repositories {
     mavenCentral()
 }
 
+application{
+    mainClassName = 'edu.duke.ece651.riscgame.ServerApp'
+}
+
 dependencies {
     implementation project(path:':Controller')
     implementation project(path:':Client')
@@ -28,4 +32,8 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+run {
+    standardInput = System.in
 }

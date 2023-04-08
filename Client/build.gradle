@@ -9,6 +9,10 @@ repositories {
     mavenCentral()
 }
 
+application{
+    mainClassName = 'edu.duke.ece651.riscgame.ClientApp'
+}
+
 group 'edu.duke.ece651.riscgame'
 
 dependencies {
@@ -27,4 +31,8 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+run {
+    standardInput = System.in
 }

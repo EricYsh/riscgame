@@ -26,6 +26,7 @@ public class ServerApp {
         // the two lines below for testing assign units manually
         gameServer.GameInit();
         gameServer.playRounds();
+        gameServer.gameOver();
 
         System.out.println("received correctly");
     }

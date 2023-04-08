@@ -164,7 +164,7 @@ public class GameClient {
         return illegal.isLegal() && illegal.isCommitted();
     }
 
-    private void closeConnection() {
+    public void closeConnection() {
         netClient.close();
         // scanner.close();
     }
