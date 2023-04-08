@@ -52,7 +52,7 @@ public class BoardTextView {
     }
 
     public void printPlayerMap(String playerName) {
-        System.out.println(playerName + " Player:");
+        System.out.println("\n" + playerName + " Player:");
         System.out.println("-------------");
         for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
             System.out.println(territory.displayInfo());
@@ -229,8 +229,7 @@ public class BoardTextView {
             System.out.println(territory.displayInfo());
         }
         System.out.println("-------------");
-        // Todo: print the winner
-        // System.out.println("Winner: " + boardMap.getWinner());
+        System.out.println("Winner: " + boardMap.getWinner());
         System.out.println("Would you like to play again? (Y/N)");
         return scanYN();
     }

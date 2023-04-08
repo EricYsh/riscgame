@@ -269,4 +269,12 @@ public class BoardMap implements Serializable {
         }
         return true;
     }
+
+    public String getWinner() {
+        if (isAllTerritoryOccupiedByOne()) {
+            return this.getTerritories().get(0).getOwnerName();
+        } else {
+            return null;
+        }
+    }
 }
