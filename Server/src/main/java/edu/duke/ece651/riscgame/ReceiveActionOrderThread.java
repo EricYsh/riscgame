@@ -22,8 +22,8 @@ public class ReceiveActionOrderThread extends SocketThread{
     private OrderRuleChecker attackOrder;
     public ReceiveActionOrderThread(Socket socket) {
         super(socket);
-        moveChecker = new MovePathChecker(new DestChecker(new UnitChecker(null)));
-        attackOrder = new AdjacentChecker(new DestChecker(new UnitChecker(null)));
+        moveChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
+        attackOrder = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
     }
 
     @Override
