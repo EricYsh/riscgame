@@ -6,7 +6,6 @@ import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
-// import edu.duke.ece651.riscgame.order.testOrder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,8 @@ import java.util.regex.Pattern;
 
 public class GameClient {
     private NetClient netClient;
-    int clientID;
+    private int clientID;
+    private String countryName;
     private BoardMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
@@ -29,24 +29,28 @@ public class GameClient {
     }
     public void gameInit () throws IOException {
         this.clientID = netClient.receiveClientID();
-
         GameInitInfo info = netClient.receiveGameInitInfo();
-        ownedTerr = info.getTerrList();
-        updateLocalGameMap(); // based on received info
+        this.gameMap = info.getMap();
+        this.gameView = new BoardTextView(gameMap);
+        this.ownedTerr = (Vector<Territory>) info.getMap().getTerritoriesByOwnId(clientID);
+        this.countryName = info.getCountryName(clientID);
+        gameView.printPlayerMap(countryName);
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-
+        //TODO:
+        netClient.receiveRoundResult();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
+
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
-        } while  (!receiveACK());
+        } while (!receiveACK());
     }
     private void updateLocalGameMap() {}
 
@@ -96,44 +100,41 @@ public class GameClient {
     }
     private void oneRound () {
         issueOrders(); // create orders
-        netClient.receiveRoundRes();
+        netClient.receiveRoundResult();
     }
 
     /**
      * lost players do not and should not need to issue orders
      */
     private void issueOrders () {
-        boolean isCommitted = false;
-        while (!isCommitted) {
-            while (!receiveACK()) { // loop until one order is ACKed
-                Order oneOrder =  issueOneOrder(); // three actions: move, attack, commit
-                netClient.sendActionInfo(); // para: oneOrder
-            }
-        }
+//        boolean isCommitted = false;
+//        do {
+//            do {
+//                Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
+//                netClient.sendActionInfo(oneOrder);
+//            } while (!receiveACK()); // loop until one order is ACKed
+//        } while (!isCommitted);
+        do {
+            Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
+            netClient.sendActionInfo(oneOrder);
+        } while (!receiveCommitted()); // loop until one order is ACKed
     }
-    //TODO: this function seems need to call socket to communicate, which may block the program
+
     /**
-     *
-     * @return
+     * this function is blocking
+     * @return true when no error message while false when error happen
      */
     public boolean receiveACK () {
         IllegalOrder illegal = netClient.receiveIllegalOrder();
         if (!illegal.isLegal())
-        System.out.println(illegal.getErrMessage());
+            System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
     }
-
-    public Order issueOneOrder () {
-        System.out.println("Please enter your order: ");
-        char c = ' ';
-        try {
-            c = (char) localIn.read();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-//        Order temp = new testOrder(c);
-        return null;
+    public boolean receiveCommitted () {
+        IllegalOrder illegal = netClient.receiveIllegalOrder();
+        if (!illegal.isLegal())
+            System.out.println(illegal.getErrMessage());
+        return illegal.isLegal()&&illegal.isCommitted();
     }
 
     public void gameOver () {
@@ -141,5 +142,8 @@ public class GameClient {
         closeConnection();
     }
     private void printGameOverInfo () {}
-    private void closeConnection () {}
+    private void closeConnection () {
+        netClient.close();
+        // scanner.close();
+    }
 }

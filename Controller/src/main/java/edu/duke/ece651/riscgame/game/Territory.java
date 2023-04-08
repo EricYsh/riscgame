@@ -24,6 +24,13 @@ public class Territory implements Serializable {
         neighbors = new HashSet<>();
     }
 
+    public Territory(String tName, int ownId, int units) {
+        this.name = tName;
+        this.ownId = ownId;
+        this.unitNum = units;
+        neighbors = new HashSet<>();
+    }
+
     public String getName() {
         return name;
     }
@@ -66,6 +73,12 @@ public class Territory implements Serializable {
 
     public void addNeighbor(Territory t1) {
         neighbors.add(t1);
+    }
+
+    public void addNeighbors(Territory... territories) {
+        for (Territory t : territories) {
+            addNeighbor(t);
+        }
     }
 
     public String displayInfo() {

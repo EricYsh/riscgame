@@ -7,4 +7,8 @@ public class ReceiveActionOrderThread extends SocketThread{
         super(socket);
     }
 
+    @Override
+    public Object call() throws Exception {
+        return null;
+    }
 }

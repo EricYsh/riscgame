@@ -8,14 +8,14 @@ public class ServerApp {
     public static void main(String[] args) {
         // System.out.println(new ServerApp().getGreeting());
 
-        int numClient = 1;
+        int numClient = 2;
         GameServer gameServer = new GameServer(numClient);
 
 //        gameServer.GameInit();
 //        gameServer.playRounds();
 //        gameServer.gameOver();
 
-        //TODO: the two lines below for testing assign units manually
+        // the two lines below for testing assign units manually
         gameServer.GameInit();
         System.out.println("received correctly");
     }

@@ -17,16 +17,16 @@ public class ReceiveUnitAssignmentThread extends SocketThread{
         this.numUnit = numUnit;
     }
     @Override
-    public void run () {
+    public Vector<Territory> call () {
         while (true) {
             Vector<Territory> terrVec = receiveUnitAssignment(socket);
             System.out.println("receive one assignment");
             String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
-            sendIllegalOrder(socket, new IllegalOrder(check));
+            sendIllegalOrder(socket, new IllegalOrder(check, false));
             if (check == null) {
-                break;
+                System.out.println("receive valid assignment");
+                return terrVec;
             }
         }
-        System.out.println("receive valid assignment");
     }
 }

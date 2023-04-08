@@ -3,6 +3,12 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
+import edu.duke.ece651.riscgame.game.Territory;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Vector;
 
 public class GameServer {
     // this class is designed to contain all funcs of server
@@ -11,34 +17,27 @@ public class GameServer {
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
+    private final Vector<String> countryName;
     /**
      * constructor
      */
     public GameServer (int numClient) {
         this.numClient = numClient;
-        this.gameMap = new BoardMap();
-        this.netServer= new NetServer(2, 2, 8888);
+        this.countryName = new Vector<String>();
+        Collections.addAll(countryName, "Avalon", "Braglavia", "Calador", "Excrier", "Ceyland");
+        this.gameMap = new BoardMap(numClient); // the map is chosen when declared
+        this.netServer= new NetServer(numClient, numClient, 8888);
     }
 
     public void GameInit () {
         int numUnit = 30;
-        netServer.connectWithMultiClients(); // TODO:pass their client ID
-        //TODO: select primary Map for the game
-
-        // gameMap.getRandomMap(numClient);
-
-        // the assign of territory are determined by server
-        // which can be associated with gameID
-
-        assignTerritory();
-
-        netServer.sendGameInitInfo(new GameInitInfo()); // aim to pass map
-        netServer.validateUnitAssignment(numUnit);
-        //TODO: not finished
-
-        // netServer.sendRoundResult();
+        netServer.connectWithMultiClients();
+        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
+        ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
+        gameMap.setTerritories(assignments);
+        //TODO:
+        netServer.sendRoundResult(); // null
     }
-    public void assignTerritory () {}
 
     public void playRounds () {
         while (gameIsNotEnd()) {
