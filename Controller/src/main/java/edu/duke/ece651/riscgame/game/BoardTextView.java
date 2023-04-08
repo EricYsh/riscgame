@@ -176,10 +176,8 @@ public class BoardTextView {
         System.out.println("Please enter the territory you want to move to:");
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
         System.out.println("Please enter the number of units you want to move:");
-        // Change: create a local variable to prevent multiple calling function
-        Territory territory = boardMap.getTerritoryByName(fromTerritoryName);
-        int numUnits = getNumUnitsFromUser(territory.getUnitNum());
-        return new Move(numUnits, territory, territory, Type.Move, playerId);
+        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
     }
 
     public Attack issueAttackOrder(int playerId) {
