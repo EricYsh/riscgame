@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import edu.duke.ece651.riscgame.order.Order;
 
-import static edu.duke.ece651.riscgame.NetServer.receiveActionOrder;
+// import static edu.duke.ece651.riscgame.NetServer.receiveActionOrder;
 
 /*
  * This class receives and handles the action order

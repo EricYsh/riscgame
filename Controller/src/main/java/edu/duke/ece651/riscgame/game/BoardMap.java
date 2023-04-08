@@ -1,10 +1,7 @@
 package edu.duke.ece651.riscgame.game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 public class BoardMap implements Serializable {
     private ArrayList<Territory> territories;
@@ -225,8 +222,8 @@ public class BoardMap implements Serializable {
         }
     }
 
-    public Collection<Territory> getTerritoriesByOwnId(int ownId) {
-        ArrayList<Territory> playerTerritory = new ArrayList<>();
+    public Vector<Territory> getTerritoriesByOwnId(int ownId) {
+        Vector<Territory> playerTerritory = new Vector<>();
         for (int i = 0; i < this.getTerritories().size(); i++) {
             int tempOwnId = this.getTerritories().get(i).getOwnId();
             if (tempOwnId == ownId) {
