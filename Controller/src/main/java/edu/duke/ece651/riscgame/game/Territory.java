@@ -17,9 +17,10 @@ public class Territory implements Serializable {
         neighbors = new HashSet<>();
     }
 
-    public Territory(String tName, String oName, int units) {
+    public Territory(String tName, String oName, int oId, int units) {
         this.name = tName;
         this.ownerName = oName;
+        this.ownId = oId;
         this.unitNum = units;
         neighbors = new HashSet<>();
     }

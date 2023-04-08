@@ -37,13 +37,13 @@ public class BoardMap implements Serializable {
 
     //TODO: try not to assign unit when create territory
     private void initByPlayerNumber2() {
-        Territory t1 = new Territory("T1", 0, 10);
-        Territory t2 = new Territory("T2", 0, 10);
-        Territory t3 = new Territory("T3", 0, 10);
+        Territory t1 = new Territory("T1", "Avalon", 0, 10);
+        Territory t2 = new Territory("T2", "Avalon", 0, 10);
+        Territory t3 = new Territory("T3", "Avalon", 0, 10);
 
-        Territory t4 = new Territory("T4", 1, 10);
-        Territory t5 = new Territory("T5", 1, 10);
-        Territory t6 = new Territory("T6", 1, 10);
+        Territory t4 = new Territory("T4", "Braglavia", 1, 10);
+        Territory t5 = new Territory("T5", "Braglavia", 1, 10);
+        Territory t6 = new Territory("T6", "Braglavia", 1, 10);
 
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);
@@ -57,17 +57,17 @@ public class BoardMap implements Serializable {
     }
 
     private void initByPlayerNumber3() {
-        Territory t1 = new Territory("T1", 0, 10);
-        Territory t2 = new Territory("T2", 0, 10);
-        Territory t3 = new Territory("T3", 0, 10);
+        Territory t1 = new Territory("T1", "Avalon", 0, 10);
+        Territory t2 = new Territory("T2", "Avalon", 0, 10);
+        Territory t3 = new Territory("T3", "Avalon", 0, 10);
 
-        Territory t4 = new Territory("T4", 1, 10);
-        Territory t5 = new Territory("T5", 1, 10);
-        Territory t6 = new Territory("T6", 1, 10);
+        Territory t4 = new Territory("T4", "Braglavia", 1, 10);
+        Territory t5 = new Territory("T5", "Braglavia", 1, 10);
+        Territory t6 = new Territory("T6", "Braglavia", 1, 10);
 
-        Territory t7 = new Territory("T7", 2, 10);
-        Territory t8 = new Territory("T8", 2, 10);
-        Territory t9 = new Territory("T9", 2, 10);
+        Territory t7 = new Territory("T7", "Calador", 2, 10);
+        Territory t8 = new Territory("T8", "Calador", 2, 10);
+        Territory t9 = new Territory("T9", "Calador", 2, 10);
 
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);
@@ -86,21 +86,21 @@ public class BoardMap implements Serializable {
     }
 
     private void initByPlayerNumber4() {
-        Territory t1 = new Territory("t1", 0, 10);
-        Territory t2 = new Territory("t2", 0, 10);
-        Territory t3 = new Territory("t3", 0, 10);
+        Territory t1 = new Territory("t1", "Avalon", 0, 10);
+        Territory t2 = new Territory("t2", "Avalon", 0, 10);
+        Territory t3 = new Territory("t3", "Avalon", 0, 10);
 
-        Territory t4 = new Territory("t4", 1, 10);
-        Territory t5 = new Territory("t5", 1, 10);
-        Territory t6 = new Territory("t6", 1, 10);
+        Territory t4 = new Territory("t4", "Braglavia", 1, 10);
+        Territory t5 = new Territory("t5", "Braglavia", 1, 10);
+        Territory t6 = new Territory("t6", "Braglavia", 1, 10);
 
-        Territory t7 = new Territory("t7", 2, 10);
-        Territory t8 = new Territory("t8", 2, 10);
-        Territory t9 = new Territory("t9", 2, 10);
+        Territory t7 = new Territory("t7", "Calador", 2, 10);
+        Territory t8 = new Territory("t8", "Calador", 2, 10);
+        Territory t9 = new Territory("t9", "Calador", 2, 10);
 
-        Territory t10 = new Territory("t10", 3, 10);
-        Territory t11 = new Territory("t11", 3, 10);
-        Territory t12 = new Territory("t12", 3, 10);
+        Territory t10 = new Territory("t10", "Excrier", 3, 10);
+        Territory t11 = new Territory("t11", "Excrier", 3, 10);
+        Territory t12 = new Territory("t12", "Excrier", 3, 10);
 
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);
@@ -123,25 +123,25 @@ public class BoardMap implements Serializable {
     }
 
     private void initByPlayerNumber5() {
-        Territory t1 = new Territory("t1", 0, 10);
-        Territory t2 = new Territory("t2", 0, 10);
-        Territory t3 = new Territory("t3", 0, 10);
+        Territory t1 = new Territory("t1", "Avalon", 0, 10);
+        Territory t2 = new Territory("t2", "Avalon", 0, 10);
+        Territory t3 = new Territory("t3", "Avalon", 0, 10);
 
-        Territory t4 = new Territory("t4", 1, 10);
-        Territory t5 = new Territory("t5", 1, 10);
-        Territory t6 = new Territory("t6", 1, 10);
+        Territory t4 = new Territory("t4", "Braglavia", 1, 10);
+        Territory t5 = new Territory("t5", "Braglavia", 1, 10);
+        Territory t6 = new Territory("t6", "Braglavia", 1, 10);
 
-        Territory t7 = new Territory("t7", 2, 10);
-        Territory t8 = new Territory("t8", 2, 10);
-        Territory t9 = new Territory("t9", 2, 10);
+        Territory t7 = new Territory("t7", "Calador", 2, 10);
+        Territory t8 = new Territory("t8", "Calador", 2, 10);
+        Territory t9 = new Territory("t9", "Calador", 2, 10);
 
-        Territory t10 = new Territory("t10", 3, 10);
-        Territory t11 = new Territory("t11", 3, 10);
-        Territory t12 = new Territory("t12", 3, 10);
+        Territory t10 = new Territory("t10", "Excrier", 3, 10);
+        Territory t11 = new Territory("t11", "Excrier", 3, 10);
+        Territory t12 = new Territory("t12", "Excrier", 3, 10);
 
-        Territory t13 = new Territory("t13", 4, 10);
-        Territory t14 = new Territory("t14", 4, 10);
-        Territory t15 = new Territory("t15", 4, 10);
+        Territory t13 = new Territory("t13", "Ceyland", 4, 10);
+        Territory t14 = new Territory("t14", "Ceyland", 4, 10);
+        Territory t15 = new Territory("t15", "Ceyland", 4, 10);
 
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);

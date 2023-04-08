@@ -41,4 +41,10 @@ public class BoardMapTest {
         b.setTerritories(t);
         assert (b.getTerritoriesByOwnId(1).size() == 2);
     }
+
+    @Test
+    public void test_BoardMap() {
+        BoardMap b = new BoardMap(2);
+        assert (b.getTerritories().size() == 6);
+    }
 }
