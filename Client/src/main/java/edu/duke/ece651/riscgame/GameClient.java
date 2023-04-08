@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -43,8 +44,7 @@ public class GameClient {
             assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-        //TODO: maybe not receive round result here
-        netClient.receiveRoundResult();
+        updateLocalGameMap();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
@@ -56,7 +56,11 @@ public class GameClient {
         } while (!receiveACK());
     }
     //TODO:
-    private void updateLocalGameMap() {}
+    private void updateLocalGameMap() {
+        RoundResult result = netClient.receiveRoundResult();
+        gameMap.setTerritoryNameAndOwnership(result.getOwnership());
+        gameMap.setTerritoryNameAndUnitNums (result.getUnits());
+    }
 
     //TODO: this is only an API for testing, should be deleted latterly
     public void setOwnedTerr (Vector<Territory> terrVec) {

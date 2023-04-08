@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -35,7 +36,7 @@ public class GameServer {
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName.subList(0, numClient))); // aim to pass map
         ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
         gameMap.setTerritories(assignments);
-        netServer.sendRoundResult(gameMap);
+        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
     }
 
     public void playRounds () {
@@ -61,7 +62,7 @@ public class GameServer {
         // a barrier until all players commit their order
         int tempContainer = executeOrders(temp);
         gameMap.callUp(); // add one unit in territories
-        netServer.sendRoundResult(gameMap);
+        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
     }
 
     /**

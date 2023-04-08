@@ -175,12 +175,19 @@ public class NetServer {
         }
     }
 
-    public void sendRoundResult (BoardMap gameMap) {
+    public void sendRoundResult (RoundResult result) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
-            sendHashMap(gameMap.getTerritoryNameAndOwnership(), socket);
-            sendHashMap(gameMap.getTerritoryNameAndUnitNums(), socket);
+            try {
+                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+                objOut.writeObject(result);
+                objOut.flush(); // end output and prompt cache/buffer to send info
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+//        sendHashMap(gameMap.getTerritoryNameAndOwnership(), socket);
+//        sendHashMap(gameMap.getTerritoryNameAndUnitNums(), socket);
         // sendOwnershipChange(gameMap.getTerritoryNameAndOwnership());
         // sendUnitsChange(gameMap.getTerritoryNameAndUnitNums());
     }
@@ -193,13 +200,15 @@ public class NetServer {
             e.printStackTrace();
         }
     }
-    private void sendUnitsChange(HashMap<String, Integer> units) {
-
-    }
-
-    private void sendOwnershipChange(HashMap<String, Integer> ownership) {
-    }
-
+//    private static void sendObject (E object, Socket socket) {
+//        try {
+//            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+//            objOut.writeObject(object);
+//            objOut.flush(); // end output and prompt cache/buffer to send info
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     public void close () {
         try {
             for (Socket s: clientSockets) {
