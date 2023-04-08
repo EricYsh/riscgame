@@ -123,7 +123,6 @@ public class GameClient {
         do {
             Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
             ActionInfo info = new ActionInfo(oneOrder);
-
             netClient.sendActionInfo(info);
         } while (!receiveCommitted()); // loop until one order is ACKed
     }

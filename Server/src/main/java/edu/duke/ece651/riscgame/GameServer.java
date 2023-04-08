@@ -72,6 +72,7 @@ public class GameServer {
      * @return the type of return order is not determined, use int instead
      */
     private int receiveOrders () {
+        netServer.validateActionOrders();
         // return netServer.receiveActionOrders();
         return 0;
     }
