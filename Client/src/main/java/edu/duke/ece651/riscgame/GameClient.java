@@ -98,10 +98,14 @@ public class GameClient {
             ownedTerr.get(i).setUnitNum(numUnitInOneTerr);
         }
     }
+    //merge demo
     public void playRounds () {
         while (gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
+        System.out.println("you lose, please wait for the game to end");
+        System.out.println(netClient.receiveGameOverInfo());
+        closeConnection();
     }
 
     private void oneRound () {
@@ -144,11 +148,6 @@ public class GameClient {
         return illegal.isLegal()&&illegal.isCommitted();
     }
 
-    public void gameOver () {
-        printGameOverInfo();
-        closeConnection();
-    }
-    private void printGameOverInfo () {}
     private void closeConnection () {
         netClient.close();
         // scanner.close();
