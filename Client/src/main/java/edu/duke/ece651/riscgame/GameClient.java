@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.game.BoardMap;
@@ -43,6 +44,14 @@ public class GameClient {
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
         //TODO:
+        System.out.println("<<Here is your territories: >>");
+        for(Territory territory: ownedTerr){
+            System.out.println(territory.getName());
+        }
+
+
+        
+        //TODO: maybe not receiveroundresult here
         netClient.receiveRoundResult();
     }
     //TODO: this is only a testing func, should be deleted latterly
@@ -72,6 +81,7 @@ public class GameClient {
      * @return
      * @throws IOException
      */
+    //TODO: maybe implement in textview part
     public void assignUnit (int numUnit) {
         System.out.println("Please assign your units in each territory");
         System.out.println("You have " + numUnit + " units");
@@ -100,6 +110,7 @@ public class GameClient {
      * @return
      */
     private boolean gameIsNotEnd () {
+        //relate to round result.
         return true;
     }
     private void oneRound () {
@@ -120,7 +131,9 @@ public class GameClient {
 //        } while (!isCommitted);
         do {
             Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
-            netClient.sendActionInfo(oneOrder);
+            ActionInfo info = new ActionInfo(oneOrder);
+
+            netClient.sendActionInfo(info);
         } while (!receiveCommitted()); // loop until one order is ACKed
     }
 

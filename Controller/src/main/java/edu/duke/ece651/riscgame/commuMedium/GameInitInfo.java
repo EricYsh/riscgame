@@ -6,6 +6,9 @@ import edu.duke.ece651.riscgame.game.Territory;
 import java.io.Serializable;
 import java.util.Vector;
 
+/*
+ * This class should be gameinfo class instead of gameinitinfo
+ */
 public class GameInitInfo implements Serializable {
     String testStr = "HELLO, this is a GameInitInfo";
     private BoardMap map;

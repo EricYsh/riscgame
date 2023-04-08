@@ -76,7 +76,6 @@ public class NetClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     public RoundResult receiveRoundResult () {
         RoundResult res = null;
