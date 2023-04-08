@@ -46,7 +46,7 @@ public class GameServer {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
-        sendGameOverInfo();
+        netServer.sendGameOverInfo(gameMap.getWinner());
     }
     //TODO: this func must be replaced latterly with a ruleChecker
     /**
