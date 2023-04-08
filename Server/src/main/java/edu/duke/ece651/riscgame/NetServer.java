@@ -100,7 +100,10 @@ public class NetServer {
         try {
             for (int i = 0; i < numClient; i++) {
                 Socket socket = clientSockets.get(i);
-                Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
+                FutureTask<Vector<Territory>> temp = new FutureTask<Vector<Territory>>(new ReceiveUnitAssignmentThread(socket, numUnit));
+                Thread thread = new Thread(temp);
+                thread.start();
+                // Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
                 container.addAll(temp.get());
             }
             while (true) {
@@ -108,8 +111,9 @@ public class NetServer {
                     break;
                 }
             }
-            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
-            threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+
+//            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
+//            threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -126,7 +130,10 @@ public class NetServer {
             for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
                 if (lostClientSockets.contains(i)) continue;
                 Socket socket = clientSockets.get(i);
-                Future<Order> temp = threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
+                FutureTask<Order> temp = new FutureTask<Order>(new ReceiveActionOrderThread(socket));
+                Thread thread = new Thread(temp);
+                thread.start();
+                // Future<Order> temp = threadPoolForActionOrder.submit();
                 container.add(temp.get());
             }
             while (true) {
@@ -134,8 +141,8 @@ public class NetServer {
                     break;
                 }
             }
-            threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
-            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+//            threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
+//            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

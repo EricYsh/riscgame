@@ -48,15 +48,6 @@ public class GameClient {
         }
 
     }
-    //TODO: this is only a testing func, should be deleted latterly
-    public void test () {
-        this.clientID = netClient.receiveClientID();
-        GameInitInfo info = netClient.receiveGameInitInfo();
-        do {
-            assignUnit(30);
-            netClient.sendUnitAssignment(ownedTerr);
-        } while (!receiveACK());
-    }
 
     /**
      * this func is blocking because of netClient.receiveRoundResult()
@@ -128,13 +119,6 @@ public class GameClient {
      * lost players do not and should not need to issue orders
      */
     private void issueOrders () {
-//        boolean isCommitted = false;
-//        do {
-//            do {
-//                Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
-//                netClient.sendActionInfo(oneOrder);
-//            } while (!receiveACK()); // loop until one order is ACKed
-//        } while (!isCommitted);
         do {
             Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
             ActionInfo info = new ActionInfo(oneOrder);
