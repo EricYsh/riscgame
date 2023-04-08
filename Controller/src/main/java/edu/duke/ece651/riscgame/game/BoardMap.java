@@ -1,10 +1,12 @@
 package edu.duke.ece651.riscgame.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
-public class BoardMap {
+public class BoardMap implements Serializable {
     private ArrayList<Territory> territories;
 
     /**
@@ -36,7 +38,7 @@ public class BoardMap {
         }
     }
 
-
+    //TODO: try not to assign unit when create territory
     private void initByPlayerNumber2() {
         Territory t1 = new Territory("T1", 0, 10);
         Territory t2 = new Territory("T2", 0, 10);
@@ -232,5 +234,29 @@ public class BoardMap {
             }
         }
         return playerTerritory;
+    }
+
+    public HashMap<String, Integer> getTerritoryNameAndUnitNums() {
+        HashMap<String, Integer> territoryNameAndUnitNums = new HashMap<>();
+        for (Territory t : this.getTerritories()) {
+            territoryNameAndUnitNums.put(t.getName(), t.getUnitNum());
+        }
+        return territoryNameAndUnitNums;
+    }
+
+    public void setTerritoryNameAndUnitNums(HashMap<String, Integer> territoryNameAndUnitNums) {
+        for (Territory t : this.getTerritories()) {
+            t.setUnitNum(territoryNameAndUnitNums.get(t.getName()));
+        }
+    }
+
+    public boolean isAllTerritoryOccupiedByOne() {
+        int ownId = this.getTerritories().get(0).getOwnId();
+        for (Territory t : this.getTerritories()) {
+            if (t.getOwnId() != ownId) {
+                return false;
+            }
+        }
+        return true;
     }
 }

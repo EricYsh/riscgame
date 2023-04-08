@@ -1,5 +1,10 @@
 package edu.duke.ece651.riscgame.game;
-package edu.duke.ece651.riscgame.order;
+
+import edu.duke.ece651.riscgame.order.Attack;
+import edu.duke.ece651.riscgame.order.Commit;
+import edu.duke.ece651.riscgame.order.Move;
+import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,9 +12,12 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class BoardTextView {
-    private boolean isFailed;
     private BoardMap boardMap;
-    
+
+    public BoardTextView(BoardMap boardMap) {
+        this.boardMap = boardMap;
+    }
+
     public void printGameStartInfo(String playerName) {
         System.out.println("You are the "+ playerName + " player, what would you like to do?");
         System.out.println("(M)ove");
@@ -51,26 +59,28 @@ public class BoardTextView {
         }
     }
 
-    public order issueOneOrder(String playerName) {
+    public Order issueOneOrder(int playerId) {
         System.out.println("What would you like to do?");
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
         System.out.println("(D)one");
-        try (Scanner scanner = new Scanner(System.in)) {
-            String input = scanner.nextLine();
-            if(input.equals("M")) {
-                return issueMoveOrder(playerName);
-            } else if(input.equals("A")) {
-                return issueAttackOrder(playerName);
-            } else if(input.equals("D")) {
-                return issueCommitOrder(playerName);
-            } else {
+        while(true) {
+            try (Scanner scanner = new Scanner(System.in)) {
+                String input = scanner.nextLine();
+                if(input.equals("M")) {
+                    return issueMoveOrder(playerId);
+                } else if(input.equals("A")) {
+                    return issueAttackOrder(playerId);
+                } else if(input.equals("D")) {
+                    return issueCommitOrder(playerId);
+                } else {
+                    System.out.println("Please enter M, A or D");
+                    continue;
+                }
+            } catch (Exception e) {
                 System.out.println("Please enter M, A or D");
                 continue;
             }
-        } catch (Exception e) {
-            System.out.println("Please enter M, A or D");
-            continue;
         }
     }
 
@@ -97,7 +107,7 @@ public class BoardTextView {
             try (Scanner scanner = new Scanner(System.in)) {
                 String input = scanner.nextLine();
                 if(boardMap.getTerritoryByName(input) != null) {
-                    if(boardMap.getTerritoryByName(input).getOwnerName().equals(playerName)) {
+                    if(boardMap.getTerritoryByName(input).getOwnId() == playerId) {
                         if(boardMap.getTerritoryByName(input).getUnitNum() > 1) {
                             return input;
                         } else {
@@ -136,7 +146,7 @@ public class BoardTextView {
                 if(boardMap.getTerritoryByName(input) != null) {
                     if(checkNeighbor(fromTerritoryName, input)) {
                         if(orderType.equals("MOVE")) {
-                            if(boardMap.getTerritoryByName(input).getOwnerName().equals(boardMap.getPlayerById(playerId).getName())) {
+                            if(boardMap.getTerritoryByName(input).getOwnId() == playerId) {
                                 return input;
                             } else {
                                 System.out.println("You can't move to " + input);
@@ -160,28 +170,30 @@ public class BoardTextView {
         }
     }
 
-    public MoveOrder issueMoveOrder(int playerId) {
+    public Move issueMoveOrder(int playerId) {
         System.out.println("Please enter the territory you want to move from:");
         String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
         System.out.println("Please enter the territory you want to move to:");
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
         System.out.println("Please enter the number of units you want to move:");
-        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new Move(fromTerritoryName, toTerritoryName, numUnits);
+        // Change: create a local variable to prevent multiple calling function
+        Territory territory = boardMap.getTerritoryByName(fromTerritoryName);
+        int numUnits = getNumUnitsFromUser(territory.getUnitNum());
+        return new Move(numUnits, territory, territory, Type.Move);
     }
 
-    public AttackOrder issueAttackOrder(int playerId) {
+    public Attack issueAttackOrder(int playerId) {
         System.out.println("Please enter the territory you want to attack from:");
         String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
         System.out.println("Please enter the territory you want to attack:");
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
         System.out.println("Please enter the number of units you want to attack with:");
-        int numUnits = getNumUnitsFromUser();
-        return new Attack(fromTerritoryName, toTerritoryName, numUnits);
+        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack);
     }
 
-    public CommitOrder issueCommitOrder(int playerId) {
-        return new Commit();
+    public Commit issueCommitOrder(int playerId) {
+        return new Commit(0, null, null, Type.Commit);
     }
 
     private boolean scanYN() throws IOException {
@@ -210,16 +222,16 @@ public class BoardTextView {
         return scanYN();
     }
 
-    public boolean printEndInfo() {
+    public boolean printEndInfo() throws IOException {
         System.out.println("Game Over!");
         System.out.println("-------------");
         for(Territory territory : boardMap.getTerritories()) {
             System.out.println(territory.displayInfo());
         }
         System.out.println("-------------");
-        System.out.println("Winner: " + boardMap.getWinner());
+        // Todo: print the winner
+        // System.out.println("Winner: " + boardMap.getWinner());
         System.out.println("Would you like to play again? (Y/N)");
         return scanYN();
     }
 }
-

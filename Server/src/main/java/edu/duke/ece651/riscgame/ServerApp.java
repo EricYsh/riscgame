@@ -23,7 +23,7 @@ public class ServerApp {
 //        gameServer.playRounds();
 //        gameServer.gameOver();
 
-        //TODO: the two lines below for testing assign units manually
+        // the two lines below for testing assign units manually
         gameServer.GameInit();
         System.out.println("received correctly");
     }

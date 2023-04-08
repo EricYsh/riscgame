@@ -5,15 +5,14 @@ import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
-import edu.duke.ece651.riscgame.rule.InputRuleChecker;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 
 public class NetServer {
@@ -62,10 +61,10 @@ public class NetServer {
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 out.writeInt(count);
                 out.flush();
-                System.out.println("Player " + count + " connects");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println("Player " + count + " connects");
             count++;
         }
     }
@@ -90,17 +89,20 @@ public class NetServer {
      * this func receive unit assignment info from clients
      * and then record them in Game
      */
-    public void validateUnitAssignment (int numUnit) {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            threadPoolForUnitAssign.execute(new ReceiveUnitAssignmentThread(socket, numUnit));
-        }
-        threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
+    public ArrayList<Territory> validateUnitAssignment (int numUnit) {
+        ArrayList<Territory> container = new ArrayList<>();
         try {
+            for (int i = 0; i < numClient; i++) {
+                Socket socket = clientSockets.get(i);
+                Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
+                container.addAll(temp.get());
+            }
+            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        return container;
     }
 
     /**
@@ -151,6 +153,26 @@ public class NetServer {
         }
         return order;
     }
+    public static Order receiveOneOrder (Socket socket) {
+        Order oneOrder = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            oneOrder = (Order) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return oneOrder;
+    }
+    public static Order receiveOneOrder (Socket socket) {
+        Order oneOrder = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            oneOrder = (Order) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return oneOrder;
+    }
     public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
         try {
             ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
@@ -161,16 +183,20 @@ public class NetServer {
         }
     }
 
-    public void sendRoundResult (Socket socket, RoundResult res) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-            objOut.writeObject(res);
-            objOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public void sendRoundResult (HashMap<String, Integer> ownership, HashMap<String, Integer> units) {
+//        if (ownership != null) {
+//            sendOwnershipChange(ownership);
+//        }
+        sendOwnershipChange(ownership);
+        sendUnitsChange(units);
     }
+
+    private void sendUnitsChange(HashMap<String, Integer> units) {
+    }
+
+    private void sendOwnershipChange(HashMap<String, Integer> ownership) {
+    }
+
     public void close () {
         try {
             for (Socket s: clientSockets) {

@@ -4,10 +4,16 @@ import java.io.Serializable;
 
 public class IllegalOrder implements Serializable {
     private String errMessage;
-    public IllegalOrder (String err) {
+    private boolean isCommitted;
+    public IllegalOrder (String err, boolean isCommitted) {
         this.errMessage = err;
+        this.isCommitted = isCommitted;
     }
     public String getErrMessage () {return errMessage;}
+
+    public boolean isCommitted() {
+        return isCommitted;
+    }
 
     /**
      * describe whether the order is illegal
