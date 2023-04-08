@@ -234,4 +234,28 @@ public class BoardMap implements Serializable {
         }
         return playerTerritory;
     }
+
+    public HashMap<String, Integer> getTerritoryNameAndUnitNums() {
+        HashMap<String, Integer> territoryNameAndUnitNums = new HashMap<>();
+        for (territory t : this.getTerritories()) {
+            territoryNameAndUnitNums.put(t.getName(), t.getUnitNum());
+        }
+        return territoryNameAndUnitNums;
+    }
+
+    public void setTerritoryNameAndUnitNums(HashMap<String, Integer> territoryNameAndUnitNums) {
+        for (territory t : this.getTerritories()) {
+            t.setUnitNum(territoryNameAndUnitNums.get(t.getName()));
+        }
+    }
+
+    public boolean isAllTerritoryOccupiedByOne() {
+        int ownId = this.getTerritories().get(0).getOwnId();
+        for (territory t : this.getTerritories()) {
+            if (t.getOwnId() != ownId) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
