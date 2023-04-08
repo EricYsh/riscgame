@@ -13,11 +13,9 @@ import java.util.Scanner;
 
 public class BoardTextView {
     private BoardMap boardMap;
-    private Scanner scanner;
 
     public BoardTextView(BoardMap boardMap) {
         this.boardMap = boardMap;
-        scanner = new Scanner(System.in);
     }
 
     public void updateBoardMap(BoardMap boardMap) {
@@ -70,6 +68,7 @@ public class BoardTextView {
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
         System.out.println("(D)one");
+        Scanner scanner = new Scanner(System.in);
         String input = "";
         boolean validInput = false;
         while (!validInput) {
@@ -92,6 +91,7 @@ public class BoardTextView {
     }
 
     private int getNumUnitsFromUser(int maxNumUnits) {
+        Scanner scanner = new Scanner(System.in);
         int input = 0;
         boolean validInput = false;
         while(!validInput) {
@@ -109,6 +109,7 @@ public class BoardTextView {
 
     // get start territory name from user and check if its belongs to the player and has enough units
     private String getStartTerritoryNameFromUser(int playerId) {
+        Scanner scanner = new Scanner(System.in);
         String input = "";
         boolean validInput = false;
         while (!validInput) {
@@ -145,6 +146,7 @@ public class BoardTextView {
 
     // get the destination territory name from user and check if its a neighbor of the start territory, if it is MOVE order, check if it belongs to the player
     private String getDestTerritoryNameFromUser(int playerId, String fromTerritoryName, String orderType) {
+        Scanner scanner = new Scanner(System.in);
         String input = "";
         boolean validInput = false;
         while (!validInput) {
@@ -196,22 +198,23 @@ public class BoardTextView {
     }
 
     private boolean scanYN() throws IOException {
-        while(true) {
-            try (Scanner scanner = new Scanner(System.in)) {
-                String input = scanner.nextLine();
-                if(input.equals("Y")) {
-                    return true;
-                } else if(input.equals("N")) {
-                    return false;
-                } else {
-                    System.out.println("Please enter Y or N");
-                    continue;
-                }
-            } catch (Exception e) {
-                System.out.println("Please enter Y or N");
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        boolean validInput = false;
+        while (!validInput) {
+            input = scanner.nextLine();
+            if (input.equals("Y") || input.equals("y")) {
+                validInput = true;
+                return true;
+            } else if (input.equals("N") || input.equals("n")) {
+                validInput = true;
+                return false;
+            } else {
+                System.out.println("Please enter a valid input");
                 continue;
             }
         }
+        return false;
     }
 
     public boolean printDeathInfo(String playerName) throws IOException {
