@@ -269,4 +269,8 @@ public class BoardMap implements Serializable {
         }
         return true;
     }
+
+    public String getWinnerName() {
+        return this.getTerritories().get(0).getOwnerName();
+    }
 }

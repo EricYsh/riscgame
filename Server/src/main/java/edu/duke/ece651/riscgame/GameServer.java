@@ -1,7 +1,6 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
-import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -11,11 +10,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 
-import static java.lang.Thread.sleep;
-
 public class GameServer {
     // this class is designed to contain all funcs of server
-    private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
     private BoardMap gameMap;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
@@ -28,32 +24,26 @@ public class GameServer {
     public GameServer (int numClient) {
         this.numClient = numClient;
         this.countryName = new Vector<String>();
+        Collections.addAll(countryName, "Avalon", "Braglavia", "Calador", "Excrier", "Ceyland");
         this.gameMap = new BoardMap(numClient); // the map is chosen when declared
         this.netServer= new NetServer(numClient, numClient, 8888);
-        for (int i = 0; i < numClient; i++) {
-            countryName.add(countries[i]);
-        }
     }
 
     public void GameInit () {
         int numUnit = 30;
         netServer.connectWithMultiClients();
-        System.out.println(1);
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
-        System.out.println(2);
         ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
-        System.out.println(3);
         gameMap.setTerritories(assignments);
-        System.out.println(4);
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
-        System.out.println(5);
+        //TODO:
+        netServer.sendRoundResult(); // null
     }
 
     public void playRounds () {
         while (gameIsNotEnd()) {
             oneRound();
         }
-        sendGameOverInfo();
+        netServer.sendGameOverInfo(gameMap.getWinnerName());
     }
     //TODO: this func must be replaced latterly with a ruleChecker
     /**
@@ -72,7 +62,7 @@ public class GameServer {
         // a barrier until all players commit their order
         int tempContainer = executeOrders(temp);
         gameMap.callUp(); // add one unit in territories
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+        netServer.sendRoundResult();
     }
 
     /**
@@ -80,8 +70,7 @@ public class GameServer {
      * @return the type of return order is not determined, use int instead
      */
     private int receiveOrders () {
-        // return netServer.receiveActionOrders();
-        return 0;
+        return netServer.receiveActionOrders();
     }
 
     /**
@@ -94,8 +83,9 @@ public class GameServer {
         // record the result of battle : modification of units, change of control
         return 1;
     }
-
-    private void sendGameOverInfo () {}
+    /*
+     * this func is designed to send the game over information
+     */
 
     /**
      * end the game: close socket connection and prompt users to start a new one or exit

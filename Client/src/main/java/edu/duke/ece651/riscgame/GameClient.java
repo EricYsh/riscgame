@@ -102,6 +102,9 @@ public class GameClient {
         while (gameIsNotEnd()) {
             oneRound();
         }
+        System.out.println("you lose, please wait for the game to end");
+        System.out.println(netClient.receiveGameOverInfo());
+        closeConnection();
     }
     //TODO: this func must be replaced latterly with a ruleChecker
     /**
@@ -153,11 +156,6 @@ public class GameClient {
         return illegal.isLegal()&&illegal.isCommitted();
     }
 
-    public void gameOver () {
-        printGameOverInfo();
-        closeConnection();
-    }
-    private void printGameOverInfo () {}
     private void closeConnection () {
         netClient.close();
         // scanner.close();

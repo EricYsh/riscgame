@@ -89,6 +89,17 @@ public class NetClient {
         return res;
     }
 
+    public String receiveGameOverInfo(){
+        String info = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
+            info = (String) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return info;
+    }
+
     public void close () {
         try {
             clientSocket.close();

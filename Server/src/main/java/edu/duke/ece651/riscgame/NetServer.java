@@ -209,6 +209,20 @@ public class NetServer {
 //            e.printStackTrace();
 //        }
 //    }
+
+
+    public void sendGameOverInfo (String winner) {
+        for (int i = 0; i < numClient; i++) {
+            Socket socket = clientSockets.get(i);
+            try {
+                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+                objOut.writeObject(winner+"wins!, game over!");
+                objOut.flush(); // end output and prompt cache/buffer to send info
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void close () {
         try {
             for (Socket s: clientSockets) {
