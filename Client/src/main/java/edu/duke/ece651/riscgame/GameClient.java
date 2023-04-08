@@ -98,7 +98,7 @@ public class GameClient {
             ownedTerr.get(i).setUnitNum(numUnitInOneTerr);
         }
     }
-    //merge test
+    //merge demo
     public void playRounds () {
         while (gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
