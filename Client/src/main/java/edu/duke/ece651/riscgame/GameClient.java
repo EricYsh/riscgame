@@ -104,7 +104,7 @@ public class GameClient {
             oneRound();
         }
         System.out.println("you lose, please wait for the game to end");
-        System.out.println(netClient.receiveGameOverInfo());
+        System.out.println(netClient.receiveGameOverInfo().getWinnerName()+" wins!");
         closeConnection();
     }
 

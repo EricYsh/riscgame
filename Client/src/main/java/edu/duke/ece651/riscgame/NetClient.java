@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
@@ -89,11 +90,11 @@ public class NetClient {
         return res;
     }
 
-    public String receiveGameOverInfo(){
-        String info = null;
+    public GameOverInfo receiveGameOverInfo(){
+        GameOverInfo info = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            info = (String) objectInputStream.readObject();
+            info = (GameOverInfo) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

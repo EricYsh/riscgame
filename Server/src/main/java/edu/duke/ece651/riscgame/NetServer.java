@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
@@ -216,12 +217,12 @@ public class NetServer {
 //    }
 
 
-    public void sendGameOverInfo (String winner) {
+    public void sendGameOverInfo (GameOverInfo gameOverInfo) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
             try {
                 ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(winner+"wins!, game over!");
+                objOut.writeObject(gameOverInfo);
                 objOut.flush(); // end output and prompt cache/buffer to send info
             } catch (IOException e) {
                 e.printStackTrace();

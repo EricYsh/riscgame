@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
@@ -54,7 +55,7 @@ public class GameServer {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
-        sendGameOverInfo();
+        netServer.sendGameOverInfo(new GameOverInfo(gameMap.getWinner()));
     }
 
     /**
@@ -78,7 +79,6 @@ public class GameServer {
 
     }
 
-    private void sendGameOverInfo () {}
 
     /**
      * end the game: close socket connection and prompt users to start a new one or exit
