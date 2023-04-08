@@ -27,17 +27,17 @@ public class ClientApp {
         System.out.println(new ClientApp().getGreeting());
 
         GameClient gameClient = new GameClient(System.in);
-//        try {
-//            gameClient.gameInit();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            gameClient.gameInit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        gameClient.playRounds();
 //        gameClient.gameOver();
 
 //         the two lines below for testing assign units manually
-        gameClient.setOwnedTerr(terrGen(5, 5, 5));
-        gameClient.test();
+//        gameClient.setOwnedTerr(terrGen(5, 5, 5));
+//        gameClient.test();
 
         //order of game
         //gameInit

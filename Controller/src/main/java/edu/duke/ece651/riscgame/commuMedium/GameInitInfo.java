@@ -11,10 +11,10 @@ public class GameInitInfo implements Serializable {
     String testStr = "HELLO, this is a GameInitInfo";
     private BoardMap map;
     private int numUnit; // add this to inform client how units he/she can assign
-    private Collection<String> playerName;
+    private Vector<String> playerName;
 
     // constructor
-    public GameInitInfo(BoardMap gameMap, int numUnit, Collection<String> playerName) {
+    public GameInitInfo(BoardMap gameMap, int numUnit, Vector<String> playerName) {
         this.map = gameMap;
         this.numUnit = numUnit;
         this.playerName = playerName;
@@ -32,7 +32,7 @@ public class GameInitInfo implements Serializable {
     }
 
     public String getPlayerName(int index) {
-        return ((Vector<String>)playerName).get(index);
+        return playerName.get(index);
     }
 
     public Collection<String> getPlayerName() {

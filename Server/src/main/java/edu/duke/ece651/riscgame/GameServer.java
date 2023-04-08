@@ -11,8 +11,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 
+import static java.lang.Thread.sleep;
+
 public class GameServer {
     // this class is designed to contain all funcs of server
+    private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
     private BoardMap gameMap;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
@@ -25,18 +28,25 @@ public class GameServer {
     public GameServer (int numClient) {
         this.numClient = numClient;
         this.countryName = new Vector<String>();
-        Collections.addAll(countryName, "Avalon", "Braglavia", "Calador", "Excrier", "Ceyland");
         this.gameMap = new BoardMap(numClient); // the map is chosen when declared
         this.netServer= new NetServer(numClient, numClient, 8888);
+        for (int i = 0; i < numClient; i++) {
+            countryName.add(countries[i]);
+        }
     }
 
     public void GameInit () {
         int numUnit = 30;
         netServer.connectWithMultiClients();
-        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName.subList(0, numClient))); // aim to pass map
+        System.out.println(1);
+        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
+        System.out.println(2);
         ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
-        gameMap.setTerritories(assignments);
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+//        System.out.println(3);
+//        gameMap.setTerritories(assignments);
+//        System.out.println(4);
+//        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+//        System.out.println(5);
     }
 
     public void playRounds () {

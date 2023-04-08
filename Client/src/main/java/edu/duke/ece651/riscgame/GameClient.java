@@ -35,16 +35,20 @@ public class GameClient {
         GameInitInfo info = netClient.receiveGameInitInfo();
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
-        this.ownedTerr = (Vector<Territory>) info.getMap().getTerritoriesByOwnId(clientID);
+        this.ownedTerr = (Vector<Territory>) gameMap.getTerritoriesByOwnId(clientID);
         this.playerName = info.getPlayerName(clientID);
         for (String s: info.getPlayerName()) {
             gameView.printPlayerMap(s);
         }
+        for (Territory terr: gameMap.getTerritories()) {
+            System.out.println(terr.displayInfo());
+        }
+
         do {
             assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-        updateLocalGameMap();
+//        updateLocalGameMap();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {

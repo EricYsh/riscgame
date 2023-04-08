@@ -98,8 +98,8 @@ public class NetServer {
                 Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
                 container.addAll(temp.get());
             }
-            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
