@@ -53,6 +53,7 @@ public class Attack extends Order {
             if (defendUnitNum > 0) { // defend wins
                 this.getDest().setUnitNum(defendUnitNum);
             } else { // attack wins
+                this.getDest().setOwnerName(this.getSrc().getOwnerName());
                 this.getDest().setOwnId(this.getSrc().getOwnId());
                 this.getDest().setUnitNum(attckUnitNum);
             }
