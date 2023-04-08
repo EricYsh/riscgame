@@ -40,9 +40,6 @@ public class GameClient {
         for (String s: info.getPlayerName()) {
             gameView.printPlayerMap(s);
         }
-        for (Territory terr: gameMap.getTerritories()) {
-            System.out.println(terr.displayInfo());
-        }
 
         do {
             assignUnit(info.getNumUnit());
@@ -59,7 +56,10 @@ public class GameClient {
             netClient.sendUnitAssignment(ownedTerr);
         } while (!receiveACK());
     }
-    //TODO:
+
+    /**
+     * this func is blocking because of netClient.receiveRoundResult()
+     */
     private void updateLocalGameMap() {
         RoundResult result = netClient.receiveRoundResult();
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
@@ -99,25 +99,17 @@ public class GameClient {
         }
     }
     public void playRounds () {
-        while (gameIsNotEnd()) {
+        while (gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
         System.out.println("you lose, please wait for the game to end");
         System.out.println(netClient.receiveGameOverInfo());
         closeConnection();
     }
-    //TODO: this func must be replaced latterly with a ruleChecker
-    /**
-     * currently, it works simply for operation
-     * @return
-     */
-    private boolean gameIsNotEnd () {
-        //relate to round result.
-        return true;
-    }
+
     private void oneRound () {
         issueOrders(); // create orders
-        netClient.receiveRoundResult();
+        updateLocalGameMap();
     }
 
     /**
@@ -134,7 +126,6 @@ public class GameClient {
         do {
             Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
             ActionInfo info = new ActionInfo(oneOrder);
-
             netClient.sendActionInfo(info);
         } while (!receiveCommitted()); // loop until one order is ACKed
     }

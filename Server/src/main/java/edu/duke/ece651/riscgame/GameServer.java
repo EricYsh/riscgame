@@ -4,6 +4,7 @@ import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Order;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,17 +34,19 @@ public class GameServer {
         int numUnit = 30;
         netServer.connectWithMultiClients();
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
-        ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
+        System.out.println(2);
+        ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
+        System.out.println(3);
         gameMap.setTerritories(assignments);
         //TODO:
         netServer.sendRoundResult(); // null
     }
 
     public void playRounds () {
-        while (gameIsNotEnd()) {
+        while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
-        netServer.sendGameOverInfo(gameMap.getWinnerName());
+        sendGameOverInfo();
     }
     //TODO: this func must be replaced latterly with a ruleChecker
     /**
@@ -58,9 +61,9 @@ public class GameServer {
      * this function is responsible for actions in one round
      */
     private void oneRound () {
-        int temp = receiveOrders(); // this func is designed to be thread-safe but may not be achieved
+        ArrayList<Order> orders = netServer.validateActionOrders();
         // a barrier until all players commit their order
-        int tempContainer = executeOrders(temp);
+        executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         netServer.sendRoundResult();
     }
@@ -81,7 +84,11 @@ public class GameServer {
     private int executeOrders (int temp) {
         // make modification to gameMap
         // record the result of battle : modification of units, change of control
-        return 1;
+
+        // classify
+        // move
+        // attack
+
     }
     /*
      * this func is designed to send the game over information

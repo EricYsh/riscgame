@@ -93,11 +93,12 @@ public class NetServer {
     public ArrayList<Territory> validateUnitAssignment (int numUnit) {
         ArrayList<Territory> container = new ArrayList<>();
         try {
-            for (int i = 0; i < numClient; i++) {
+            for (int i = 0; i < numClient - 1; i++) {
                 Socket socket = clientSockets.get(i);
                 Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
                 container.addAll(temp.get());
             }
+            container.addAll(receiveUnitAssignment(clientSockets.get(numClient - 1)));
             threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
@@ -110,17 +111,21 @@ public class NetServer {
      * this func receive action orders from clients
      * and then record them in Game
      */
-    public void validateActionOrders () {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
-        }
-        threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
+    public ArrayList<Order> validateActionOrders () {
+        ArrayList<Order> container = new ArrayList<>();
         try {
+            for (int i = 0; i < numClient - 1; i++) {
+                Socket socket = clientSockets.get(i);
+                Future<Order> temp = threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
+                container.add(temp.get());
+            }
+
+            threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        return container;
     }
 
     /**
@@ -144,7 +149,7 @@ public class NetServer {
      * if legal then record; it not, send one info back to ask remake it until receive a commit
      * @return
      */
-    public Order receiveActionOrder (Socket socket) {
+    public static Order receiveActionOrder (Socket socket) {
         Order order = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
