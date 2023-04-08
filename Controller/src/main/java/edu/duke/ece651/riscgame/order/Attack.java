@@ -16,8 +16,8 @@ public class Attack extends Order {
     /**
      * Constructor for the Attack class.
      */
-    public Attack(int unitNum, Territory src, Territory dest, Type type) {
-        super(unitNum, src, dest, type);
+    public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
+        super(unitNum, src, dest, type, orderOwnId);
 //        this.ruleChecker = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
     }
 
