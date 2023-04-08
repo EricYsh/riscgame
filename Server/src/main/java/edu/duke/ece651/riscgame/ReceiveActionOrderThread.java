@@ -17,21 +17,9 @@ public class ReceiveActionOrderThread extends SocketThread{
     public ReceiveActionOrderThread(Socket socket) {
         super(socket);
     }
-<<<<<<< HEAD
-    @Override
-    public void run () {
-        while (true) {
-            Order order = receiveActionOrder(socket);
-            if (order == null) {
-                break;
-            }
-            orders.put(order.getPlayerID(), order);
-        }
-=======
 
     @Override
     public Object call() throws Exception {
         return null;
->>>>>>> 141321b8df1d2d5f3babccb5f3122b2d65da1767
     }
 }

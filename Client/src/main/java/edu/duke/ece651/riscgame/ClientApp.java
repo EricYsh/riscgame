@@ -41,8 +41,11 @@ public class ClientApp {
 
         //order of game
         //gameInit
+
         //playRounds
+
         //gameOver
+        
         System.out.println("passes correctly");
     }
 }
