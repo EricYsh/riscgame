@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class GameClient {
     private NetClient netClient;
     private int clientID;
-    private String countryName;
+    private String playerName;
     private BoardMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
@@ -27,14 +27,17 @@ public class GameClient {
         this.scanner = new Scanner(localIn);
         this.netClient = new NetClient(8888);
     }
+
     public void gameInit () throws IOException {
+        //TODO: clientID and gameInit can be merged into gameinfo
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
+
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = (Vector<Territory>) info.getMap().getTerritoriesByOwnId(clientID);
-        this.countryName = info.getCountryName(clientID);
-        gameView.printPlayerMap(countryName);
+        this.playerName = info.getPlayerName(clientID);
+        gameView.printPlayerMap(playerName);
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);
