@@ -26,13 +26,13 @@ public class GameClient {
     private Scanner scanner;
     private Collection<String> playerList;
 
-    public GameClient (InputStream in) {
+    public GameClient(InputStream in) {
         this.localIn = in;
         this.scanner = new Scanner(localIn);
         this.netClient = new NetClient(8888);
     }
 
-    public void gameInit () throws IOException {
+    public void gameInit() throws IOException {
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
         this.gameMap = info.getMap();
@@ -44,9 +44,9 @@ public class GameClient {
         do {
             assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
-        } while  (!receiveACK());
+        } while (!receiveACK());
         updateLocalGameMap();
-        for (String s: info.getPlayerName()) {
+        for (String s : info.getPlayerName()) {
             gameView.printPlayerMap(s);
         }
 
@@ -58,11 +58,15 @@ public class GameClient {
     private void updateLocalGameMap() {
         RoundResult result = netClient.receiveRoundResult();
         // for (int i = 0; i < result.getUnits().size(); i++) {
-            // System.out.println(result.getUnits().get("T1"));
+        // System.out.println(result.getUnits().get("T1"));
         // }
+        System.out.println(result.getOwnership());
+        System.out.println("game client output as above");
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
-        gameMap.setTerritoryNameAndUnitNums (result.getUnits());
-        // gameView.updateBoardMap(gameMap);
+        System.out.println(gameMap.getTerritoryNameAndOwnership());
+        gameMap.setTerritoryNameAndUnitNums(result.getUnits());
+//        gameMap.setTerritoryNameAndPlayerName(result.getUpdatePlayerName());
+//        gameView.updateBoardMap(gameMap);
 //        for (Territory t: gameMap.getTerritories()) {
 //            System.out.println("" + t.getName() + " " + t.getUnitNum());
 //        }
@@ -70,27 +74,30 @@ public class GameClient {
     }
 
     //TODO: this is only an API for testing, should be deleted latterly
-    public void setOwnedTerr (Vector<Territory> terrVec) {
+    public void setOwnedTerr(Vector<Territory> terrVec) {
         this.ownedTerr = terrVec;
     }
-    public static boolean isNumeric(String str){
+
+    public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("\\d*");
         return pattern.matcher(str).matches();
     }
+
     /**
      * this func read Integer inputs from player to assign units for each territory
+     *
      * @param numUnit
      * @return
      * @throws IOException
      */
     //TODO: maybe implement in textview part
-    public void assignUnit (int numUnit) {
+    public void assignUnit(int numUnit) {
         System.out.println("Please assign your units in each territory");
         System.out.println("You have " + numUnit + " units");
         for (int i = 0; i < ownedTerr.size(); i++) {
             System.out.println("How many units do you want to place in " + ownedTerr.get(i).getName());
             int numUnitInOneTerr = 0;
-            while(true){
+            while (true) {
                 String input = scanner.nextLine();
                 if (isNumeric(input)) {
                     numUnitInOneTerr = Integer.parseInt(input);
@@ -101,20 +108,21 @@ public class GameClient {
             ownedTerr.get(i).setUnitNum(numUnitInOneTerr);
         }
     }
+
     //merge demo
-    public void playRounds () {
+    public void playRounds() {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
-            for (String s: playerList) {
+            for (String s : playerList) {
                 gameView.printPlayerMap(s);
             }
         }
         System.out.println("Please wait for the game to end");
-        System.out.println(netClient.receiveGameOverInfo().getWinnerName()+" wins!");
+        System.out.println(netClient.receiveGameOverInfo().getWinnerName() + " wins!");
         closeConnection();
     }
 
-    private void oneRound () {
+    private void oneRound() {
         if (!gameMap.isLose(clientID)) {
             issueOrders(); // create orders
         }
@@ -126,7 +134,7 @@ public class GameClient {
     /**
      * lost players do not and should not need to issue orders
      */
-    private void issueOrders () {
+    private void issueOrders() {
         do {
             Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
             ActionInfo info = new ActionInfo(oneOrder);
@@ -136,22 +144,24 @@ public class GameClient {
 
     /**
      * this function is blocking
+     *
      * @return true when no error message while false when error happen
      */
-    public boolean receiveACK () {
+    public boolean receiveACK() {
         IllegalOrder illegal = netClient.receiveIllegalOrder();
         if (!illegal.isLegal())
             System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
     }
-    public boolean receiveCommitted () {
+
+    public boolean receiveCommitted() {
         IllegalOrder illegal = netClient.receiveIllegalOrder();
         if (!illegal.isLegal())
             System.out.println(illegal.getErrMessage());
-        return illegal.isLegal()&&illegal.isCommitted();
+        return illegal.isLegal() && illegal.isCommitted();
     }
 
-    private void closeConnection () {
+    private void closeConnection() {
         netClient.close();
         // scanner.close();
     }

@@ -10,13 +10,18 @@ import java.util.HashMap;
 public class RoundResult implements Serializable {
     private HashMap<String, Integer> units;
     private HashMap<String, Integer> ownership;
-    public RoundResult () {
+
+    private HashMap<String, String> updatePlayerName;
+
+    public RoundResult() {
         this.ownership = null;
         this.units = null;
     }
-    public RoundResult (HashMap<String, Integer> units, HashMap<String, Integer> ownership) {
+
+    public RoundResult(HashMap<String, Integer> units, HashMap<String, Integer> ownership) {
         this.ownership = ownership;
         this.units = units;
+//        this.updatePlayerName = updatePlayerName;
     }
 
     public HashMap<String, Integer> getOwnership() {
@@ -26,4 +31,10 @@ public class RoundResult implements Serializable {
     public HashMap<String, Integer> getUnits() {
         return units;
     }
+
+    public HashMap<String, String> getUpdatePlayerName() {
+        return updatePlayerName;
+    }
+
+
 }
