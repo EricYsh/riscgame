@@ -67,7 +67,16 @@ public class GameServer {
         // a barrier until all players commit their order
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
+        playerLost();
         netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndOwnership(), gameMap.getTerritoryNameAndUnitNums()));
+    }
+
+    private void playerLost() {
+        for (int i = 0; i < numClient; i++) {
+            if (gameMap.isLose(i)) {
+                netServer.addLostPlayer(i);
+            }
+        }
     }
 
     private void executeOrders (ArrayList<Order> orders) {

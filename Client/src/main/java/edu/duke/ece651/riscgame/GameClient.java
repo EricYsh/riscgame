@@ -112,13 +112,15 @@ public class GameClient {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
-        System.out.println("you lose, please wait for the game to end");
+        System.out.println("Please wait for the game to end");
         System.out.println(netClient.receiveGameOverInfo().getWinnerName()+" wins!");
         closeConnection();
     }
 
     private void oneRound () {
-        issueOrders(); // create orders
+        if (!gameMap.isLose(clientID)) {
+            issueOrders(); // create orders
+        }
         updateLocalGameMap();
     }
 

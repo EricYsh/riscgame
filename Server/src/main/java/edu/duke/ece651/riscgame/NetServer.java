@@ -29,7 +29,7 @@ public class NetServer {
     private Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
-    private Vector<Socket> lostClientSockets;
+    private Vector<Integer> lostClientSockets;
     private final int numClient;
 
     /**
@@ -38,7 +38,7 @@ public class NetServer {
     public NetServer (int numClient, int poolSize, int port) {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
-        this.lostClientSockets = new Vector<Socket>();
+        this.lostClientSockets = new Vector<Integer>();
         try {
             this.threadPoolForUnitAssign = Executors.newFixedThreadPool(poolSize);
             this.threadPoolForActionOrder = Executors.newFixedThreadPool(poolSize);
@@ -47,6 +47,9 @@ public class NetServer {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+    public void addLostPlayer (int i) {
+        lostClientSockets.add(i);
     }
 
     /**
@@ -105,7 +108,6 @@ public class NetServer {
                     break;
                 }
             }
-
             threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
             threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
         } catch (InterruptedException | ExecutionException e) {
@@ -121,13 +123,14 @@ public class NetServer {
     public ArrayList<Order> validateActionOrders () {
         ArrayList<Order> container = new ArrayList<>();
         try {
-            for (int i = 0; i < numClient; i++) {
+            for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
+                if (lostClientSockets.contains(i)) continue;
                 Socket socket = clientSockets.get(i);
                 Future<Order> temp = threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
                 container.add(temp.get());
             }
             while (true) {
-                if (container.size() == numClient * 3) {
+                if (container.size() == (numClient - lostClientSockets.size()) * 3) {
                     break;
                 }
             }

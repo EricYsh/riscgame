@@ -32,10 +32,11 @@ public class ReceiveActionOrderThread extends SocketThread{
         while (true) {
             Order oneOrder = receiveActionOrder(socket);
             System.out.println("receive one order");
+            String check = null;
             if (oneOrder.getType() == Type.Commit) {
+                sendIllegalOrder(socket, new IllegalOrder(null, true));
                 return orders;
             }
-            String check = null;
             if (oneOrder.getType() == Type.Move) {
                 check = moveChecker.checkOrder(oneOrder);
             }
