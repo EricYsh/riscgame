@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -112,7 +113,7 @@ public class NetServer {
     public void validateActionOrders () {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
-            threadPoolForActionOrder.execute(new ReceiveActionOrderThread(socket));
+            threadPoolForActionOrder.submit(new ReceiveActionOrderThread(socket));
         }
         threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
         try {
@@ -153,16 +154,7 @@ public class NetServer {
         }
         return order;
     }
-    public static Order receiveOneOrder (Socket socket) {
-        Order oneOrder = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            oneOrder = (Order) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return oneOrder;
-    }
+
     public static Order receiveOneOrder (Socket socket) {
         Order oneOrder = null;
         try {
@@ -183,15 +175,26 @@ public class NetServer {
         }
     }
 
-    public void sendRoundResult (HashMap<String, Integer> ownership, HashMap<String, Integer> units) {
-//        if (ownership != null) {
-//            sendOwnershipChange(ownership);
-//        }
-        sendOwnershipChange(ownership);
-        sendUnitsChange(units);
+    public void sendRoundResult (BoardMap gameMap) {
+        for (int i = 0; i < numClient; i++) {
+            Socket socket = clientSockets.get(i);
+            sendHashMap(gameMap.getTerritoryNameAndOwnership(), socket);
+            sendHashMap(gameMap.getTerritoryNameAndUnitNums(), socket);
+        }
+        // sendOwnershipChange(gameMap.getTerritoryNameAndOwnership());
+        // sendUnitsChange(gameMap.getTerritoryNameAndUnitNums());
     }
-
+    private static void sendHashMap (HashMap<String, Integer> hashMap, Socket socket) {
+        try {
+            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+            objOut.writeObject(hashMap);
+            objOut.flush(); // end output and prompt cache/buffer to send info
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void sendUnitsChange(HashMap<String, Integer> units) {
+
     }
 
     private void sendOwnershipChange(HashMap<String, Integer> ownership) {

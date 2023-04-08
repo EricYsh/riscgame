@@ -30,35 +30,26 @@ public class GameClient {
     }
 
     public void gameInit () throws IOException {
-        //TODO: clientID and gameInit can be merged into gameinfo
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
-
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = (Vector<Territory>) info.getMap().getTerritoriesByOwnId(clientID);
         this.playerName = info.getPlayerName(clientID);
-        gameView.printPlayerMap(playerName);
+        for (String s: info.getPlayerName()) {
+            gameView.printPlayerMap(s);
+        }
         do {
-            assignUnit(30);
+            assignUnit(info.getNumUnit());
             netClient.sendUnitAssignment(ownedTerr);
         } while  (!receiveACK());
-        //TODO:
-        System.out.println("<<Here is your territories: >>");
-        for(Territory territory: ownedTerr){
-            System.out.println(territory.getName());
-        }
-
-
-        
-        //TODO: maybe not receiveroundresult here
+        //TODO: maybe not receive round result here
         netClient.receiveRoundResult();
     }
     //TODO: this is only a testing func, should be deleted latterly
     public void test () {
         this.clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
-
         do {
             assignUnit(30);
             netClient.sendUnitAssignment(ownedTerr);

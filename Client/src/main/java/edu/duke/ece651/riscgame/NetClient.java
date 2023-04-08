@@ -4,6 +4,7 @@ import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -86,10 +87,8 @@ public class NetClient {
             e.printStackTrace();
         }
         return res;
-
     }
 
-    }
     public void close () {
         try {
             clientSocket.close();

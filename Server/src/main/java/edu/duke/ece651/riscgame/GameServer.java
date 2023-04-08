@@ -32,11 +32,10 @@ public class GameServer {
     public void GameInit () {
         int numUnit = 30;
         netServer.connectWithMultiClients();
-        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
+        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName.subList(0, numClient))); // aim to pass map
         ArrayList<Territory> assignments = (ArrayList<Territory>) netServer.validateUnitAssignment(numUnit);
         gameMap.setTerritories(assignments);
-        //TODO:
-        netServer.sendRoundResult(); // null
+        netServer.sendRoundResult(gameMap);
     }
 
     public void playRounds () {
@@ -62,7 +61,7 @@ public class GameServer {
         // a barrier until all players commit their order
         int tempContainer = executeOrders(temp);
         gameMap.callUp(); // add one unit in territories
-        netServer.sendRoundResult();
+        netServer.sendRoundResult(gameMap);
     }
 
     /**
@@ -70,7 +69,8 @@ public class GameServer {
      * @return the type of return order is not determined, use int instead
      */
     private int receiveOrders () {
-        return netServer.receiveActionOrders();
+        // return netServer.receiveActionOrders();
+        return 0;
     }
 
     /**
