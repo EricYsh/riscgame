@@ -3,15 +3,11 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
-import edu.duke.ece651.riscgame.game.BoardMap;
-import edu.duke.ece651.riscgame.game.BoardTextView;
-import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.game.*;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Vector;
 
 import static java.lang.Thread.sleep;
@@ -20,7 +16,8 @@ public class GameServer {
     // this class is designed to contain all funcs of server
     private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
-    private BoardMap gameMap;
+    private BoardMapFactory mapFactory;
+    private GameMap gameMap;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
@@ -32,7 +29,8 @@ public class GameServer {
     public GameServer(int numClient) {
         this.numClient = numClient;
         this.countryName = new Vector<String>();
-        this.gameMap = new BoardMap(numClient); // the map is chosen when declared
+        this.mapFactory = new BoardMapFactory();
+        this.gameMap =  mapFactory.generateMap(numClient);// the map is chosen when declared
         this.netServer = new NetServer(numClient, numClient, 8888);
         for (int i = 0; i < numClient; i++) {
             countryName.add(countries[i]);
@@ -43,7 +41,7 @@ public class GameServer {
         int numUnit = 30;
         netServer.connectWithMultiClients();
         System.out.println(1);
-        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
+        netServer.sendGameInitInfo(new GameInitInfo( gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
         ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
         System.out.println(3);

@@ -7,15 +7,14 @@ import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class BoardTextView {
-    private BoardMap boardMap;
+    private GameMap boardMap;
     private HashMap<Integer, String> idToName;
 
-    public BoardTextView(BoardMap boardMap) {
+    public BoardTextView(GameMap boardMap) {
         this.boardMap = boardMap;
         idToName = new HashMap<>();
         idToName.put(0, "Avalon");
@@ -25,7 +24,7 @@ public class BoardTextView {
         idToName.put(4, "Ceyland");
     }
 
-    public void updateBoardMap(BoardMap boardMap) {
+    public void updateBoardMap(GameMap boardMap) {
         this.boardMap = boardMap;
     }
 

@@ -1,11 +1,10 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardMap;
-import edu.duke.ece651.riscgame.game.BoardTextView;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -41,7 +40,7 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    public void run(BoardMap gameMap) {
+    public void run(GameMap gameMap) {
 //        BoardTextView b1 = new BoardTextView(gameMap);
         if (this.getType().equals(Type.Attack)) {
 
