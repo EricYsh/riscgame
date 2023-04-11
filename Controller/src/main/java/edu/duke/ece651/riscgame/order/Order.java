@@ -63,6 +63,10 @@ public abstract class Order implements Serializable {
         return type;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     // Abstract method to be implemented by derived classes
 
     /**

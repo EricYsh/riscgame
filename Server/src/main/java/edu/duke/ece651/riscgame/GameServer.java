@@ -25,20 +25,21 @@ public class GameServer {
 
     private final int numClient;
     private final Vector<String> countryName;
+
     /**
      * constructor
      */
-    public GameServer (int numClient) {
+    public GameServer(int numClient) {
         this.numClient = numClient;
         this.countryName = new Vector<String>();
         this.gameMap = new BoardMap(numClient); // the map is chosen when declared
-        this.netServer= new NetServer(numClient, numClient, 8888);
+        this.netServer = new NetServer(numClient, numClient, 8888);
         for (int i = 0; i < numClient; i++) {
             countryName.add(countries[i]);
         }
     }
 
-    public void GameInit () {
+    public void GameInit() {
         int numUnit = 30;
         netServer.connectWithMultiClients();
         System.out.println(1);
@@ -49,11 +50,11 @@ public class GameServer {
         gameMap.setTerritories(assignments);
         System.out.println(4);
         netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
-                                    gameMap.getTerritoryNameAndOwnership()));
+                gameMap.getTerritoryNameAndOwnership()));
         System.out.println(5);
     }
 
-    public void playRounds () {
+    public void playRounds() {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
@@ -63,7 +64,7 @@ public class GameServer {
     /**
      * this function is responsible for actions in one round
      */
-    private void oneRound () {
+    private void oneRound() {
         ArrayList<Order> orders = netServer.validateActionOrders();
         // a barrier until all players commit their order
         executeOrders(orders);
@@ -77,7 +78,7 @@ public class GameServer {
 //            System.out.println("Key: " + key + ", Value: " + value);
 //        }
         netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
-                                                gameMap.getTerritoryNameAndOwnership()));
+                gameMap.getTerritoryNameAndOwnership()));
     }
 
     private void playerLost() {
@@ -88,7 +89,7 @@ public class GameServer {
         }
     }
 
-    private void executeOrders (ArrayList<Order> orders) {
+    private void executeOrders(ArrayList<Order> orders) {
         // make modification to gameMap
         System.out.println("orders size:" + orders.size());
         for (Order o : orders) {
@@ -97,15 +98,30 @@ public class GameServer {
             }
         }
 
-        for(Order o : orders) {
+        for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
+                gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
+//                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
+//                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
+//                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
 //                o.getSrc().minusUnit(o.getUnitNum());
+                for (int i = 0; i < orders.size() - 1; i++) {
+                    for (int j = i + 1; j < orders.size(); j++) {
+                        if (orders.get(i).getSrc().equals(orders.get(j).getDest()) &&
+                                orders.get(i).getDest().equals(orders.get(j).getSrc()) &&
+                                orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum() &&
+                                orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum()
+                        ) {
+                            orders.get(i).setType(Type.AttackAndChangeHome);
+                            orders.get(j).setType(Type.AttackAndChangeHome);
+                        }
+                    }
+                }
             }
         }
 
-        for(Order o : orders) {
-            if (o.getType().equals(Type.Attack)) {
+        for (Order o : orders) {
+            if (o.getType().equals(Type.Attack) || o.getType().equals(Type.AttackAndChangeHome)) {
                 o.run(gameMap);
             }
         }
@@ -115,7 +131,7 @@ public class GameServer {
     /**
      * end the game: close socket connection and prompt users to start a new one or exit
      */
-    public void gameOver () {
+    public void gameOver() {
         netServer.close();
     }
 }

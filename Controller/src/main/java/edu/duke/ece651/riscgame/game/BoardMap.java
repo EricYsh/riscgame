@@ -306,13 +306,4 @@ public class BoardMap implements Serializable {
         }
         return true;
     }
-
-    public Territory getEqualTerritory(Territory desired) {
-        for(Territory t : territories) {
-            if(t.equals(desired)) {
-                return t;
-            }
-        }
-        return null;
-    }
 }

@@ -94,16 +94,4 @@ public class Territory implements Serializable {
         info.append(")");
         return info.toString();
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Territory territory = (Territory) o;
-        return ownId == territory.ownId &&
-//                unitNum == territory.unitNum &&;
-                Objects.equals(name, territory.name); //&&
-//                Objects.equals(ownerName, territory.ownerName) &&
-//                Objects.equals(neighbors, territory.neighbors);
-    }
 }

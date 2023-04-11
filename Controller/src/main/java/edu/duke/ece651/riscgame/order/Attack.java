@@ -36,7 +36,7 @@ public class Attack extends Order {
      * is higher than the defender's, a defending unit is removed. If the defender's roll is
      * higher, an attacking unit is removed. The battle continues until either side has no units
      * remaining.
-     *
+     * <p>
      * If the defender wins, the defending territory's unit count is updated.
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
@@ -64,25 +64,29 @@ public class Attack extends Order {
 
             // Update territory information based on battle outcome
             if (defendUnitNum > 0) { // defend wins
-                gameMap.getEqualTerritory(this.getDest()).setUnitNum(defendUnitNum);
+                gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(defendUnitNum);
 //                this.getDest().setUnitNum(defendUnitNum);
             } else { // attack wins
-                String name = ownership.get(this.getOrderOwnId());
-                gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(name);
+                String ownerName = ownership.get(this.getOrderOwnId());
+                System.out.println(ownerName);
+                gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
+                System.out.println(gameMap.getTerritoryByName(this.getDest().getName()).getOwnerName());
                 gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
+                System.out.println(gameMap.getTerritoryByName(this.getDest().getName()).getOwnId());
                 gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
+                System.out.println(gameMap.getTerritoryByName(this.getDest().getName()).getUnitNum());
 //                this.getDest().setOwnerName(this.getSrc().getOwnerName());
 //                this.getDest().setOwnId(this.getOrderOwnId());
 //                this.getDest().setUnitNum(attckUnitNum);
             }
         }
-//        System.out.println("Attack order is executed");
-//        System.out.println("The source territory is " + this.getSrc().getName());
-//        System.out.println("The destination territory is " + this.getDest().getName());
-//        System.out.println("The number of units is " + this.getUnitNum());
-//        System.out.println("The owner of the source territory is " + this.getSrc().getOwnerName());
-//        System.out.println("The owner of the destination territory is " + this.getDest().getOwnerName());
 
-//        b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
+        if(this.getType().equals(Type.AttackAndChangeHome)) {
+            int changeHomeUnitNum = this.getUnitNum(); // use how many units to attack
+            String ownerName = ownership.get(this.getOrderOwnId());
+            gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
+            gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
+            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(changeHomeUnitNum);
+        }
     }
 }
