@@ -10,15 +10,11 @@ import edu.duke.ece651.riscgame.rule.*;
  */
 public class Move extends Order {
 
-//    RuleChecker ruleChecker;
-
     /**
      * Constructor for the Move class.
      */
     public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
         super(unitNum, src, dest, type, orderOwnId);
-//        this.ruleChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
-        // this.ruleChecker = new DestChecker(new UnitChecker());
     }
 
     /**
@@ -33,14 +29,6 @@ public class Move extends Order {
                 return; // do nothing if they have the same source and destination
             }
             int count = this.getUnitNum();
-//            for(Territory t : boardMap.getTerritories()) {
-//                if(t.equals(this.getSrc())) {
-//                    t.minusUnit(count);
-//                }
-//                if(t.equals(this.getDest())) {
-//                    t.addUnit(count);
-//                }
-//            }
 //            String name = ownership.get(this.getOrderOwnId());
             boardMap.getTerritoryByName(this.getSrc().getName()).minusUnit(count);
             boardMap.getTerritoryByName(this.getDest().getName()).addUnit(count);

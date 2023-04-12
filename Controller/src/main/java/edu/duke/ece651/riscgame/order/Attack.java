@@ -12,21 +12,11 @@ import java.util.Random;
  * It extends the Order class and defines the behavior for an attack action.
  */
 public class Attack extends Order {
-//     private HashMap<Integer, String> ownership;
-//    RuleChecker ruleChecker;
-
     /**
      * Constructor for the Attack class.
      */
     public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
         super(unitNum, src, dest, type, orderOwnId);
-//        this.ruleChecker = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
-//         ownership = new HashMap<>();
-//         ownership.put(0, "Avalon");
-//         ownership.put(1, "Braglavia");
-//         ownership.put(2, "Calador");
-//         ownership.put(3, "Excrier");
-//         ownership.put(4, "Ceyland");
     }
 
     /**
@@ -41,10 +31,7 @@ public class Attack extends Order {
      */
     @Override
     public void run(GameMap gameMap) {
-//        BoardTextView b1 = new BoardTextView(gameMap);
         if (this.getType().equals(Type.Attack)) {
-
-//            b1.printPlayerMap(ownership.get(this.getOrderOwnId()));
 
             int attckUnitNum = this.getUnitNum(); // use how many units to attack
             int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
@@ -67,13 +54,9 @@ public class Attack extends Order {
 //                this.getDest().setUnitNum(defendUnitNum);
             } else { // attack wins
                 String ownerName = ownership.get(this.getOrderOwnId());
-                System.out.println(ownerName);
                 gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
-                System.out.println(gameMap.getTerritoryByName(this.getDest().getName()).getOwnerName());
                 gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
-                System.out.println(gameMap.getTerritoryByName(this.getDest().getName()).getOwnId());
                 gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
-                System.out.println(gameMap.getTerritoryByName(this.getDest().getName()).getUnitNum());
 //                this.getDest().setOwnerName(this.getSrc().getOwnerName());
 //                this.getDest().setOwnId(this.getOrderOwnId());
 //                this.getDest().setUnitNum(attckUnitNum);
