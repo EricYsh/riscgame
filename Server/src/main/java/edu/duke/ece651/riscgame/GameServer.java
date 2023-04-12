@@ -17,7 +17,7 @@ public class GameServer {
     private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
     private BoardMapFactory mapFactory;
-    private GameMap gameMap;
+    private BoardGameMap gameMap;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
@@ -98,11 +98,6 @@ public class GameServer {
 
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
-//                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
-//                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
-//                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
-//                o.getSrc().minusUnit(o.getUnitNum());
                 for (int i = 0; i < orders.size() - 1; i++) {
                     for (int j = i + 1; j < orders.size(); j++) {
                         if (orders.get(i).getSrc().equals(orders.get(j).getDest()) &&
@@ -110,11 +105,17 @@ public class GameServer {
                                 orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum() &&
                                 orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum()
                         ) {
+                            System.out.println("change home");
                             orders.get(i).setType(Type.AttackAndChangeHome);
                             orders.get(j).setType(Type.AttackAndChangeHome);
                         }
                     }
                 }
+                gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
+//                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
+//                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
+//                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
+//                o.getSrc().minusUnit(o.getUnitNum());
             }
         }
 

@@ -74,7 +74,7 @@ public abstract class Order implements Serializable {
      * Executes the specific order action.
      * This method must be implemented by derived classes like Attack, Move, etc.
      */
-    public abstract void run(GameMap gameMap);
+    public abstract void run(BoardGameMap gameMap);
 
     // Other methods
 

@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
+import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
@@ -23,7 +24,7 @@ public class Move extends Order {
      * If the source and destination territories are the same, no action is taken.
      */
     @Override
-    public void run(GameMap boardMap) {
+    public void run(BoardGameMap boardMap) {
         if (this.getType().equals(Type.Move)) {
             if (this.getSrc().equals(this.getDest())) {
                 return; // do nothing if they have the same source and destination

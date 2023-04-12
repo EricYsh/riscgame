@@ -12,7 +12,7 @@ public class Commit extends Order {
     }
 
     @Override
-    public void run(GameMap gameMap) {
+    public void run(BoardGameMap gameMap) {
 
     }
 
