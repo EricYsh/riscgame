@@ -166,22 +166,21 @@ public class BoardTextView {
         while (!validInput) {
             input = scanner.nextLine();
             if (boardMap.getTerritoryByName(input) != null) {
-                if (checkNeighbor(fromTerritoryName, input)) {
-                    if (orderType.equals("MOVE")) {
-                        if (boardMap.getTerritoryByName(input).getOwnId() == playerId) {
-                            validInput = true;
-                            return input;
-                        } else {
-                            System.out.println("You don't own " + input);
-                            continue;
-                        }
-                    } else {
+                if (orderType.equals("MOVE")) {
+                    if (boardMap.getTerritoryByName(input).getOwnId() == playerId) {
                         validInput = true;
                         return input;
+                    } else {
+                        System.out.println("You don't own " + input);
+                        continue;
                     }
-                } else {
+                } else if (!checkNeighbor(fromTerritoryName, input) && orderType.equals("ATTACK")) {
                     System.out.println(input + " is not a neighbor of " + fromTerritoryName);
                     continue;
+                }
+                else {
+                    validInput = true;
+                    return input;
                 }
             } else {
                 System.out.println("Please enter a valid territory name");
