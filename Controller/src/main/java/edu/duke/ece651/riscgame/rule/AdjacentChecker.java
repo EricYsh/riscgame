@@ -20,10 +20,10 @@ public class AdjacentChecker<T> extends OrderRuleChecker<T> {
     protected String checkMyRule(Order theOrder) {
         if (theOrder.getType().equals(Type.Attack)) {//the destination and source must from one player
             if (!theOrder.getSrc().getNeighbors().contains(theOrder.getDest())) {
-                return "Error: Units may only attack directly adjacent territories";
+                return "Units may only attack directly adjacent territories";
             }
             return null;
         }
-        return "Error: it is not a attack order";
+        return "It is not a attack order";
     }
 }

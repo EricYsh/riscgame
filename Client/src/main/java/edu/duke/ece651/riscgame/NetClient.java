@@ -5,9 +5,7 @@ import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
-import edu.duke.ece651.riscgame.game.BoardMap;
 import edu.duke.ece651.riscgame.game.Territory;
-import edu.duke.ece651.riscgame.order.Order;
 
 import java.io.*;
 import java.net.Socket;

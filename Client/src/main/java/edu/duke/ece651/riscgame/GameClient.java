@@ -4,8 +4,9 @@ import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
-import edu.duke.ece651.riscgame.game.BoardMap;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -19,7 +20,7 @@ public class GameClient {
     private NetClient netClient;
     private int clientID;
     private String playerName;
-    private BoardMap gameMap;
+    private GameMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
     private final InputStream localIn;

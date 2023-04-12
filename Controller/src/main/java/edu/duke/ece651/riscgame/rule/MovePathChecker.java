@@ -36,9 +36,9 @@ public class MovePathChecker<T> extends OrderRuleChecker<T> {
     @Override
     protected String checkMyRule(Order theOrder) {
         if (theOrder.getType().equals(Type.Move)){
-            if (!ifPathExist(theOrder.getSrc(), theOrder.getDest()))  return "Error: there is no path to move";
+            if (!ifPathExist(theOrder.getSrc(), theOrder.getDest()))  return "There is no path to move";
             return null;
         }
-        return "Error: it is not a attack order";
+        return "It is not a attack order";
     }
 }
