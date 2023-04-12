@@ -30,7 +30,7 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    public void run(GameMap gameMap) {
+    public void run(BoardGameMap gameMap) {
         if (this.getType().equals(Type.Attack)) {
 
             int attckUnitNum = this.getUnitNum(); // use how many units to attack
