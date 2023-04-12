@@ -10,9 +10,8 @@ import edu.duke.ece651.riscgame.rule.Type;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import static java.lang.Thread.sleep;
 
-public class GameServer {
+public class GameServer extends Thread{
     // this class is designed to contain all funcs of server
     private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
@@ -35,6 +34,13 @@ public class GameServer {
         for (int i = 0; i < numClient; i++) {
             countryName.add(countries[i]);
         }
+    }
+
+    @Override
+    public void run() {
+        GameInit();
+        playRounds();
+        closeConnection();
     }
 
     public void GameInit() {
@@ -130,7 +136,7 @@ public class GameServer {
     /**
      * end the game: close socket connection and prompt users to start a new one or exit
      */
-    public void gameOver() {
+    public void closeConnection() {
         netServer.close();
     }
 }

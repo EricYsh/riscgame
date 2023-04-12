@@ -10,7 +10,7 @@ import java.util.Vector;
 import static edu.duke.ece651.riscgame.NetServer.receiveUnitAssignment;
 import static edu.duke.ece651.riscgame.NetServer.sendIllegalOrder;
 
-public class ReceiveUnitAssignmentThread extends SocketThread{
+public class ReceiveUnitAssignmentThread{
     int numUnit;
     public ReceiveUnitAssignmentThread (Socket socket, int numUnit) {
         super(socket);
