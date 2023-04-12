@@ -8,4 +8,6 @@
  */
 
 rootProject.name = 'riscgame'
-include('app')
+include 'Server'
+include 'Client'
+include 'Controller'

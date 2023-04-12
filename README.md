@@ -1,28 +1,39 @@
-# riscgame
+# RISC Game: ECE 651 Final Project Group 4
+
+## Group Members
+
+👧 Jing Wang (jw844)
+
+👦 Luoming Hu (lh395)
+
+👦 Yongchang Liu
+
+👦 Yizhou Zhang (yz802)
+
+👦 Shanghui Yin (sy275)
+
+## UML Diagram
+
+link
+
+## Get Started
+
+### 1. Start Server
+
+open the terminal and input: ```./gradlew Server:run --args="3"```
+
+--args="3" will control how many players could connect to the game
 
 
+if you use Windows, input:
+```./gradlew.bat Server:run --args="3"```
 
-## Getting started
+### 2. Start Clients
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+open the terminal and input:
+```./gradlew Client:run```
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.oit.duke.edu/sy275/riscgame.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.oit.duke.edu/sy275/riscgame/-/settings/integrations)
+here, you should open other terminals 
 
 ## Collaborate with your team
 
