@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -23,7 +24,7 @@ public class Move extends Order {
      * If the source and destination territories are the same, no action is taken.
      */
     @Override
-    public void run(BoardGameMap boardMap) {
+    public void run(GameMap boardMap) {
 
         // TODO move cost size of territores move through * numebr of units moved
         if (this.getType().equals(Type.Move)) {

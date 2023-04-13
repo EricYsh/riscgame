@@ -1,9 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardGameMap;
-import edu.duke.ece651.riscgame.game.Territory;
-import edu.duke.ece651.riscgame.game.UnitFactory;
-import edu.duke.ece651.riscgame.game.UnitInterface;
+import edu.duke.ece651.riscgame.game.*;
 import edu.duke.ece651.riscgame.rule.*;
 
 /**
@@ -17,7 +14,7 @@ public class Upgrade extends Order {
     }
 
     @Override
-    public void run(BoardGameMap boardMap) {
+    public void run(GameMap boardMap) {
         if (this.getType().equals(Type.Upgrade)) {
             // TODO upgrade order
             UnitFactory factory = new UnitFactory();
