@@ -7,6 +7,7 @@ import edu.duke.ece651.riscgame.game.*;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.Type;
 
+import java.io.FilterOutputStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -30,7 +31,7 @@ public class GameServer {
         this.numClient = numClient;
         this.countryName = new Vector<String>();
         this.mapFactory = new BoardMapFactory();
-        this.gameMap =  mapFactory.generateMap(numClient);// the map is chosen when declared
+        this.gameMap = mapFactory.generateMap(numClient);// the map is chosen when declared
         this.netServer = new NetServer(numClient, numClient, 8888);
         for (int i = 0; i < numClient; i++) {
             countryName.add(countries[i]);
@@ -41,7 +42,7 @@ public class GameServer {
         int numUnit = 30;
         netServer.connectWithMultiClients();
         System.out.println(1);
-        netServer.sendGameInitInfo(new GameInitInfo( gameMap, numUnit, countryName)); // aim to pass map
+        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
         ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
         System.out.println(3);
@@ -77,6 +78,8 @@ public class GameServer {
 //        }
         netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
                 gameMap.getTerritoryNameAndOwnership()));
+        System.out.println(gameMap.getTerritoryNameAndUnitNums());
+        System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
 
     private void playerLost() {
@@ -87,7 +90,7 @@ public class GameServer {
         }
     }
 
-    private void executeOrders(ArrayList<Order> orders) {
+    public void executeOrders(ArrayList<Order> orders) {
         // make modification to gameMap
         System.out.println("orders size:" + orders.size());
         for (Order o : orders) {
@@ -96,21 +99,43 @@ public class GameServer {
             }
         }
 
+        System.out.println("begin the second for loop -------------");
+
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
+                System.out.println("go into the if condition");
                 for (int i = 0; i < orders.size() - 1; i++) {
                     for (int j = i + 1; j < orders.size(); j++) {
-                        if (orders.get(i).getSrc().equals(orders.get(j).getDest()) &&
-                                orders.get(i).getDest().equals(orders.get(j).getSrc()) &&
-                                orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum() &&
-                                orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum()
-                        ) {
-                            System.out.println("change home");
-                            orders.get(i).setType(Type.AttackAndChangeHome);
-                            orders.get(j).setType(Type.AttackAndChangeHome);
+                        if (o.getType().equals(Type.Attack)) {
+                            System.out.println("go into the for loop");
+                            System.out.println(orders.get(i).getSrc().equals(orders.get(j).getDest()));
+                            System.out.println(orders.get(i).getDest().equals(orders.get(j).getSrc()));
+                            System.out.println(orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum());
+                            System.out.println(orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum());
+                            System.out.println("--------display info");
+                            System.out.println(orders.get(i).getSrc().displayInfo());
+                            System.out.println(orders.get(j).getDest().displayInfo());
+                            System.out.println("second compare");
+                            System.out.println(orders.get(i).getDest().displayInfo());
+                            System.out.println(orders.get(j).getSrc().displayInfo());
+                            System.out.println("end compare");
+                            if (orders.get(i).getSrc().equals(orders.get(j).getDest()) &&
+                                    orders.get(i).getDest().equals(orders.get(j).getSrc()) &&
+                                    orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum() &&
+                                    orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum()
+                            ) {
+                                System.out.println("change home");
+                                orders.get(i).setType(Type.AttackAndChangeHome);
+                                orders.get(j).setType(Type.AttackAndChangeHome);
+                            }
                         }
                     }
                 }
+            }
+        }
+
+        for (Order o : orders) {
+            if (o.getType().equals(Type.Attack)) {
                 gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
 //                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
 //                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
@@ -126,6 +151,9 @@ public class GameServer {
         }
     }
 
+    public BoardGameMap getGameMap() {
+        return gameMap;
+    }
 
     /**
      * end the game: close socket connection and prompt users to start a new one or exit
