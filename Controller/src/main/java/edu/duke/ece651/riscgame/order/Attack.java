@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -29,7 +30,7 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    public void run(BoardGameMap gameMap) {
+    public void run(GameMap gameMap) {
         // TODO attack cost 1 food resource per unit to perform
 
         // attack according to the type
@@ -43,7 +44,7 @@ public class Attack extends Order {
         }
     }
 
-    private void doNormalAttack(BoardGameMap gameMap) {
+    private void doNormalAttack(GameMap gameMap) {
         // TODO order of execution alternates between
         // TODO  highes-bonus attacker unit paired with the lowest-bonus defender unit
         // TODO lowest-bonus attacker unit paired with the highest-bonus defend unit
@@ -75,7 +76,7 @@ public class Attack extends Order {
         }
     }
 
-    private void doChangeHomeAttack(BoardGameMap gameMap) {
+    private void doChangeHomeAttack(GameMap gameMap) {
         System.out.println("do change home");
         int changeHomeUnitNum = this.getUnitNum(); // use how many units to attack
         String ownerName = ownership.get(this.getOrderOwnId());

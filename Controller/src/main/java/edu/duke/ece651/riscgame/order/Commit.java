@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.Type;
 
@@ -22,7 +23,7 @@ public class Commit extends Order {
      * @param gameMap The game map on which the commit order will be executed. Not for this order
      */
     @Override
-    public void run(BoardGameMap gameMap) {
+    public void run(GameMap gameMap) {
 
     }
 

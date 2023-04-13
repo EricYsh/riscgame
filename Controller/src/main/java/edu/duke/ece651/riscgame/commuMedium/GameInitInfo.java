@@ -39,9 +39,7 @@ public class GameInitInfo implements Serializable {
         return playerName;
     }
 
-    //    public Vector<Territory> getTerrList() {
-//        return terrList;
-//    }
+
     public String printTestInfo () {
         return testStr;
     }

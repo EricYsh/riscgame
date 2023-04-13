@@ -112,6 +112,16 @@ public class Territory implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Territory territory = (Territory) o;
+        return ownId == territory.ownId && unitNum == territory.unitNum && technologyLevel == territory.technologyLevel && name.equals(territory.name) && ownerName.equals(territory.ownerName) ;
+    }
+
+
+
     public String displayInfo() {
         StringBuilder info = new StringBuilder("");
         String format = unitNum + " units in " + name + " (next to: ";
@@ -124,15 +134,11 @@ public class Territory implements Serializable {
         return info.toString();
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Territory territory = (Territory) o;
-//        return ownId == territory.ownId && unitNum == territory.unitNum && technologyLevel == territory.technologyLevel && name.equals(territory.name) && ownerName.equals(territory.ownerName) && Objects.equals(neighbors, territory.neighbors) && Objects.equals(units, territory.units);
-//    }
 
-    public boolean equals(Territory t1) {
-        return this.displayInfo().equals(t1.displayInfo());
-    }
+//    public boolean equals(Territory t1) {
+//        if (this.ownId == t1.ownId && this.getUnitNum() == t1.getUnitNum()) {
+//
+//        }
+//        return this.displayInfo().equals(t1.displayInfo());
+//    }
 }

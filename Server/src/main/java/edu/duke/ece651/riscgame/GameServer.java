@@ -18,7 +18,7 @@ public class GameServer {
     private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
     private BoardMapFactory mapFactory;
-    private BoardGameMap gameMap;
+    private GameMap gameMap;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
@@ -151,7 +151,7 @@ public class GameServer {
         }
     }
 
-    public BoardGameMap getGameMap() {
+    public GameMap getGameMap() {
         return gameMap;
     }
 
