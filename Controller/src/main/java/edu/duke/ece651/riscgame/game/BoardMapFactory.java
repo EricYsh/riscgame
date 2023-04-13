@@ -31,13 +31,13 @@ public class BoardMapFactory {
     }
     private void initByPlayerNumber2(ArrayList<Territory> territories) {
 
-        Territory t1 = new Territory("T1", "Avalon", 0, 10);
-        Territory t2 = new Territory("T2", "Avalon", 0, 10);
-        Territory t3 = new Territory("T3", "Avalon", 0, 10);
+        Territory t1 = new Territory("T1", "Avalon", 0, 1);
+        Territory t2 = new Territory("T2", "Avalon", 0, 1);
+        Territory t3 = new Territory("T3", "Avalon", 0, 28);
 
-        Territory t4 = new Territory("T4", "Braglavia", 1, 10);
-        Territory t5 = new Territory("T5", "Braglavia", 1, 10);
-        Territory t6 = new Territory("T6", "Braglavia", 1, 10);
+        Territory t4 = new Territory("T4", "Braglavia", 1, 28);
+        Territory t5 = new Territory("T5", "Braglavia", 1, 1);
+        Territory t6 = new Territory("T6", "Braglavia", 1, 1);
 
         t1.addNeighbors(t2, t4);
         t2.addNeighbors(t1, t3, t5);

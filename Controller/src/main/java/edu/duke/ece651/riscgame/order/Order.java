@@ -1,7 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
-import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
 
@@ -11,26 +10,24 @@ import java.util.HashMap;
 /**
  * The Order class represents an abstract order in the RISC game.
  * It serves as a base class for different types of orders like Attack, Move, etc.
+ * This class implements Serializable for enabling object serialization
+ * when transferring orders between clients and servers.
  */
 public abstract class Order implements Serializable {
     private int unitNum;
     private Territory src;
     private Territory dest;
     private Type type;
-
     private int orderOwnId;
-
-    private String orderOwnName;
-
     public HashMap<Integer, String> ownership;
 
+    // constructor
     public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
         this.unitNum = unitNum;
         this.src = src;
         this.dest = dest;
         this.type = type;
         this.orderOwnId = orderOwnId;
-//        this.orderOwnName = orderOwnName;
         ownership = new HashMap<>();
         ownership.put(0, "Avalon");
         ownership.put(1, "Braglavia");
@@ -56,23 +53,23 @@ public abstract class Order implements Serializable {
         return dest;
     }
 
-//    public RuleChecker getRules() {
-//        return rules;
-//    }
-
     public Type getType() {
         return type;
     }
 
+    // setter
     public void setType(Type type) {
         this.type = type;
     }
 
     // Abstract method to be implemented by derived classes
 
+
     /**
      * Executes the specific order action.
      * This method must be implemented by derived classes like Attack, Move, etc.
+     *
+     * @param gameMap The game map on which the order will be executed.
      */
     public abstract void run(BoardGameMap gameMap);
 

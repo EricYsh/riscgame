@@ -1,7 +1,6 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
-import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -31,44 +30,58 @@ public class Attack extends Order {
      */
     @Override
     public void run(BoardGameMap gameMap) {
+        // TODO attack cost 1 food resource per unit to perform
+
+        // attack according to the type
         if (this.getType().equals(Type.Attack)) {
+            doNormalAttack(gameMap);
+        }
 
-            int attckUnitNum = this.getUnitNum(); // use how many units to attack
-            int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
+        // attack but use up all units, then these two parts will change home directly
+        if (this.getType().equals(Type.AttackAndChangeHome)) {
+            doChangeHomeAttack(gameMap);
+        }
+    }
 
-            // Simulate battle between attacker and defender
-            while (attckUnitNum > 0 && defendUnitNum > 0) {
-                Random random = new Random();
-                int randomNumberAttack = random.nextInt(20) + 1;
-                int randomNumberDefend = random.nextInt(20) + 1;
-                if (randomNumberAttack > randomNumberDefend) {
-                    defendUnitNum--;
-                } else {
-                    attckUnitNum--;
-                }
-            }
+    private void doNormalAttack(BoardGameMap gameMap) {
+        // TODO order of execution alternates between
+        // TODO  highes-bonus attacker unit paired with the lowest-bonus defender unit
+        // TODO lowest-bonus attacker unit paired with the highest-bonus defend unit
 
-            // Update territory information based on battle outcome
-            if (defendUnitNum > 0) { // defend wins
-                gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(defendUnitNum);
-//                this.getDest().setUnitNum(defendUnitNum);
-            } else { // attack wins
-                String ownerName = ownership.get(this.getOrderOwnId());
-                gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
-                gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
-                gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
-//                this.getDest().setOwnerName(this.getSrc().getOwnerName());
-//                this.getDest().setOwnId(this.getOrderOwnId());
-//                this.getDest().setUnitNum(attckUnitNum);
+        int attckUnitNum = this.getUnitNum(); // use how many units to attack
+        int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
+
+        // Simulate battle between attacker and defender
+        while (attckUnitNum > 0 && defendUnitNum > 0) {
+            Random random = new Random();
+            // TODO add a bonus for the type of unit involved
+            int randomNumberAttack = random.nextInt(20) + 1;
+            int randomNumberDefend = random.nextInt(20) + 1;
+            if (randomNumberAttack > randomNumberDefend) {
+                defendUnitNum--;
+            } else {
+                attckUnitNum--;
             }
         }
 
-        if(this.getType().equals(Type.AttackAndChangeHome)) {
-            int changeHomeUnitNum = this.getUnitNum(); // use how many units to attack
+        // Update territory information based on battle outcome
+        if (defendUnitNum > 0) { // defend wins
+            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(defendUnitNum);
+        } else { // attack wins
             String ownerName = ownership.get(this.getOrderOwnId());
             gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
             gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
-            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(changeHomeUnitNum);
+            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
         }
+    }
+
+    private void doChangeHomeAttack(BoardGameMap gameMap) {
+        System.out.println("do change home");
+        int changeHomeUnitNum = this.getUnitNum(); // use how many units to attack
+        String ownerName = ownership.get(this.getOrderOwnId());
+        // no combat
+        gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
+        gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
+        gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(changeHomeUnitNum);
     }
 }
