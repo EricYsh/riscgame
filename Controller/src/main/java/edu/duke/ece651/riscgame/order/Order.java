@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
 
@@ -71,7 +72,7 @@ public abstract class Order implements Serializable {
      *
      * @param gameMap The game map on which the order will be executed.
      */
-    public abstract void run(BoardGameMap gameMap);
+    public abstract void run(GameMap gameMap);
 
     // Other methods
 
