@@ -2,10 +2,8 @@ package edu.duke.ece651.riscgame;
 
 import java.net.Socket;
 import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
 
-import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
-import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -16,7 +14,7 @@ import static edu.duke.ece651.riscgame.NetServer.*;
 /*
  * This class receives and handles the action order
  */
-public class ReceiveActionOrderThread extends SocketThread{
+public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
     // private volatile ConcurrentHashMap<Integer, Order> orders;
     private OrderRuleChecker moveChecker;
     private OrderRuleChecker attackOrder;
@@ -27,14 +25,14 @@ public class ReceiveActionOrderThread extends SocketThread{
     }
 
     @Override
-    public Object call() {
+    public Vector<Order> call() {
         Vector<Order> orders = new Vector<>();
         while (true) {
             Order oneOrder = receiveActionOrder(socket);
             System.out.println("receive one order");
             String check = null;
             if (oneOrder.getType() == Type.Commit) {
-                sendIllegalOrder(socket, new IllegalOrder(null, true));
+                sendIllegalOrder(socket, new ValidationResult(null, true));
                 return orders;
             }
             if (oneOrder.getType() == Type.Move) {
@@ -43,7 +41,7 @@ public class ReceiveActionOrderThread extends SocketThread{
             if (oneOrder.getType() == Type.Attack) {
                 check = attackOrder.checkOrder(oneOrder);
             }
-            sendIllegalOrder(socket, new IllegalOrder(check, false));
+            sendIllegalOrder(socket, new ValidationResult(check, false));
             if (check == null) {
                 System.out.println("receive valid order");
                 orders.add(oneOrder);

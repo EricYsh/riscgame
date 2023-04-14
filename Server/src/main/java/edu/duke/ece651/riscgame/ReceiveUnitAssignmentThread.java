@@ -1,6 +1,6 @@
 package edu.duke.ece651.riscgame;
 
-import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.InputRuleChecker;
 
@@ -23,7 +23,7 @@ public class ReceiveUnitAssignmentThread extends SocketThread <Vector<Territory>
             System.out.println("receive one assignment");
             String check = new InputRuleChecker<>().checkMyRule(terrVec, numUnit);
             System.out.println(check);
-            sendIllegalOrder(socket, new IllegalOrder(check, false));
+            sendIllegalOrder(socket, new ValidationResult(check, false));
             if (check == null) {
                 System.out.println("receive valid assignment");
                 return terrVec;

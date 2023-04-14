@@ -2,9 +2,8 @@ package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
-import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -152,14 +151,14 @@ public class GameClient {
      * @return true when no error message while false when error happen
      */
     public boolean receiveACK() {
-        IllegalOrder illegal = netClient.receiveIllegalOrder();
+        ValidationResult illegal = netClient.receiveIllegalOrder();
         if (!illegal.isLegal())
             System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
     }
 
     public boolean receiveCommitted() {
-        IllegalOrder illegal = netClient.receiveIllegalOrder();
+        ValidationResult illegal = netClient.receiveIllegalOrder();
         if (!illegal.isLegal())
             System.out.println(illegal.getErrMessage());
         return illegal.isLegal() && illegal.isCommitted();

@@ -3,7 +3,7 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
-import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.Territory;
 
@@ -55,11 +55,11 @@ public class NetClient {
             e.printStackTrace();
         }
     }
-    public IllegalOrder receiveIllegalOrder () {
-        IllegalOrder illegal = null;
+    public ValidationResult receiveIllegalOrder () {
+        ValidationResult illegal = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            illegal = (IllegalOrder) objectInputStream.readObject();
+            illegal = (ValidationResult) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
