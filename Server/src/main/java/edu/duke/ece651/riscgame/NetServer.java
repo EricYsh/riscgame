@@ -3,7 +3,7 @@ package edu.duke.ece651.riscgame;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
-import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
+import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
@@ -111,27 +111,6 @@ public class NetServer {
                 e.printStackTrace();
             }
         }
-//        for (int i = 0; i < numClient; i++) {
-//            try {
-//                Socket socket = clientSockets.get(i);
-//                FutureTask<Vector<Territory>> temp = new FutureTask<Vector<Territory>>(new ReceiveUnitAssignmentThread(socket, numUnit));
-//                Thread thread = new Thread(temp);
-//                thread.start();
-//                // Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
-//                container.addAll(temp.get());
-//            } catch (InterruptedException | ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        while (true) {
-//            if (container.size() == numClient * 3) {
-//                break;
-//            }
-//        }
-
-//            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
-//            threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
-
         return container;
     }
 
@@ -206,7 +185,7 @@ public class NetServer {
         }
         return oneOrder;
     }
-    public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
+    public static void sendIllegalOrder (Socket socket, ValidationResult illegal) {
         try {
             ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
             objOut.writeObject(illegal);
