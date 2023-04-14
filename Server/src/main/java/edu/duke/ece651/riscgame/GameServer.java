@@ -134,6 +134,7 @@ public class GameServer {
             }
         }
 
+        // TODO now become minus the actual Unit
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
                 gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
