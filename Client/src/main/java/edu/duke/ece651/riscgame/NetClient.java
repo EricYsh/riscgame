@@ -1,10 +1,6 @@
 package edu.duke.ece651.riscgame;
 
-import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
-import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
-import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
-import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
-import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.commuMedium.*;
 import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.*;
@@ -48,13 +44,7 @@ public class NetClient {
         return info;
     }
     public void sendUnitAssignment (Vector<Territory> territoryVector) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socketOutputStream);
-            objOut.writeObject(territoryVector);
-            objOut.flush(); // end output and prompt cache/buffer to send info
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        GameMessageStream.sendObject(territoryVector, clientSocket);
     }
     public ValidationResult receiveIllegalOrder () {
         ValidationResult illegal = null;
@@ -70,13 +60,7 @@ public class NetClient {
      * this func is designed to send one action, not send all actions
      */
     public void sendActionInfo (ActionInfo info) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socketOutputStream);
-            objOut.writeObject(info);
-            objOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        GameMessageStream.sendObject(info, clientSocket);
     }
     public RoundResult receiveRoundResult () {
         RoundResult res = null;

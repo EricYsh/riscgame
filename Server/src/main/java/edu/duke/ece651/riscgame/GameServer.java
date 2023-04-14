@@ -43,13 +43,13 @@ public class GameServer {
         netServer.connectWithMultiClients();
         netServer.sendClientID();
         System.out.println(1);
-        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
+        netServer.broadCast(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
         ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
         System.out.println(3);
         gameMap.setTerritories(assignments);
         System.out.println(4);
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
+        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
                 gameMap.getTerritoryNameAndOwnership()));
         System.out.println(5);
     }
@@ -58,7 +58,7 @@ public class GameServer {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
-        netServer.sendGameOverInfo(new GameOverInfo(gameMap.getWinner()));
+        netServer.broadCast(new GameOverInfo(gameMap.getWinner()));
     }
 
     /**
@@ -77,7 +77,7 @@ public class GameServer {
 //            Integer value = entry.getValue();
 //            System.out.println("Key: " + key + ", Value: " + value);
 //        }
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
+        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
                 gameMap.getTerritoryNameAndOwnership()));
         System.out.println(gameMap.getTerritoryNameAndUnitNums());
         System.out.println(gameMap.getTerritoryNameAndOwnership());
