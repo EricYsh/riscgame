@@ -11,6 +11,7 @@ public class Territory implements Serializable {
     private String ownerName;
     private int ownId;
     private int unitNum;
+    private int size;
     private HashSet<Territory> neighbors;
 
     // {unitId, Real Unit}
@@ -23,6 +24,7 @@ public class Territory implements Serializable {
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
         units = new HashMap<>();
+        this.size = 10;
     }
 
     public Territory(String tName, String oName, int oId, int unitNum) {
@@ -33,6 +35,8 @@ public class Territory implements Serializable {
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
         units = new HashMap<>();
+        this.size = 10;
+
     }
 
 
@@ -43,6 +47,8 @@ public class Territory implements Serializable {
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
         units = new HashMap<>();
+        this.size = 10;
+
     }
 
 
@@ -132,6 +138,14 @@ public class Territory implements Serializable {
         info.delete(info.length() - 2, info.length());//delete the last two character (", ")
         info.append(")");
         return info.toString();
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
 
