@@ -28,7 +28,7 @@ public class NetServer {
     private Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
-    private Vector<Integer> lostClientSockets;
+    private Vector<Socket> lostClientSockets;
     private final int numClient;
 
     /**
@@ -37,7 +37,7 @@ public class NetServer {
     public NetServer (int numClient, int poolSize, int port) {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
-        this.lostClientSockets = new Vector<Integer>();
+        this.lostClientSockets = new Vector<Socket>();
         try {
             this.threadPoolForUnitAssign = Executors.newFixedThreadPool(poolSize);
             this.threadPoolForActionOrder = Executors.newFixedThreadPool(poolSize);
@@ -48,7 +48,7 @@ public class NetServer {
         }
     }
     public void addLostPlayer (int i) {
-        lostClientSockets.add(i);
+        lostClientSockets.add(clientSockets.get(i));
     }
 
     /**
@@ -113,33 +113,31 @@ public class NetServer {
         }
         return container;
     }
-
+    //TODO: this func needs to be tested after the checks in client are removed
+    // task: test whether one client can continuously enter orders when one order is told wrong
     /**
      * this func receive action orders from clients
      * and then record them in Game
      */
     public ArrayList<Order> validateActionOrders () {
         ArrayList<Order> container = new ArrayList<>();
-        try {
-            for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
-                if (lostClientSockets.contains(i)) continue;
-                Socket socket = clientSockets.get(i);
-                FutureTask<Vector<Order> > temp = new FutureTask<Vector<Order> >(new ReceiveActionOrderThread(socket));
-                Thread thread = new Thread(temp);
-                thread.start();
-                // Future<Order> temp = threadPoolForActionOrder.submit();
-                container.addAll(temp.get());
-            }
-            // while (true) {
-            //     if (container.size() == (numClient - lostClientSockets.size()) * 3) {
-            //         break;
-            //     }
-            // }
-//            threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
-//            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        ArrayList<Future<Vector<Order> > > actionOrderFutures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for (Socket socket: clientSockets) {
+            if (lostClientSockets.contains(socket)) continue;
+            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket);
+            Future<Vector<Order> > actionOrder = executorService.submit(task);
+            actionOrderFutures.add(actionOrder);
         }
+        executorService.shutdown();
+        for (Future<Vector<Order>> future: actionOrderFutures) {
+            try {
+                container.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
         return container;
     }
 
@@ -254,3 +252,27 @@ public class NetServer {
         }
     }
 }
+
+/*
+legacy code: may be used in testing and modification
+        try {
+            for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
+                if (lostClientSockets.contains(i)) continue;
+                Socket socket = clientSockets.get(i);
+                FutureTask<Vector<Order> > temp = new FutureTask<Vector<Order> >(new ReceiveActionOrderThread(socket));
+                Thread thread = new Thread(temp);
+                thread.start();
+                // Future<Order> temp = threadPoolForActionOrder.submit();
+                container.addAll(temp.get());
+            }
+            // while (true) {
+            //     if (container.size() == (numClient - lostClientSockets.size()) * 3) {
+            //         break;
+            //     }
+            // }
+//            threadPoolForActionOrder.shutdown(); // stop waiting for future tasks, then it cannot open again
+//            threadPoolForActionOrder.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+ */
