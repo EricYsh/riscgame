@@ -32,7 +32,7 @@ public class GameServer {
         this.countryName = new Vector<String>();
         this.mapFactory = new BoardMapFactory();
         this.gameMap = mapFactory.generateMap(numClient);// the map is chosen when declared
-        this.netServer = new NetServer(numClient, numClient, 8888);
+        this.netServer = new NetServer(numClient, 8888);
         for (int i = 0; i < numClient; i++) {
             countryName.add(countries[i]);
         }

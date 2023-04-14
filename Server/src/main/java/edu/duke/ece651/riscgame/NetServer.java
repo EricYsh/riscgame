@@ -8,7 +8,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Vector;
 import java.util.concurrent.*;
 
@@ -19,8 +18,6 @@ public class NetServer {
     // firstly, the server need to be able to accept multiple socket connection
 
     private ServerSocket serverSocket;
-    private ExecutorService threadPoolForUnitAssign;
-    private ExecutorService threadPoolForActionOrder;
     private final Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
@@ -30,13 +27,11 @@ public class NetServer {
     /**
      * constructor
      */
-    public NetServer (int numClient, int poolSize, int port) {
+    public NetServer (int numClient, int port) {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
         this.lostClientSockets = new Vector<Socket>();
         try {
-            this.threadPoolForUnitAssign = Executors.newFixedThreadPool(poolSize);
-            this.threadPoolForActionOrder = Executors.newFixedThreadPool(poolSize);
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");
         }catch (IOException e){
@@ -127,39 +122,6 @@ public class NetServer {
         return container;
     }
 
-    /**
-     * this func receive one unit assignment from one player, which may not be valid
-     * @param socket determine receive from which player
-     * @return received unit assignment information, assigned in each Territory
-     */
-    public static Vector<Territory> receiveUnitAssignment (Socket socket) {
-        Vector<Territory> territoryVector = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            territoryVector = (Vector<Territory>) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return territoryVector;
-    }
-
-    /**
-     * for orders from one player, firstly judge whether it is legal
-     * if legal then record; it not, send one info back to ask remake it until receive a commit
-     * @return
-     */
-    public static Order receiveActionOrder (Socket socket) {
-        ActionInfo info = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            info = (ActionInfo) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return info.getOrder();
-    }
-
-
     public void close () {
         try {
             for (Socket s: clientSockets) {
@@ -227,4 +189,16 @@ legacy code: may be used in testing and modification
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+
+
+
+
+         Vector<Territory> territoryVector = null;
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            territoryVector = (Vector<Territory>) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return territoryVector;
  */

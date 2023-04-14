@@ -154,7 +154,7 @@ public class GameClient {
      * @return true when no error message while false when error happen
      */
     public boolean receiveACK() {
-        ValidationResult illegal = netClient.receiveIllegalOrder();
+        ValidationResult illegal = netClient.receiveValidationResult();
         /*
         gameView.printValidationResult(illegal);
          */
@@ -164,7 +164,7 @@ public class GameClient {
     }
 
     public boolean receiveCommitted() {
-        ValidationResult illegal = netClient.receiveIllegalOrder();
+        ValidationResult illegal = netClient.receiveValidationResult();
         /*
         gameView.printValidationResult(illegal);
          */

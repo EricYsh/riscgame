@@ -9,52 +9,28 @@ import java.util.Vector;
 
 public class NetClient {
     private Socket clientSocket;
-    private InputStream socketInputStream;
-    private OutputStream socketOutputStream;
-    private int clientID;
 
     public NetClient ( int port) { // String host,
         try {
             this.clientSocket = new Socket("localhost",port);
-            this.socketInputStream = clientSocket.getInputStream();
-            this.socketOutputStream = clientSocket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public int receiveClientID () {
-        int number = 0;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            number = (int) objectInputStream.readObject();
-            // number = objectInputStream.readInt();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return number;
+        GameMessageStream<Integer> gameMsgStream = new GameMessageStream<>();
+        return gameMsgStream.receiveObject(clientSocket);
     }
     public GameInitInfo receiveGameInitInfo () {
-        GameInitInfo info = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            info = (GameInitInfo) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return info;
+        GameMessageStream<GameInitInfo> gameMsgStream = new GameMessageStream<>();
+        return gameMsgStream.receiveObject(clientSocket);
     }
     public void sendUnitAssignment (Vector<Territory> territoryVector) {
         GameMessageStream.sendObject(territoryVector, clientSocket);
     }
-    public ValidationResult receiveIllegalOrder () {
-        ValidationResult illegal = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            illegal = (ValidationResult) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return illegal;
+    public ValidationResult receiveValidationResult () {
+        GameMessageStream<ValidationResult> gameMsgStream = new GameMessageStream<>();
+        return gameMsgStream.receiveObject(clientSocket);
     }
     /**
      * this func is designed to send one action, not send all actions
@@ -63,25 +39,13 @@ public class NetClient {
         GameMessageStream.sendObject(info, clientSocket);
     }
     public RoundResult receiveRoundResult () {
-        RoundResult res = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            res = (RoundResult) objectInputStream.readObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
+        GameMessageStream<RoundResult> gameMsgStream = new GameMessageStream<>();
+        return gameMsgStream.receiveObject(clientSocket);
     }
 
     public GameOverInfo receiveGameOverInfo(){
-        GameOverInfo info = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            info = (GameOverInfo) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return info;
+        GameMessageStream<GameOverInfo> gameMsgStream = new GameMessageStream<>();
+        return gameMsgStream.receiveObject(clientSocket);
     }
 
     public void close () {
@@ -92,3 +56,17 @@ public class NetClient {
         }
     }
 }
+
+/*
+legacy code
+
+//        int number = 0;
+//        try {
+//            ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
+//            number = (int) objectInputStream.readObject();
+//            // number = objectInputStream.readInt();
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return number;
+ */
