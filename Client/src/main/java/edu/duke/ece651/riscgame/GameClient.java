@@ -91,6 +91,9 @@ public class GameClient {
      * @throws IOException
      */
     //TODO: maybe implement in textview part
+    /*
+    public void assignUnit(int numUnit, Vector<Territory> ownedTerr)
+     */
     public void assignUnit(int numUnit) {
         System.out.println("Please assign your units in each territory");
         System.out.println("You have " + numUnit + " units");
@@ -152,6 +155,9 @@ public class GameClient {
      */
     public boolean receiveACK() {
         ValidationResult illegal = netClient.receiveIllegalOrder();
+        /*
+        gameView.printValidationResult(illegal);
+         */
         if (!illegal.isLegal())
             System.out.println(illegal.getErrMessage());
         return illegal.isLegal();
@@ -159,6 +165,9 @@ public class GameClient {
 
     public boolean receiveCommitted() {
         ValidationResult illegal = netClient.receiveIllegalOrder();
+        /*
+        gameView.printValidationResult(illegal);
+         */
         if (!illegal.isLegal())
             System.out.println(illegal.getErrMessage());
         return illegal.isLegal() && illegal.isCommitted();
