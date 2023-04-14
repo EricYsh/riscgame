@@ -10,6 +10,10 @@ public class BoardMapFactory {
         ArrayList<Territory> territories = map.getTerritories();
 
         switch (playerNum) {
+            //Just for test!!!!!!!!!!!!!!!
+            case 1:
+                initByPlayerNumber1(territories);
+                break;// Perform the action specific to Player 2
             case 2:
                 // Perform the action specific to Player 1
                 initByPlayerNumber2(territories);
@@ -163,5 +167,34 @@ public class BoardMapFactory {
 
     }
 
+    private void initByPlayerNumber1(ArrayList<Territory> territories) {
+
+        Territory t1 = new Territory("T1", "Avalon", 0, 10);
+        Territory t2 = new Territory("T2", "Avalon", 0, 10);
+        Territory t3 = new Territory("T3", "Avalon", 0, 10);
+
+        Territory t4 = new Territory("T4", "Braglavia", 0, 10);
+        Territory t5 = new Territory("T5", "Braglavia", 0, 10);
+        Territory t6 = new Territory("T6", "Braglavia", 0, 10);
+
+        Territory t7 = new Territory("T7", "Calador", 0, 10);
+        Territory t8 = new Territory("T8", "Calador", 0, 10);
+        Territory t9 = new Territory("T9", "Calador", 0, 10);
+
+        t1.addNeighbors(t2, t4);
+        t2.addNeighbors(t1, t3, t5);
+        t3.addNeighbors(t2, t6);
+
+        t4.addNeighbors(t1, t5, t7);
+        t5.addNeighbors(t2, t4, t6, t8);
+        t6.addNeighbors(t3, t5, t9);
+
+        t7.addNeighbors(t4, t8);
+        t8.addNeighbors(t5, t7, t9);
+        t9.addNeighbors(t6, t8);
+
+        Collections.addAll(territories,t1, t2, t3, t4, t5, t6, t7, t8, t9);
+
+    }
 
 }
