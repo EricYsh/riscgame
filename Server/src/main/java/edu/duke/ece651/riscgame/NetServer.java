@@ -72,12 +72,9 @@ public class NetServer {
             GameMessageStream.sendObject(i, clientSockets.get(i));
         }
     }
-    /**
-     * this func send necessary GameInitInfo to all players
-     */
-    public void sendGameInitInfo (GameInitInfo info) {
+    public void broadCast (Object object) {
         for (Socket socket: clientSockets) {
-            GameMessageStream.sendObject(info, socket);
+            GameMessageStream.sendObject(object, socket);
         }
     }
     /**
@@ -162,45 +159,7 @@ public class NetServer {
         return info.getOrder();
     }
 
-    public void sendRoundResult (RoundResult result) {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            try {
-                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(result);
-                objOut.flush(); // end output and prompt cache/buffer to send info
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-//        sendHashMap(gameMap.getTerritoryNameAndOwnership(), socket);
-//        sendHashMap(gameMap.getTerritoryNameAndUnitNums(), socket);
-        // sendOwnershipChange(gameMap.getTerritoryNameAndOwnership());
-        // sendUnitsChange(gameMap.getTerritoryNameAndUnitNums());
-    }
-    private static void sendHashMap (HashMap<String, Integer> hashMap, Socket socket) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-            objOut.writeObject(hashMap);
-            objOut.flush(); // end output and prompt cache/buffer to send info
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-
-    public void sendGameOverInfo (GameOverInfo gameOverInfo) {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            try {
-                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(gameOverInfo);
-                objOut.flush(); // end output and prompt cache/buffer to send info
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public void close () {
         try {
             for (Socket s: clientSockets) {
@@ -227,6 +186,27 @@ legacy code: may be used in testing and modification
 //            }
 //        }
 
+
+    /**
+     * this func send necessary GameInitInfo to all players
+     */
+//public void sendGameInitInfo (GameInitInfo info) {
+//    for (Socket socket: clientSockets) {
+//        GameMessageStream.sendObject(info, socket);
+//    }
+//}
+//    public void sendRoundResult (RoundResult result) {
+//        for (Socket socket: clientSockets) {
+//            GameMessageStream.sendObject(result, socket);
+//        }
+//    }
+//
+//    public void sendGameOverInfo (GameOverInfo gameOverInfo) {
+//        for (Socket socket: clientSockets) {
+//            GameMessageStream.sendObject(gameOverInfo, socket);
+//        }
+//    }
+/*
         try {
             for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
                 if (lostClientSockets.contains(i)) continue;
