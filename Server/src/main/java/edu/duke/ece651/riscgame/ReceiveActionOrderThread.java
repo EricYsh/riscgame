@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame;
 import java.net.Socket;
 import java.util.Vector;
 
+import edu.duke.ece651.riscgame.commuMedium.GameMessageStream;
 import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.*;
@@ -32,7 +33,7 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
             System.out.println("receive one order");
             String check = null;
             if (oneOrder.getType() == Type.Commit) {
-                sendIllegalOrder(socket, new ValidationResult(null, true));
+                GameMessageStream.sendObject(new ValidationResult(null, true), socket);
                 return orders;
             }
             if (oneOrder.getType() == Type.Move) {
@@ -41,7 +42,7 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
             if (oneOrder.getType() == Type.Attack) {
                 check = attackOrder.checkOrder(oneOrder);
             }
-            sendIllegalOrder(socket, new ValidationResult(check, false));
+            GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {
                 System.out.println("receive valid order");
                 orders.add(oneOrder);

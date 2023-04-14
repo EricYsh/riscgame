@@ -41,6 +41,7 @@ public class GameServer {
     public void GameInit() {
         int numUnit = 30;
         netServer.connectWithMultiClients();
+        netServer.sendClientID();
         System.out.println(1);
         netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);

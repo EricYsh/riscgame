@@ -30,8 +30,9 @@ public class NetClient {
         int number = 0;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socketInputStream);
-            number = objectInputStream.readInt();
-        } catch (IOException e) {
+            number = (int) objectInputStream.readObject();
+            // number = objectInputStream.readInt();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return number;

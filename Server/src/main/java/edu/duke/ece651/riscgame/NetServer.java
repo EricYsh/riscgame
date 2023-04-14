@@ -1,10 +1,6 @@
 package edu.duke.ece651.riscgame;
 
-import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
-import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
-import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
-import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
-import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.commuMedium.*;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -25,10 +21,10 @@ public class NetServer {
     private ServerSocket serverSocket;
     private ExecutorService threadPoolForUnitAssign;
     private ExecutorService threadPoolForActionOrder;
-    private Vector<Socket> clientSockets;
+    private final Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
-    private Vector<Socket> lostClientSockets;
+    private final Vector<Socket> lostClientSockets;
     private final int numClient;
 
     /**
@@ -57,37 +53,31 @@ public class NetServer {
      * and send clientID
      */
     public void connectWithMultiClients () {
-        int count = 0;
-        while (count < numClient) {
+        for (int i = 0; i < numClient; i++) {
             try {
                 Socket socket = serverSocket.accept();
                 clientSockets.add(socket);
-                //send client id
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                out.writeInt(count);
-                out.flush();
+                System.out.println("Player " + i + " connects");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Player " + count + " connects");
-            count++;
         }
     }
 
     /**
+     * this func sends clientID to each player
+     */
+    public void sendClientID () {
+        for (int i = 0; i < numClient; i++) {
+            GameMessageStream.sendObject(i, clientSockets.get(i));
+        }
+    }
+    /**
      * this func send necessary GameInitInfo to all players
-     * @param info contains TODO: what?
      */
     public void sendGameInitInfo (GameInitInfo info) {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            try {
-                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(info);
-                objOut.flush(); // end output and prompt cache/buffer to send info
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for (Socket socket: clientSockets) {
+            GameMessageStream.sendObject(info, socket);
         }
     }
     /**
@@ -137,7 +127,6 @@ public class NetServer {
                 e.printStackTrace();
             }
         }
-
         return container;
     }
 
@@ -173,26 +162,6 @@ public class NetServer {
         return info.getOrder();
     }
 
-    public static Order receiveOneOrder (Socket socket) {
-        Order oneOrder = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            oneOrder = (Order) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return oneOrder;
-    }
-    public static void sendIllegalOrder (Socket socket, ValidationResult illegal) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-            objOut.writeObject(illegal);
-            objOut.flush(); // end output and prompt cache/buffer to send info
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void sendRoundResult (RoundResult result) {
         for (int i = 0; i < numClient; i++) {
             Socket socket = clientSockets.get(i);
@@ -218,15 +187,6 @@ public class NetServer {
             e.printStackTrace();
         }
     }
-//    private static void sendObject (E object, Socket socket) {
-//        try {
-//            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-//            objOut.writeObject(object);
-//            objOut.flush(); // end output and prompt cache/buffer to send info
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
     public void sendGameOverInfo (GameOverInfo gameOverInfo) {
@@ -255,6 +215,18 @@ public class NetServer {
 
 /*
 legacy code: may be used in testing and modification
+
+//        for (int i = 0; i < numClient; i++) {
+//            Socket socket = clientSockets.get(i);
+//            try {
+//                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+//                objOut.writeObject(info);
+//                objOut.flush(); // end output and prompt cache/buffer to send info
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         try {
             for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
                 if (lostClientSockets.contains(i)) continue;
