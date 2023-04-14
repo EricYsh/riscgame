@@ -9,6 +9,7 @@ public class Territory implements Serializable {
     private String ownerName;
     private int ownId;
     private int unitNum;
+    private int size;
     private HashSet<Territory> neighbors;
 
     // {unitId, Real Unit}
@@ -28,6 +29,7 @@ public class Territory implements Serializable {
         for (int i = 0; i < unitNum; i++) {
             units.put(i, (Unit) unitFactory.createUnit(0, 0));
         }
+        this.size = 10;
     }
 
     public Territory(String tName, String oName, int oId, int unitNum) {
@@ -41,6 +43,7 @@ public class Territory implements Serializable {
         for (int i = 0; i < unitNum; i++) {
             units.put(i, (Unit) unitFactory.createUnit(0, 0));
         }
+        this.size = 10;
     }
 
 
@@ -54,6 +57,7 @@ public class Territory implements Serializable {
         for (int i = 0; i < unitNum; i++) {
             units.put(i, (Unit) unitFactory.createUnit(0, 0));
         }
+        this.size = 10;
     }
 
 
@@ -147,6 +151,13 @@ public class Territory implements Serializable {
 
     public int getFoodResource() {
         return foodResourceIncreasement;
+    }
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public int getTechResource() {
