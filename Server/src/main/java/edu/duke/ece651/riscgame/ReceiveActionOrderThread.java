@@ -16,8 +16,8 @@ import static edu.duke.ece651.riscgame.NetServer.*;
  */
 public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
     // private volatile ConcurrentHashMap<Integer, Order> orders;
-    private OrderRuleChecker moveChecker;
-    private OrderRuleChecker attackOrder;
+    private final OrderRuleChecker moveChecker;
+    private final OrderRuleChecker attackOrder;
     public ReceiveActionOrderThread(Socket socket) {
         super(socket);
         moveChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
