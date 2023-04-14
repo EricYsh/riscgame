@@ -33,7 +33,7 @@ public class GameServer {
         this.mapFactory = new BoardMapFactory();
         this.gameMap = mapFactory.generateMap(numClient);// the map is chosen when declared
         this.netServer = new NetServer(numClient, 8888);
-        for (int i = 0; i < numClient; i++) {
+        for (int i = 0; i < numClient; i++) { // playerList
             countryName.add(countries[i]);
         }
     }
@@ -49,8 +49,8 @@ public class GameServer {
         System.out.println(3);
         gameMap.setTerritories(assignments);
         System.out.println(4);
-        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
-                gameMap.getTerritoryNameAndOwnership()));
+        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
+                                            gameMap.getTerritoryNameAndOwnership()));
         System.out.println(5);
     }
 
@@ -66,23 +66,16 @@ public class GameServer {
      */
     private void oneRound() {
         ArrayList<Order> orders = netServer.validateActionOrders();
-        // a barrier until all players commit their order
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();
-        System.out.println(gameMap.getTerritoryNameAndOwnership());
-
-//        for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
-//            String key = entry.getKey();
-//            Integer value = entry.getValue();
-//            System.out.println("Key: " + key + ", Value: " + value);
-//        }
-        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
-                gameMap.getTerritoryNameAndOwnership()));
+        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
+                                            gameMap.getTerritoryNameAndOwnership()));
+        // output results for checking
         System.out.println(gameMap.getTerritoryNameAndUnitNums());
         System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
-
+    //TODO: check this func by tests
     private void playerLost() {
         for (int i = 0; i < numClient; i++) {
             if (gameMap.isLose(i)) {
