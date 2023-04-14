@@ -16,7 +16,9 @@ public enum Type {
 
     Move,
     Attack,
-    Commit,
     AttackAndChangeHome,
-    Upgrade
+    Attack2,
+    Commit,
+    UpgradeUnit,
+    UpgradeTech
 }
