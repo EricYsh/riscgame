@@ -37,7 +37,7 @@ public class GameClient {
         GameInitInfo info = netClient.receiveGameInitInfo();
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
-        this.ownedTerr = (Vector<Territory>) gameMap.getTerritoriesByOwnId(clientID);
+        this.ownedTerr = gameMap.getTerritoriesByOwnId(clientID);
         this.playerName = info.getPlayerName(clientID);
         this.playerList = info.getPlayerName();
 
@@ -57,25 +57,9 @@ public class GameClient {
      */
     private void updateLocalGameMap() {
         RoundResult result = netClient.receiveRoundResult();
-        // for (int i = 0; i < result.getUnits().size(); i++) {
-        // System.out.println(result.getUnits().get("T1"));
-        // }
-//        System.out.println(result.getOwnership());
-//        System.out.println("game client output as above");
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
-//        System.out.println(gameMap.getTerritoryNameAndOwnership());
         gameMap.setTerritoryNameAndUnitNums(result.getUnits());
-//        gameMap.setTerritoryNameAndPlayerName(result.getUpdatePlayerName());
-//        gameView.updateBoardMap(gameMap);
-//        for (Territory t: gameMap.getTerritories()) {
-//            System.out.println("" + t.getName() + " " + t.getUnitNum());
-//        }
-
-    }
-
-    //TODO: this is only an API for testing, should be deleted latterly
-    public void setOwnedTerr(Vector<Territory> terrVec) {
-        this.ownedTerr = terrVec;
+//      System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
 
     public static boolean isNumeric(String str) {
@@ -116,25 +100,21 @@ public class GameClient {
     public void playRounds() {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
-//            for (String s : playerList) {
-//                gameView.printPlayerMap(s);
-//            }
             for (int i = 0; i < playerList.size(); i++) {
                 gameView.printPlayerMap(i);
             }
         }
+    }
+    public void gameOver () {
         System.out.println("Please wait for the game to end");
         System.out.println(netClient.receiveGameOverInfo().getWinnerName() + " wins!");
         closeConnection();
     }
-
     private void oneRound() {
         if (!gameMap.isLose(clientID)) {
             issueOrders(); // create orders
         }
-//        System.out.println("test1");
         updateLocalGameMap();
-//        System.out.println("test2");
     }
 
     /**
