@@ -96,26 +96,42 @@ public class NetServer {
      */
     public ArrayList<Territory> validateUnitAssignment (int numUnit) {
         ArrayList<Territory> container = new ArrayList<>();
-        try {
-            for (int i = 0; i < numClient; i++) {
-                Socket socket = clientSockets.get(i);
-                FutureTask<Vector<Territory>> temp = new FutureTask<Vector<Territory>>(new ReceiveUnitAssignmentThread(socket, numUnit));
-                Thread thread = new Thread(temp);
-                thread.start();
-                // Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
-                container.addAll(temp.get());
+        ArrayList<Future<Vector<Territory> > > unitAssignmentFutures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for (Socket socket: clientSockets) {
+            ReceiveUnitAssignmentThread task = new ReceiveUnitAssignmentThread(socket, numUnit);
+            Future<Vector<Territory> > unitAssignment = executorService.submit(task);
+            unitAssignmentFutures.add(unitAssignment);
+        }
+        executorService.shutdown();
+        for (Future<Vector<Territory>> future: unitAssignmentFutures) {
+            try {
+                container.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
-            while (true) {
-                if (container.size() == numClient * 3) {
-                    break;
-                }
-            }
+        }
+//        for (int i = 0; i < numClient; i++) {
+//            try {
+//                Socket socket = clientSockets.get(i);
+//                FutureTask<Vector<Territory>> temp = new FutureTask<Vector<Territory>>(new ReceiveUnitAssignmentThread(socket, numUnit));
+//                Thread thread = new Thread(temp);
+//                thread.start();
+//                // Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
+//                container.addAll(temp.get());
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        while (true) {
+//            if (container.size() == numClient * 3) {
+//                break;
+//            }
+//        }
 
 //            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
 //            threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+
         return container;
     }
 
