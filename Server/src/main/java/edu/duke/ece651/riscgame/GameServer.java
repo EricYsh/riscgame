@@ -65,7 +65,7 @@ public class GameServer {
      * this function is responsible for actions in one round
      */
     private void oneRound() {
-        ArrayList<Order> orders = netServer.validateActionOrders(gameMap);
+        ArrayList<Order> orders = netServer.validateActionOrders();
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();
