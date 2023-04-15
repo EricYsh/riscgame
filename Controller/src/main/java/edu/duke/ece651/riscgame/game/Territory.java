@@ -1,10 +1,8 @@
 package edu.duke.ece651.riscgame.game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 
 public class Territory implements Serializable {
     private final String name;
@@ -16,14 +14,25 @@ public class Territory implements Serializable {
 
     // {unitId, Real Unit}
     private HashMap<Integer, Unit> units;
+    //  TODO confirm evol2 design
+    //  1 : level1
+    //  2 : leve 3
+    //  3 : level7
+    //  user input : 1,2,3
+    UnitFactory unitFactory = new UnitFactory();
 
     private int technologyLevel;
+    private final int foodResourceIncreasement = 10;
+    private final int techResourceIncreasement = 50;
 
     public Territory(String tname) {
         this.name = tname;
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
         units = new HashMap<>();
+        for (int i = 0; i < unitNum; i++) {
+            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+        }
         this.size = 10;
     }
 
@@ -35,8 +44,10 @@ public class Territory implements Serializable {
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
         units = new HashMap<>();
+        for (int i = 0; i < unitNum; i++) {
+            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+        }
         this.size = 10;
-
     }
 
 
@@ -47,8 +58,10 @@ public class Territory implements Serializable {
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
         units = new HashMap<>();
+        for (int i = 0; i < unitNum; i++) {
+            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+        }
         this.size = 10;
-
     }
 
 
@@ -140,6 +153,9 @@ public class Territory implements Serializable {
         return info.toString();
     }
 
+    public int getFoodResource() {
+        return foodResourceIncreasement;
+    }
     public int getSize() {
         return size;
     }
@@ -148,8 +164,11 @@ public class Territory implements Serializable {
         this.size = size;
     }
 
+    public int getTechResource() {
+        return techResourceIncreasement;
+    }
 
-//    public boolean equals(Territory t1) {
+    //    public boolean equals(Territory t1) {
 //        if (this.ownId == t1.ownId && this.getUnitNum() == t1.getUnitNum()) {
 //
 //        }

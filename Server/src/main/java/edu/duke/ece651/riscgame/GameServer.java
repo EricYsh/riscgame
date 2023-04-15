@@ -95,6 +95,8 @@ public class GameServer {
 
         System.out.println("begin the second for loop -------------");
 
+        // TODO merge attack before actually attack
+
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
                 System.out.println("go into the if condition");
@@ -128,6 +130,7 @@ public class GameServer {
             }
         }
 
+        // TODO now become minus the actual Unit
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
                 gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
