@@ -30,7 +30,7 @@ public class ClientApp {
         try {
             gameClient.gameInit();
             gameClient.playRounds();
-            gameClient.closeConnection();
+            gameClient.gameOver();
 
         } catch (IOException e) {
             e.printStackTrace();

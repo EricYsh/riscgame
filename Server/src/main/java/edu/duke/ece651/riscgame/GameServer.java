@@ -32,8 +32,8 @@ public class GameServer {
         this.countryName = new Vector<String>();
         this.mapFactory = new BoardMapFactory();
         this.gameMap = mapFactory.generateMap(numClient);// the map is chosen when declared
-        this.netServer = new NetServer(numClient, numClient, 8888);
-        for (int i = 0; i < numClient; i++) {
+        this.netServer = new NetServer(numClient, 8888);
+        for (int i = 0; i < numClient; i++) { // playerList
             countryName.add(countries[i]);
         }
     }
@@ -41,15 +41,16 @@ public class GameServer {
     public void GameInit() {
         int numUnit = 30;
         netServer.connectWithMultiClients();
+        netServer.sendClientID();
         System.out.println(1);
-        netServer.sendGameInitInfo(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
+        netServer.broadCast(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
         ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
         System.out.println(3);
         gameMap.setTerritories(assignments);
         System.out.println(4);
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
-                gameMap.getTerritoryNameAndOwnership()));
+        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
+                                            gameMap.getTerritoryNameAndOwnership()));
         System.out.println(5);
     }
 
@@ -57,7 +58,7 @@ public class GameServer {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
             oneRound();
         }
-        netServer.sendGameOverInfo(new GameOverInfo(gameMap.getWinner()));
+        netServer.broadCast(new GameOverInfo(gameMap.getWinner()));
     }
 
     /**
@@ -65,23 +66,16 @@ public class GameServer {
      */
     private void oneRound() {
         ArrayList<Order> orders = netServer.validateActionOrders();
-        // a barrier until all players commit their order
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();
-        System.out.println(gameMap.getTerritoryNameAndOwnership());
-
-//        for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
-//            String key = entry.getKey();
-//            Integer value = entry.getValue();
-//            System.out.println("Key: " + key + ", Value: " + value);
-//        }
-        netServer.sendRoundResult(new RoundResult(gameMap.getTerritoryNameAndUnitNums(),
-                gameMap.getTerritoryNameAndOwnership()));
+        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
+                                            gameMap.getTerritoryNameAndOwnership()));
+        // output results for checking
         System.out.println(gameMap.getTerritoryNameAndUnitNums());
         System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
-
+    //TODO: check this func by tests
     private void playerLost() {
         for (int i = 0; i < numClient; i++) {
             if (gameMap.isLose(i)) {

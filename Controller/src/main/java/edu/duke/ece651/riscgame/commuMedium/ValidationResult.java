@@ -2,10 +2,10 @@ package edu.duke.ece651.riscgame.commuMedium;
 
 import java.io.Serializable;
 
-public class IllegalOrder implements Serializable {
+public class ValidationResult implements Serializable {
     private String errMessage;
     private boolean isCommitted;
-    public IllegalOrder (String err, boolean isCommitted) {
+    public ValidationResult(String err, boolean isCommitted) {
         this.errMessage = err;
         this.isCommitted = isCommitted;
     }
