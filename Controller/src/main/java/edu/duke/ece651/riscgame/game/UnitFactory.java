@@ -1,5 +1,7 @@
 package edu.duke.ece651.riscgame.game;
 
+import java.io.Serializable;
+
 /**
  * The UnitFactory class is responsible for creating instances of UnitInterface.
  * <p>
@@ -7,7 +9,7 @@ package edu.duke.ece651.riscgame.game;
  * <p>
  * instantiation logic of UnitInterface objects in a single place.
  */
-public class UnitFactory {
+public class UnitFactory implements Serializable {
 
     /**
      * Creates a new UnitInterface object with the specified level and bonus.

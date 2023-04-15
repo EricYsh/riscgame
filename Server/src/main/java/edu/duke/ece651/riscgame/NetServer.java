@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Vector;
 import java.util.concurrent.*;
 
@@ -21,7 +22,7 @@ public class NetServer {
     private final Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
-    private final Vector<Socket> lostClientSockets;
+    private final HashSet<Socket> lostClientSockets;
     private final int numClient;
 
     /**
@@ -30,7 +31,7 @@ public class NetServer {
     public NetServer (int numClient, int port) {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
-        this.lostClientSockets = new Vector<Socket>();
+        this.lostClientSockets = new HashSet<Socket>();
         try {
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class GameClient {
     private NetClient netClient;
-    private int clientID;
+    private Player player;
     private GameMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
@@ -34,13 +34,17 @@ public class GameClient {
     }
 
     public void gameInit() throws IOException {
-        this.clientID = netClient.receiveClientID();
+        int clientID = netClient.receiveClientID();
         GameInitInfo info = netClient.receiveGameInitInfo();
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = gameMap.getTerritoriesByOwnId(clientID);
-//        this.playerName = info.getPlayerName(clientID);
+        String playerName = info.getPlayerName(clientID);
+        this.player = new Player(clientID, playerName);
+
         this.playerList = info.getPlayerName();
+
+
 
         do {
             assignUnit(info.getNumUnit());
@@ -100,9 +104,10 @@ public class GameClient {
     //merge demo
     public void playRounds() {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
-            oneRound();
-            for (int i = 0; i < playerList.size(); i++) {
-                gameView.printPlayerMap(i);
+            try {
+                oneRound();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -111,11 +116,18 @@ public class GameClient {
         System.out.println(netClient.receiveGameOverInfo().getWinnerName() + " wins!");
         closeConnection();
     }
-    private void oneRound() {
-        if (!gameMap.isLose(clientID)) {
+    private void oneRound() throws IOException {
+        boolean isLose = gameMap.isLose(player.getClientID());
+        if (!isLose) {
             issueOrders(); // create orders
         }
         updateLocalGameMap();
+        for (int i = 0; i < playerList.size(); i++) {
+            gameView.printPlayerMap(i);
+        }
+//        if (isLose && gameView.printDeathInfo(playerName)) {
+//            break; // when it disconnected, it does not need to receive gameover info
+//        }
     }
 
     /**
@@ -123,7 +135,7 @@ public class GameClient {
      */
     private void issueOrders() {
         do {
-            Order oneOrder = gameView.issueOneOrder(clientID); // three actions: move, attack, commit
+            Order oneOrder = gameView.issueOneOrder(player.getClientID()); // three actions: move, attack, commit
             ActionInfo info = new ActionInfo(oneOrder);
             netClient.sendActionInfo(info);
         } while (!receiveCommitted()); // loop until one order is ACKed
