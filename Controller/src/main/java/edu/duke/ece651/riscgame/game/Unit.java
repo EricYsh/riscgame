@@ -1,5 +1,7 @@
 package edu.duke.ece651.riscgame.game;
 
+import java.io.Serializable;
+
 /**
  * The Unit class is an abstract class that implements the UnitInterface and
  * <p>
@@ -11,7 +13,7 @@ package edu.duke.ece651.riscgame.game;
  * <p>
  * the disPlayUnitInfo() method from the UnitInterface.
  */
-public abstract class Unit implements UnitInterface {
+public abstract class Unit implements UnitInterface, Serializable {
     private int level;
 
     private int bonus;
