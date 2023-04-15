@@ -5,7 +5,19 @@ import edu.duke.ece651.riscgame.game.Territory;
 import java.io.IOException;
 import java.util.Vector;
 
-public class ClientApp {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Button;
+
+import javafx.fxml.FXMLLoader;
+
+
+
+
+public class ClientApp extends Application{
     public String getGreeting() {
         return "Hello World!";
     }
@@ -23,18 +35,28 @@ public class ClientApp {
         territoryVector1.add(t3);
         return territoryVector1;
     }
+    @Override
+public void start(Stage stage) throws IOException {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
+    loader.setController(new MainController());
+    Scene scene = new Scene(loader.load(), 400, 300);
+    stage.setScene(scene);
+    stage.show();
+}
+
     public static void main(String[] args) {
-        System.out.println(new ClientApp().getGreeting());
+        launch(args);
+        // System.out.println(new ClientApp().getGreeting());
 
-        GameClient gameClient = new GameClient(System.in);
-        try {
-            gameClient.gameInit();
-            gameClient.playRounds();
-            gameClient.gameOver();
+        // GameClient gameClient = new GameClient(System.in);
+        // try {
+        //     gameClient.gameInit();
+        //     gameClient.playRounds();
+        //     gameClient.gameOver();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
 //        gameClient.gameOver();
 
 //         the two lines below for testing assign units manually
