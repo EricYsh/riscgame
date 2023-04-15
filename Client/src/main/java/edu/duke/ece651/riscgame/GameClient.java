@@ -18,13 +18,14 @@ import java.util.regex.Pattern;
 public class GameClient {
     private NetClient netClient;
     private int clientID;
-    private String playerName;
     private GameMap gameMap;
     private BoardTextView gameView;
     private Vector<Territory> ownedTerr;
     private final InputStream localIn;
     private Scanner scanner;
     private Collection<String> playerList;
+
+//    private Collection<Player> playerList;
 
     public GameClient(InputStream in) {
         this.localIn = in;
@@ -38,7 +39,7 @@ public class GameClient {
         this.gameMap = info.getMap();
         this.gameView = new BoardTextView(gameMap);
         this.ownedTerr = gameMap.getTerritoriesByOwnId(clientID);
-        this.playerName = info.getPlayerName(clientID);
+//        this.playerName = info.getPlayerName(clientID);
         this.playerList = info.getPlayerName();
 
         do {
