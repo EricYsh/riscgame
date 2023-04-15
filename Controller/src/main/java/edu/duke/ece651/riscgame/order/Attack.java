@@ -23,6 +23,11 @@ public class Attack extends Order {
         super(unitNum, src, dest, type, orderOwnId);
     }
 
+    @Override
+    public void run(GameMap gameMap) {
+        gameMap.getTerritoryByName(this.getSrc().getName()).minusUnit(this.getUnitNum());
+    }
+
     /**
      * Executes the attack action by simulating a battle between the attacker and defender.
      * Each iteration, both attacker and defender roll a 20-sided die. If the attacker's roll
@@ -34,7 +39,7 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    public void run(GameMap gameMap) {
+    public void combat(GameMap gameMap) {
         // TODO attack cost 1 food resource per unit to perform
 
         // attack according to the type

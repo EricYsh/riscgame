@@ -27,4 +27,8 @@ public class Commit extends Order {
 
     }
 
+    public void combat(GameMap gameMap){
+
+    }
+
 }
