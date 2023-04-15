@@ -1,7 +1,6 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.*;
-import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -23,7 +22,7 @@ public class NetServer {
     private final Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
-    private final HashSet<Integer> lostClientSockets;
+    private final HashSet<Socket> lostClientSockets;
     private final int numClient;
 
     /**
@@ -32,7 +31,7 @@ public class NetServer {
     public NetServer (int numClient, int port) {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
-        this.lostClientSockets = new HashSet<Integer>();
+        this.lostClientSockets = new HashSet<Socket>();
         try {
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");
@@ -41,7 +40,7 @@ public class NetServer {
         }
     }
     public void addLostPlayer (int i) {
-        lostClientSockets.add(i);
+        lostClientSockets.add(clientSockets.get(i));
     }
 
     /**
@@ -103,21 +102,13 @@ public class NetServer {
      * this func receive action orders from clients
      * and then record them in Game
      */
-    public ArrayList<Order> validateActionOrders (GameMap gameMap) {
+    public ArrayList<Order> validateActionOrders () {
         ArrayList<Order> container = new ArrayList<>();
         ArrayList<Future<Vector<Order> > > actionOrderFutures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(5);
-//        for (Socket socket: clientSockets) {
-//            if (lostClientSockets.contains(socket)) continue;
-//            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket);
-//            Future<Vector<Order> > actionOrder = executorService.submit(task);
-//            actionOrderFutures.add(actionOrder);
-//        }
-        for (int i = 0; i < numClient; i++) {
-            if (lostClientSockets.contains(i)) continue;
-            Socket socket = clientSockets.get(i);
-            Vector<Territory> playerTerr = gameMap.getTerritoriesByOwnId(i);
-            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket, playerTerr);
+        for (Socket socket: clientSockets) {
+            if (lostClientSockets.contains(socket)) continue;
+            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket);
             Future<Vector<Order> > actionOrder = executorService.submit(task);
             actionOrderFutures.add(actionOrder);
         }
