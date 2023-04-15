@@ -6,6 +6,7 @@ import java.util.Vector;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameMessageStream;
 import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
+import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -17,11 +18,16 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
     private final OrderRuleChecker moveChecker;
     private final OrderRuleChecker attackOrder;
     private final GameMessageStream<ActionInfo> gameMsgStream;
-    public ReceiveActionOrderThread(Socket socket) {
+    private final Vector<Territory> playerTerr;
+    public ReceiveActionOrderThread(Socket socket, Vector<Territory> playerTerr) {
         super(socket);
         moveChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
         attackOrder = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
         gameMsgStream = new GameMessageStream<>();
+        this.playerTerr = playerTerr;
+//        for (Territory terr: playerTerr) {
+//            System.out.println(terr.displayInfo());
+//        }
     }
 
     @Override
@@ -44,6 +50,7 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
             GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {
                 System.out.println("receive valid order");
+
                 orders.add(oneOrder);
             }
         }
