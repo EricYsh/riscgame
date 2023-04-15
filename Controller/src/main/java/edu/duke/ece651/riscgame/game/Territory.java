@@ -14,7 +14,11 @@ public class Territory implements Serializable {
 
     // {unitId, Real Unit}
     private HashMap<Integer, Unit> units;
-
+    //  TODO confirm evol2 design
+    //  1 : level1
+    //  2 : leve 3
+    //  3 : level7
+    //  user input : 1,2,3
     UnitFactory unitFactory = new UnitFactory();
 
     private int technologyLevel;
