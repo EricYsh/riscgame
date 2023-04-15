@@ -1,10 +1,6 @@
 package edu.duke.ece651.riscgame;
 
-import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
-import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
-import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
-import edu.duke.ece651.riscgame.commuMedium.IllegalOrder;
-import edu.duke.ece651.riscgame.commuMedium.RoundResult;
+import edu.duke.ece651.riscgame.commuMedium.*;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -12,7 +8,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Vector;
 import java.util.concurrent.*;
 
@@ -23,24 +18,20 @@ public class NetServer {
     // firstly, the server need to be able to accept multiple socket connection
 
     private ServerSocket serverSocket;
-    private ExecutorService threadPoolForUnitAssign;
-    private ExecutorService threadPoolForActionOrder;
-    private Vector<Socket> clientSockets;
+    private final Vector<Socket> clientSockets;
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
-    private Vector<Integer> lostClientSockets;
+    private final Vector<Socket> lostClientSockets;
     private final int numClient;
 
     /**
      * constructor
      */
-    public NetServer (int numClient, int poolSize, int port) {
+    public NetServer (int numClient, int port) {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
-        this.lostClientSockets = new Vector<Integer>();
+        this.lostClientSockets = new Vector<Socket>();
         try {
-            this.threadPoolForUnitAssign = Executors.newFixedThreadPool(poolSize);
-            this.threadPoolForActionOrder = Executors.newFixedThreadPool(poolSize);
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");
         }catch (IOException e){
@@ -48,7 +39,7 @@ public class NetServer {
         }
     }
     public void addLostPlayer (int i) {
-        lostClientSockets.add(i);
+        lostClientSockets.add(clientSockets.get(i));
     }
 
     /**
@@ -57,37 +48,28 @@ public class NetServer {
      * and send clientID
      */
     public void connectWithMultiClients () {
-        int count = 0;
-        while (count < numClient) {
+        for (int i = 0; i < numClient; i++) {
             try {
                 Socket socket = serverSocket.accept();
                 clientSockets.add(socket);
-                //send client id
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                out.writeInt(count);
-                out.flush();
+                System.out.println("Player " + i + " connects");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Player " + count + " connects");
-            count++;
         }
     }
 
     /**
-     * this func send necessary GameInitInfo to all players
-     * @param info contains TODO: what?
+     * this func sends clientID to each player
      */
-    public void sendGameInitInfo (GameInitInfo info) {
+    public void sendClientID () {
         for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            try {
-                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(info);
-                objOut.flush(); // end output and prompt cache/buffer to send info
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            GameMessageStream.sendObject(i, clientSockets.get(i));
+        }
+    }
+    public void broadCast (Object object) {
+        for (Socket socket: clientSockets) {
+            GameMessageStream.sendObject(object, socket);
         }
     }
     /**
@@ -96,35 +78,97 @@ public class NetServer {
      */
     public ArrayList<Territory> validateUnitAssignment (int numUnit) {
         ArrayList<Territory> container = new ArrayList<>();
-        try {
-            for (int i = 0; i < numClient; i++) {
-                Socket socket = clientSockets.get(i);
-                FutureTask<Vector<Territory>> temp = new FutureTask<Vector<Territory>>(new ReceiveUnitAssignmentThread(socket, numUnit));
-                Thread thread = new Thread(temp);
-                thread.start();
-                // Future<Vector<Territory>> temp = threadPoolForUnitAssign.submit(new ReceiveUnitAssignmentThread(socket, numUnit));
-                container.addAll(temp.get());
+        ArrayList<Future<Vector<Territory> > > unitAssignmentFutures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for (Socket socket: clientSockets) {
+            ReceiveUnitAssignmentThread task = new ReceiveUnitAssignmentThread(socket, numUnit);
+            Future<Vector<Territory> > unitAssignment = executorService.submit(task);
+            unitAssignmentFutures.add(unitAssignment);
+        }
+        executorService.shutdown();
+        for (Future<Vector<Territory>> future: unitAssignmentFutures) {
+            try {
+                container.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
-            while (true) {
-                if (container.size() == numClient * 3) {
-                    break;
-                }
-            }
-
-//            threadPoolForUnitAssign.shutdown(); // stop waiting for future tasks, then it cannot open again
-//            threadPoolForUnitAssign.awaitTermination(300, TimeUnit.SECONDS); // wait 5 min for all thread execution
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
         }
         return container;
     }
-
+    //TODO: this func needs to be tested after the checks in client are removed
+    // task: test whether one client can continuously enter orders when one order is told wrong
     /**
      * this func receive action orders from clients
      * and then record them in Game
      */
     public ArrayList<Order> validateActionOrders () {
         ArrayList<Order> container = new ArrayList<>();
+        ArrayList<Future<Vector<Order> > > actionOrderFutures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for (Socket socket: clientSockets) {
+            if (lostClientSockets.contains(socket)) continue;
+            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket);
+            Future<Vector<Order> > actionOrder = executorService.submit(task);
+            actionOrderFutures.add(actionOrder);
+        }
+        executorService.shutdown();
+        for (Future<Vector<Order>> future: actionOrderFutures) {
+            try {
+                container.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return container;
+    }
+
+    public void close () {
+        try {
+            for (Socket s: clientSockets) {
+                s.close();
+            }
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+/*
+legacy code: may be used in testing and modification
+
+//        for (int i = 0; i < numClient; i++) {
+//            Socket socket = clientSockets.get(i);
+//            try {
+//                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+//                objOut.writeObject(info);
+//                objOut.flush(); // end output and prompt cache/buffer to send info
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+
+    /**
+     * this func send necessary GameInitInfo to all players
+     */
+//public void sendGameInitInfo (GameInitInfo info) {
+//    for (Socket socket: clientSockets) {
+//        GameMessageStream.sendObject(info, socket);
+//    }
+//}
+//    public void sendRoundResult (RoundResult result) {
+//        for (Socket socket: clientSockets) {
+//            GameMessageStream.sendObject(result, socket);
+//        }
+//    }
+//
+//    public void sendGameOverInfo (GameOverInfo gameOverInfo) {
+//        for (Socket socket: clientSockets) {
+//            GameMessageStream.sendObject(gameOverInfo, socket);
+//        }
+//    }
+/*
         try {
             for (int i = 0; i < numClient - lostClientSockets.size(); i++) {
                 if (lostClientSockets.contains(i)) continue;
@@ -145,16 +189,11 @@ public class NetServer {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return container;
-    }
 
-    /**
-     * this func receive one unit assignment from one player, which may not be valid
-     * @param socket determine receive from which player
-     * @return received unit assignment information, assigned in each Territory
-     */
-    public static Vector<Territory> receiveUnitAssignment (Socket socket) {
-        Vector<Territory> territoryVector = null;
+
+
+
+         Vector<Territory> territoryVector = null;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             territoryVector = (Vector<Territory>) objectInputStream.readObject();
@@ -162,100 +201,4 @@ public class NetServer {
             e.printStackTrace();
         }
         return territoryVector;
-    }
-
-    /**
-     * for orders from one player, firstly judge whether it is legal
-     * if legal then record; it not, send one info back to ask remake it until receive a commit
-     * @return
-     */
-    public static Order receiveActionOrder (Socket socket) {
-        ActionInfo info = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            info = (ActionInfo) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return info.getOrder();
-    }
-
-    public static Order receiveOneOrder (Socket socket) {
-        Order oneOrder = null;
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            oneOrder = (Order) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return oneOrder;
-    }
-    public static void sendIllegalOrder (Socket socket, IllegalOrder illegal) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-            objOut.writeObject(illegal);
-            objOut.flush(); // end output and prompt cache/buffer to send info
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendRoundResult (RoundResult result) {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            try {
-                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(result);
-                objOut.flush(); // end output and prompt cache/buffer to send info
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-//        sendHashMap(gameMap.getTerritoryNameAndOwnership(), socket);
-//        sendHashMap(gameMap.getTerritoryNameAndUnitNums(), socket);
-        // sendOwnershipChange(gameMap.getTerritoryNameAndOwnership());
-        // sendUnitsChange(gameMap.getTerritoryNameAndUnitNums());
-    }
-    private static void sendHashMap (HashMap<String, Integer> hashMap, Socket socket) {
-        try {
-            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-            objOut.writeObject(hashMap);
-            objOut.flush(); // end output and prompt cache/buffer to send info
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-//    private static void sendObject (E object, Socket socket) {
-//        try {
-//            ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-//            objOut.writeObject(object);
-//            objOut.flush(); // end output and prompt cache/buffer to send info
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
-    public void sendGameOverInfo (GameOverInfo gameOverInfo) {
-        for (int i = 0; i < numClient; i++) {
-            Socket socket = clientSockets.get(i);
-            try {
-                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
-                objOut.writeObject(gameOverInfo);
-                objOut.flush(); // end output and prompt cache/buffer to send info
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public void close () {
-        try {
-            for (Socket s: clientSockets) {
-                s.close();
-            }
-            serverSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
+ */

@@ -25,8 +25,8 @@ public class GameClientTest {
     @Disabled
     @Test
     public void testAssignUnit () {
-        GameClient gc = new GameClient(System.in);
-        gc.setOwnedTerr(terrGen());
-        gc.assignUnit(30);
+//        GameClient gc = new GameClient(System.in);
+//        gc.setOwnedTerr(terrGen());
+//        gc.assignUnit(30);
     }
 }
