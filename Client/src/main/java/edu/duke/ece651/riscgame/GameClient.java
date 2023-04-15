@@ -99,9 +99,10 @@ public class GameClient {
     //merge demo
     public void playRounds() {
         while (!gameMap.isAllTerritoryOccupiedByOne()) {
-            oneRound();
-            for (int i = 0; i < playerList.size(); i++) {
-                gameView.printPlayerMap(i);
+            try {
+                oneRound();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -110,11 +111,18 @@ public class GameClient {
         System.out.println(netClient.receiveGameOverInfo().getWinnerName() + " wins!");
         closeConnection();
     }
-    private void oneRound() {
-        if (!gameMap.isLose(clientID)) {
+    private void oneRound() throws IOException {
+        boolean isLose = gameMap.isLose(clientID);
+        if (!isLose) {
             issueOrders(); // create orders
         }
         updateLocalGameMap();
+        for (int i = 0; i < playerList.size(); i++) {
+            gameView.printPlayerMap(i);
+        }
+//        if (isLose && gameView.printDeathInfo(playerName)) {
+//            break; // when it disconnected, it does not need to receive gameover info
+//        }
     }
 
     /**
