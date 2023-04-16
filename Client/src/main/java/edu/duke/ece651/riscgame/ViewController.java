@@ -77,7 +77,8 @@ public class ViewController {
     @FXML 
     void click_player4_t1(MouseEvent event) {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
-            territory_info.setText("Player 4 Territory 1");
+            player4_t1.setOpacity(0.5);
+            territory_info.setText("Territory Info:\nPlayer 4 Territory 1");
         }
     }
 
