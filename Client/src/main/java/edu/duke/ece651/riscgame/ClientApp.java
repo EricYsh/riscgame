@@ -35,14 +35,15 @@ public class ClientApp extends Application{
         territoryVector1.add(t3);
         return territoryVector1;
     }
+
     @Override
-public void start(Stage stage) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
-    loader.setController(new MainController());
-    Scene scene = new Scene(loader.load(), 400, 300);
-    stage.setScene(scene);
-    stage.show();
-}
+    public void start(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
+        loader.setController(new ViewController());
+        Scene scene = new Scene(loader.load(), 1000, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     public static void main(String[] args) {
         launch(args);
