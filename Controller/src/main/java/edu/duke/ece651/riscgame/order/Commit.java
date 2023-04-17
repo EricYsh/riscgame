@@ -5,6 +5,8 @@ import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.Type;
 
+import java.util.ArrayList;
+
 /**
  * The Commit class represents a commit order in the RISC game.
  * It works like a signal to show that one player finish giving oerders in one turn.
@@ -12,8 +14,8 @@ import edu.duke.ece651.riscgame.rule.Type;
 public class Commit extends Order {
 
     // constructor
-    public Commit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
-        super(unitNum, src, dest, type, orderOwnId);
+    public Commit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
     }
 
     /**

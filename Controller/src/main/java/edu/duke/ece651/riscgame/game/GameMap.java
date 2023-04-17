@@ -19,6 +19,7 @@ public interface GameMap {
     public ArrayList<Territory> getTerritories();
     public ArrayList<Player> getAllPlayerList();
     public void setAllPlayerList(ArrayList<Player> allPlayerList);
+    public Player getPlayerById(int id);
     /**
      * @param {String} name
      * @return {*}
