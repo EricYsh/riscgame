@@ -19,8 +19,8 @@ public class Attack extends Order {
     /**
      * Constructor for the Attack class.
      */
-    public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
-        super(unitNum, src, dest, type, orderOwnId);
+    public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
     }
 
     @Override
@@ -61,57 +61,13 @@ public class Attack extends Order {
     private void doAttack(GameMap gameMap) {
         // TODO minus 1 food per unit attacking
         // player food resource minus unitForAttack.size()
+        // TODO order of execution alternates between
+        // TODO  highes-bonus attacker unit paired with the lowest-bonus defender unit
+        // TODO lowest-bonus attacker unit paired with the highest-bonus defend unit
 
+        List<Integer> attackBonus = new ArrayList<>();
 
-        HashMap<Integer, Integer> attackerBonuses = new HashMap<>();
-        for (Map.Entry<Integer, Unit> entry : unitForAttack.entrySet()) {
-            Unit unit = entry.getValue();
-            attackerBonuses.put(entry.getKey(), unit.getBonus());
-        }
-
-        HashMap<Integer, Integer> defenderBonuses = new HashMap<>();
-        for (Map.Entry<Integer, Unit> entry : gameMap.getTerritoryByName(this.getDest().getName()).getUnits().entrySet()
-        ) {
-            Unit unit = entry.getValue();
-            defenderBonuses.put(entry.getKey(), unit.getBonus());
-        }
-
-        // Create sorted lists of attacker and defender entries
-        List<Map.Entry<Integer, Integer>> attackerList = new ArrayList<>(attackerBonuses.entrySet());
-        attackerList.sort((a, b) -> b.getValue().compareTo(a.getValue())); // Sort by descending bonus
-
-        List<Map.Entry<Integer, Integer>> defenderList = new ArrayList<>(defenderBonuses.entrySet());
-        defenderList.sort(Map.Entry.comparingByValue()); // Sort by ascending bonus
-
-        // Alternate between attacker and defender units
-        int attackerIndex = 0;
-        int defenderIndex = 0;
-        while (attackerIndex < attackerList.size() && defenderIndex < defenderList.size()) {
-            Map.Entry<Integer, Integer> attackerEntry = attackerList.get(attackerIndex);
-            Map.Entry<Integer, Integer> defenderEntry = defenderList.get(defenderIndex);
-
-            System.out.println("Attacker " + attackerEntry + " vs Defender " + defenderEntry);
-
-            // Simulate combat and update lists based on the result
-            if (attackerEntry.getValue() > defenderEntry.getValue()) {
-                defenderList.remove(defenderIndex);
-            } else {
-                attackerList.remove(attackerIndex);
-            }
-
-            // Alternate between highest-bonus attacker and lowest-bonus defender
-            if (attackerIndex == 0) {
-                attackerIndex = attackerList.size() - 1;
-            } else {
-                attackerIndex = 0;
-            }
-
-            if (defenderIndex == 0) {
-                defenderIndex = defenderList.size() - 1;
-            } else {
-                defenderIndex = 0;
-            }
-        }
+        List<Integer> defendBonus = new ArrayList<>();
     }
 
     private void doNormalAttack(GameMap gameMap) {
