@@ -2,9 +2,10 @@ package edu.duke.ece651.riscgame.game;
 
 import edu.duke.ece651.riscgame.game.Territory;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Player {
+public class Player implements Serializable {
 
     // TODO add his territory
     private final int clientID;

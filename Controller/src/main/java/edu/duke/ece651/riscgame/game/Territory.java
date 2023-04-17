@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class Territory implements Serializable {
     private final String name;
@@ -158,15 +159,35 @@ public class Territory implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Territory territory = (Territory) o;
-        return ownId == territory.ownId && unitNum == territory.unitNum && technologyLevel == territory.technologyLevel && name.equals(territory.name) && ownerName.equals(territory.ownerName) ;
+        return ownId == territory.ownId && unitNum == territory.unitNum && technologyLevel == territory.technologyLevel && name.equals(territory.name) && ownerName.equals(territory.ownerName);
     }
 
-    public void displayUnit() {
-        for (int i = 0; i < units.size(); i++) {
-            System.out.println("Unit " + (i+1) + ": " + units.get(i).getLevel() + " level, " );
+    //    public void displayAllUnit() {
+//        for (int i = 0; i < units.size(); i++) {
+//            System.out.println("Unit " + (i+1) + ": " + units.get(i).getLevel() + " level, " + units.get(i).getBonus() + " bonus");
+//        }
+//    }
+    public void displayAllUnit() {
+        // display all units according to 7 levels
+        int[] levelCount = new int[7];
+        List<List<Integer>> levelIndices = new ArrayList<>();
+
+        // Initialize the ArrayLists in the list
+        for (int i = 0; i < 7; i++) {
+            levelIndices.add(new ArrayList<>());
+        }
+
+        for (Unit u : units) {
+            int level = u.getLevel();
+            levelCount[level]++;
+            levelIndices.get(level).add(units.indexOf(u));
+        }
+
+        for (int i = 0; i < levelCount.length; i++) {
+            System.out.print("Level " + (i + 1) + " : " + levelCount[i]);
+            System.out.println(" with Index: " + levelIndices.get(i));
         }
     }
-
 
 
     public String displayInfo() {
@@ -184,6 +205,7 @@ public class Territory implements Serializable {
     public int getFoodResource() {
         return foodResourceIncreasement;
     }
+
     public int getSize() {
         return size;
     }
