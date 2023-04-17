@@ -98,4 +98,6 @@ public abstract class Order implements Serializable {
     public boolean isFromOnePlayer() {
         return dest.getOwnId() == src.getOwnId();
     }
+
+    public abstract int consumeFood();
 }

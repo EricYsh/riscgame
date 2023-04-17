@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.rule;
 
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -34,7 +35,7 @@ public class MovePathChecker<T> extends OrderRuleChecker<T> {
      * @return null if the placement is perfect else return the corresponding prompt
      */
     @Override
-    protected String checkMyRule(Order theOrder) {
+    protected String checkMyRule(Order theOrder, GameMap map) {
         if (theOrder.getType().equals(Type.Move)){
             if (!ifPathExist(theOrder.getSrc(), theOrder.getDest()))  return "There is no path to move";
             return null;

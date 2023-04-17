@@ -16,13 +16,15 @@ public class UpgradeUnit extends Order {
 
     private final int[] bonusForUnit = {0, 1, 3, 5, 8, 11, 15};
 
-    private final int[] costForUpgrade = {0, 3, 8, 11, 19, 25, 36, 50};
+    private final int[] costForUpgrade = {0, 3, 8, 19, 25, 36, 50};
 
     // constructor
     public UpgradeUnit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
         super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
         this.levelToUpgrade = levelToUpgrade;
     }
+
+
 
     @Override
     public void run(GameMap boardMap) {
@@ -50,5 +52,10 @@ public class UpgradeUnit extends Order {
 
     public void combat(GameMap gameMap){
 
+    }
+
+    @Override
+    public int consumeFood() {
+        return 0;
     }
 }
