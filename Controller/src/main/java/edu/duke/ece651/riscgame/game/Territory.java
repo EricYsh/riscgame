@@ -140,6 +140,10 @@ public class Territory implements Serializable {
         unitNum += num;
     }
 
+    public void addOneUnit() {
+        units.add((Unit) unitFactory.createUnit(0, 0));
+    }
+
     public void minusUnit(int num) {
         unitNum -= num;
     }

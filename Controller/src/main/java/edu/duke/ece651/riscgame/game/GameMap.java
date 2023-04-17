@@ -57,4 +57,6 @@ public interface GameMap {
      * @return true if the player has lost (i.e. does not own any territories), false otherwise
      */
     public boolean isLose(int playerId);
+
+    Player getPlayerByName(String playerName);
 }
