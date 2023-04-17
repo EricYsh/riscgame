@@ -16,6 +16,15 @@ public class BoardGameMap implements GameMap, Serializable {
         allPlayerList = new ArrayList<>();
     }
 
+    public Player getPlayerById(int id) {
+        for (Player p : allPlayerList) {
+            if (p.getClientID() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Player> getAllPlayerList() {
         return allPlayerList;
     }
