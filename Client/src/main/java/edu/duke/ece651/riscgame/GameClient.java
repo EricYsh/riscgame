@@ -9,6 +9,7 @@ import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +66,7 @@ public class GameClient {
         RoundResult result = netClient.receiveRoundResult();
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
         gameMap.setTerritoryNameAndUnitNums(result.getUnits());
+        gameMap.setAllPlayerList(result.getPlayers());
 //      System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
 
@@ -135,11 +137,13 @@ public class GameClient {
      * lost players do not and should not need to issue orders
      */
     private void issueOrders() {
+        boolean isCommitted = false;
         do {
             Order oneOrder = gameView.issueOneOrder(player.getClientID()); // three actions: move, attack, commit
             ActionInfo info = new ActionInfo(oneOrder);
             netClient.sendActionInfo(info);
-        } while (!receiveCommitted()); // loop until one order is ACKed
+            isCommitted = receiveCommitted(oneOrder);
+        } while (!isCommitted); // loop until one order is ACKed
     }
 
     /**
@@ -157,14 +161,31 @@ public class GameClient {
         return illegal.isLegal();
     }
 
-    public boolean receiveCommitted() {
+    public boolean receiveCommitted(Order oneOrder) {
         ValidationResult illegal = netClient.receiveValidationResult();
         /*
         gameView.printValidationResult(illegal);
          */
-        if (!illegal.isLegal())
+        if (!illegal.isLegal()) {
             System.out.println(illegal.getErrMessage());
-        return illegal.isLegal() && illegal.isCommitted();
+        } else {
+//            if (oneOrder.getType() == Type.Move) {
+//                oneOrder.run(gameMap);
+//            }
+//            if (oneOrder.getType() == Type.Attack) {
+//                gameMap.getTerritoryByName(oneOrder.getSrc().getName()).minusUnit(oneOrder.getUnitNum());
+//            }
+//            if (oneOrder.getType() == Type.UpgradeTech) {
+//
+//            }
+//            if (oneOrder.getType() == Type.UpgradeUnit) {
+//
+//            }
+            //TODO: this func add modifications (unit, resources) from orders to map
+            // in this case, the local map is updated and player can issue orders based on preview orders
+            oneOrder.run(gameMap);
+        }
+        return illegal.isCommitted();
     }
 
     public void closeConnection() {

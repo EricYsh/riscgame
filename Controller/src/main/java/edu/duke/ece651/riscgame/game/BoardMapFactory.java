@@ -8,7 +8,7 @@ public class BoardMapFactory {
     public BoardGameMap generateMap(int playerNum) {
         BoardGameMap map = new BoardGameMap();
         ArrayList<Territory> territories = map.getTerritories();
-
+        ArrayList<Player> players = map.getAllPlayerList();
         switch (playerNum) {
             //Just for test!!!!!!!!!!!!!!!
             case 1:
@@ -17,18 +17,32 @@ public class BoardMapFactory {
             case 2:
                 // Perform the action specific to Player 1
                 initByPlayerNumber2(territories);
+                players.add(new Player(0, "Avalon"));
+                players.add(new Player(1, "Braglavia"));
                 break;// Perform the action specific to Player 2
             case 4:
                 // Perform the action specific to Player 3
                 initByPlayerNumber4(territories);
+                players.add(new Player(0, "Avalon"));
+                players.add(new Player(1, "Braglavia"));
+                players.add(new Player(2, "Calador"));
+                players.add(new Player(3, "Excrier"));
                 break;
             case 5:
                 // Perform the action specific to Player 4
                 initByPlayerNumber5(territories);
+                players.add(new Player(0, "Avalon"));
+                players.add(new Player(1, "Braglavia"));
+                players.add(new Player(2, "Calador"));
+                players.add(new Player(3, "Excrier"));
+                players.add(new Player(4, "Ceyland"));
                 break;
             default: // also used for 3 player
                 // Handle the case when playerNum is not between 1 and 4
                 initByPlayerNumber3(territories);
+                players.add(new Player(0, "Avalon"));
+                players.add(new Player(1, "Braglavia"));
+                players.add(new Player(2, "Calador"));
                 break;
         }
         return map;
