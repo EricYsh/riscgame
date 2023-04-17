@@ -1,6 +1,5 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -25,8 +24,10 @@ public abstract class Order implements Serializable {
 
     private ArrayList<Integer> selectedUnitsIndex;
 
+    private ArrayList<Integer> levelToUpgrade;
+
     // constructor
-    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
+    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
         this.unitNum = unitNum;
         this.src = src;
         this.dest = dest;
@@ -39,8 +40,13 @@ public abstract class Order implements Serializable {
         ownership.put(3, "Excrier");
         ownership.put(4, "Ceyland");
         this.selectedUnitsIndex = selectedUnitsIndex;
+        this.levelToUpgrade = levelToUpgrade;
     }
     // Getters
+
+    public ArrayList<Integer> getLevelToUpgrade() {
+        return levelToUpgrade;
+    }
 
     public ArrayList<Integer> getSelectedUnitsIndex() {
         return selectedUnitsIndex;
@@ -71,6 +77,7 @@ public abstract class Order implements Serializable {
     public void setSelectedUnitsIndex(ArrayList<Integer> selectedUnitsIndex) {
         this.selectedUnitsIndex = selectedUnitsIndex;
     }
+
     public void setType(Type type) {
         this.type = type;
     }
