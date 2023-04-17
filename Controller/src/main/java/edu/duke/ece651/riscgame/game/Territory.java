@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.game;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -13,8 +14,9 @@ public class Territory implements Serializable {
     private HashSet<Territory> neighbors;
 
     // {unitId, Real Unit}
-    private HashMap<Integer, Unit> units;
-    //  TODO confirm evol2 design
+//    private HashMap<Integer, Unit> units;
+    //  TODO confirm evol2 design. Use hashmap or arraylist?
+    private ArrayList<Unit> units;
     //  1 : level1
     //  2 : leve 3
     //  3 : level7
@@ -29,9 +31,13 @@ public class Territory implements Serializable {
         this.name = tname;
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
-        units = new HashMap<>();
+//        units = new HashMap<>();
+//        for (int i = 0; i < unitNum; i++) {
+//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+//        }
+        units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
-            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+            units.add((Unit) unitFactory.createUnit(0, 0));
         }
         this.size = 10;
     }
@@ -43,9 +49,13 @@ public class Territory implements Serializable {
         this.unitNum = unitNum;
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
-        units = new HashMap<>();
+//        units = new HashMap<>();
+//        for (int i = 0; i < unitNum; i++) {
+//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+//        }
+        units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
-            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+            units.add((Unit) unitFactory.createUnit(0, 0));
         }
         this.size = 10;
     }
@@ -57,19 +67,31 @@ public class Territory implements Serializable {
         this.unitNum = unitNum;
         this.technologyLevel = 1;
         neighbors = new HashSet<>();
-        units = new HashMap<>();
+//        units = new HashMap<>();
+//        for (int i = 0; i < unitNum; i++) {
+//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+//        }
+        units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
-            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+            units.add((Unit) unitFactory.createUnit(0, 0));
         }
         this.size = 10;
     }
 
 
-    public HashMap<Integer, Unit> getUnits() {
+//    public HashMap<Integer, Unit> getUnits() {
+//        return units;
+//    }
+//
+//    public void setUnits(HashMap<Integer, Unit> units) {
+//        this.units = units;
+//    }
+
+    public ArrayList<Unit> getUnits() {
         return units;
     }
 
-    public void setUnits(HashMap<Integer, Unit> units) {
+    public void setUnits(ArrayList<Unit> units) {
         this.units = units;
     }
 
@@ -137,6 +159,12 @@ public class Territory implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Territory territory = (Territory) o;
         return ownId == territory.ownId && unitNum == territory.unitNum && technologyLevel == territory.technologyLevel && name.equals(territory.name) && ownerName.equals(territory.ownerName) ;
+    }
+
+    public void displayUnit() {
+        for (int i = 0; i < units.size(); i++) {
+            System.out.println("Unit " + (i+1) + ": " + units.get(i).getLevel() + " level, " );
+        }
     }
 
 

@@ -1,12 +1,10 @@
 package edu.duke.ece651.riscgame.game;
 
-import edu.duke.ece651.riscgame.order.Attack;
-import edu.duke.ece651.riscgame.order.Commit;
-import edu.duke.ece651.riscgame.order.Move;
-import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.order.*;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -32,6 +30,8 @@ public class BoardTextView {
         System.out.println("You are the "+ playerName + " player, what would you like to do?");
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
+        System.out.println("(U)pgrade");
+        System.out.println("(T)ech Upgrade");
         System.out.println("(D)one");
     }
 
@@ -81,6 +81,8 @@ public class BoardTextView {
         System.out.println("\nWhat would you like to do?");
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
+        System.out.println("(U)pgrade Units");
+        System.out.println("(T)ech Upgrade");
         System.out.println("(D)one");
         Scanner scanner = new Scanner(System.in);
         String input = "";
@@ -93,9 +95,15 @@ public class BoardTextView {
             } else if (input.equals("A") || input.equals("a")) {
                 validInput = true;
                 return issueAttackOrder(playerId);
+            } else if (input.equals("U") || input.equals("u")) {
+                validInput = true;
+                return issueUpgradeUnitOrder(playerId);
+            } else if (input.equals("T") || input.equals("t")) {
+                validInput = true;
+                return issueUpgradeTechOrder(playerId);
             } else if (input.equals("D") || input.equals("d")) {
                 validInput = true;
-                return new Commit(0, null, null, Type.Commit, playerId);
+                return new Commit(0, null, null, Type.Commit, playerId, null);
             } else {
                 System.out.println("Please enter a valid input");
                 continue;
@@ -190,15 +198,51 @@ public class BoardTextView {
         return input;
     }
 
-    public Move issueMoveOrder(int playerId) {
+    private void printAllTerritory(String territoryName){
+        for (Territory territory : boardMap.getTerritories()){
+            if (territory.getName().equals(territoryName)){
+                territory.displayUnit();
+            }
+        }
+    }
+
+    private ArrayList<Integer> getUnitIndex(int playerId){
+        Scanner scanner = new Scanner(System.in);
+
+    }
+
+//    public Move issueMoveOrder(int playerId) {
+//        System.out.println("Please enter the territory you want to move from:");
+//        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+//        System.out.println("Please enter the territory you want to move to:");
+//        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
+//        System.out.println("Please enter the number of units you want to move:");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+//        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
+//    }
+
+        public Move issueMoveOrder(int playerId) {
         System.out.println("Please enter the territory you want to move from:");
         String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
         System.out.println("Please enter the territory you want to move to:");
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
-        System.out.println("Please enter the number of units you want to move:");
-        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
+        System.out.println("---------The units you have in " + fromTerritoryName + "----------");
+        printAllTerritory(fromTerritoryName);
+        System.out.println("===================================================================");
+        System.out.println("Please enter the index of units you want to move:");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        return new Move(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
     }
+
+//    public Attack issueAttackOrder(int playerId) {
+//        System.out.println("Please enter the territory you want to attack from:");
+//        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+//        System.out.println("Please enter the territory you want to attack:");
+//        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
+//        System.out.println("Please enter the number of units you want to attack with:");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+//        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
+//    }
 
     public Attack issueAttackOrder(int playerId) {
         System.out.println("Please enter the territory you want to attack from:");
@@ -209,6 +253,24 @@ public class BoardTextView {
         int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
         return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
     }
+
+    public UpgradeTech issueUpgradeTechOrder(int playerId) {
+        System.out.println("You technology level will be upgraded by 1 at the end of the turn!");
+        return new UpgradeTech(0,null, null, Type.UpgradeTech, playerId, null);
+    }
+
+    public UpgradeUnit issueUpgradeUnitOrder(int playerId) {
+        System.out.println("Please enter the territory you want to upgrade units in:");
+        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+        // print out all units in the territory
+
+
+        System.out.println("Please enter the index of units you want to upgrade:");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        return new UpgradeUnit(numUnits, boardMap.getTerritoryByName(fromTerritoryName), null, Type.UpgradeUnit, playerId, );
+    }
+
+
 
     private boolean scanYN() throws IOException {
         Scanner scanner = new Scanner(System.in);

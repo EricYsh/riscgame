@@ -5,6 +5,8 @@ import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -17,8 +19,8 @@ public class Move extends Order {
     /**
      * Constructor for the Move class.
      */
-    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
-        super(unitNum, src, dest, type, orderOwnId);
+    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
     }
 
     HashSet<Territory> used = new HashSet<>();

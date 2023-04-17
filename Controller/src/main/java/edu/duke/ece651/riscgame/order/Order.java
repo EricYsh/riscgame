@@ -6,6 +6,7 @@ import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -22,8 +23,10 @@ public abstract class Order implements Serializable {
     private int orderOwnId;
     public HashMap<Integer, String> ownership;
 
+    private ArrayList<Integer> selectedUnitsIndex;
+
     // constructor
-    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
+    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
         this.unitNum = unitNum;
         this.src = src;
         this.dest = dest;
@@ -35,8 +38,13 @@ public abstract class Order implements Serializable {
         ownership.put(2, "Calador");
         ownership.put(3, "Excrier");
         ownership.put(4, "Ceyland");
+        this.selectedUnitsIndex = selectedUnitsIndex;
     }
     // Getters
+
+    public ArrayList<Integer> getSelectedUnitsIndex() {
+        return selectedUnitsIndex;
+    }
 
     public int getOrderOwnId() {
         return orderOwnId;
@@ -59,6 +67,10 @@ public abstract class Order implements Serializable {
     }
 
     // setter
+
+    public void setSelectedUnitsIndex(ArrayList<Integer> selectedUnitsIndex) {
+        this.selectedUnitsIndex = selectedUnitsIndex;
+    }
     public void setType(Type type) {
         this.type = type;
     }
