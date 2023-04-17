@@ -1,6 +1,9 @@
 package edu.duke.ece651.riscgame.commuMedium;
 
+import edu.duke.ece651.riscgame.game.Player;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -10,17 +13,19 @@ import java.util.HashMap;
 public class RoundResult implements Serializable {
     private HashMap<String, Integer> units;
     private HashMap<String, Integer> ownership;
-
+    private ArrayList<Player> players;
     private HashMap<String, String> updatePlayerName;
 
     public RoundResult() {
         this.ownership = null;
         this.units = null;
+        this.players = null;
     }
 
-    public RoundResult(HashMap<String, Integer> units, HashMap<String, Integer> ownership) {
+    public RoundResult(HashMap<String, Integer> units, HashMap<String, Integer> ownership, ArrayList<Player> players) {
         this.ownership = ownership;
         this.units = units;
+        this.players = players;
 //        this.updatePlayerName = updatePlayerName;
     }
 
@@ -30,6 +35,10 @@ public class RoundResult implements Serializable {
 
     public HashMap<String, Integer> getUnits() {
         return units;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     public HashMap<String, String> getUpdatePlayerName() {

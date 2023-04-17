@@ -66,6 +66,7 @@ public class GameClient {
         RoundResult result = netClient.receiveRoundResult();
         gameMap.setTerritoryNameAndOwnership(result.getOwnership());
         gameMap.setTerritoryNameAndUnitNums(result.getUnits());
+        gameMap.setAllPlayerList(result.getPlayers());
 //      System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
 
