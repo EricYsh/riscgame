@@ -6,14 +6,23 @@ import java.util.*;
 public class BoardGameMap implements GameMap, Serializable {
     private ArrayList<Territory> territories;
 
+    private ArrayList<Player> allPlayerList;
+
     /**
      * @return {*}
      */
     public BoardGameMap() {
         territories = new ArrayList<>();
+        allPlayerList = new ArrayList<>();
     }
 
+    public ArrayList<Player> getAllPlayerList() {
+        return allPlayerList;
+    }
 
+    public void setAllPlayerList(ArrayList<Player> allPlayerList) {
+        this.allPlayerList = allPlayerList;
+    }
 
     /**
      * @param {ArrayList<Territory>} territories: the territories to be set
