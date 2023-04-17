@@ -6,6 +6,7 @@ import java.util.Vector;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameMessageStream;
 import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.*;
 
@@ -14,14 +15,16 @@ import edu.duke.ece651.riscgame.rule.*;
  */
 public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
     // private volatile ConcurrentHashMap<Integer, Order> orders;
+    private GameMap map;
     private final OrderRuleChecker moveChecker;
     private final OrderRuleChecker attackOrder;
     private final GameMessageStream<ActionInfo> gameMsgStream;
-    public ReceiveActionOrderThread(Socket socket) {
+    public ReceiveActionOrderThread(Socket socket, GameMap m1) {
         super(socket);
         moveChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
         attackOrder = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
         gameMsgStream = new GameMessageStream<>();
+        this.map = m1;
     }
 
     @Override
@@ -36,10 +39,10 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
                 return orders;
             }
             if (oneOrder.getType() == Type.Move) {
-                check = moveChecker.checkOrder(oneOrder);
+                check = moveChecker.checkOrder(oneOrder, map);
             }
             if (oneOrder.getType() == Type.Attack) {
-                check = attackOrder.checkOrder(oneOrder);
+                check = attackOrder.checkOrder(oneOrder, map);
             }
             GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {

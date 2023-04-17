@@ -52,4 +52,9 @@ public class UpgradeTech extends Order {
     public void combat(GameMap gameMap){
 
     }
+
+    @Override
+    public int consumeFood() {
+        return 0;
+    }
 }

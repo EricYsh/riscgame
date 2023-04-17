@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.*;
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 
@@ -102,13 +103,13 @@ public class NetServer {
      * this func receive action orders from clients
      * and then record them in Game
      */
-    public ArrayList<Order> validateActionOrders () {
+    public ArrayList<Order> validateActionOrders (GameMap map) {
         ArrayList<Order> container = new ArrayList<>();
         ArrayList<Future<Vector<Order> > > actionOrderFutures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         for (Socket socket: clientSockets) {
             if (lostClientSockets.contains(socket)) continue;
-            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket);
+            ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket, map);
             Future<Vector<Order> > actionOrder = executorService.submit(task);
             actionOrderFutures.add(actionOrder);
         }
