@@ -4,15 +4,14 @@ import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.Type;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UpgradeTech extends Order {
                  //2   3    4    5    6
     int[] cost = {50, 75, 125, 200, 300};
 
-    public UpgradeTech(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
-        super(unitNum, src, dest, type, orderOwnId, null);
+    public UpgradeTech(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
+        super(unitNum, src, dest, type, orderOwnId, null, null);
     }
 
     @Override

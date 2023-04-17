@@ -3,9 +3,7 @@ package edu.duke.ece651.riscgame.order;
 import edu.duke.ece651.riscgame.game.*;
 import edu.duke.ece651.riscgame.rule.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The Move class represents a upgrade order in the RISC game.
@@ -20,8 +18,8 @@ public class UpgradeUnit extends Order {
 
     // constructor
     public UpgradeUnit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
-        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
-        this.levelToUpgrade = levelToUpgrade;
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
+//        this.levelToUpgrade = levelToUpgrade;
     }
 
 
