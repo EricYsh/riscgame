@@ -29,7 +29,7 @@ public class UpgradeUnitResourceChecker extends OrderRuleChecker{
 
             for (Integer i : theOrder.getSelectedUnitsIndex()) {
                 int originLevel = units.get(i).getLevel();
-                int aimLevel = this.levelToUpgrade.get(i);
+                int aimLevel = theOrder.getLevelToUpgrade().get(i);
                 int TechCost = costForUpgrade[aimLevel] - costForUpgrade[originLevel];
                 if (TechCost <= originTech) return null;
                 return "The technology resources are not enough to upgrade";
