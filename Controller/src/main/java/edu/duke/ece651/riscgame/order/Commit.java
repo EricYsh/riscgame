@@ -32,4 +32,9 @@ public class Commit extends Order {
 
     }
 
+    @Override
+    public int consumeFood() {
+        return 0;
+    }
+
 }

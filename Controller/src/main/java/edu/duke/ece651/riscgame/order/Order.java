@@ -82,7 +82,10 @@ public abstract class Order implements Serializable {
         this.type = type;
     }
 
-    // Abstract method to be implemented by derived classes
+    public void setLevelToUpgrade(ArrayList<Integer> levelToUpgrade) {
+        this.levelToUpgrade = levelToUpgrade;
+    }
+// Abstract method to be implemented by derived classes
 
 
     /**
