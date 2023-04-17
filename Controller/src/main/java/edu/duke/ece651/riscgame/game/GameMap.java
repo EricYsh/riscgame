@@ -17,7 +17,8 @@ public interface GameMap {
      * @description: This function gets the territories
      */
     public ArrayList<Territory> getTerritories();
-
+    public ArrayList<Player> getAllPlayerList();
+    public void setAllPlayerList(ArrayList<Player> allPlayerList);
     /**
      * @param {String} name
      * @return {*}

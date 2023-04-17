@@ -50,7 +50,8 @@ public class GameServer {
         gameMap.setTerritories(assignments);
         System.out.println(4);
         netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
-                                            gameMap.getTerritoryNameAndOwnership()));
+                                            gameMap.getTerritoryNameAndOwnership(),
+                                            gameMap.getAllPlayerList()));
         System.out.println(5);
     }
 
@@ -70,7 +71,8 @@ public class GameServer {
         gameMap.callUp(); // add one unit in territories
         playerLost();
         netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
-                                            gameMap.getTerritoryNameAndOwnership()));
+                                            gameMap.getTerritoryNameAndOwnership(),
+                                            gameMap.getAllPlayerList()));
         // output results for checking
         System.out.println(gameMap.getTerritoryNameAndUnitNums());
         System.out.println(gameMap.getTerritoryNameAndOwnership());
