@@ -99,28 +99,14 @@ public class GameServer {
 
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                System.out.println("go into the if condition");
                 for (int i = 0; i < orders.size() - 1; i++) {
                     for (int j = i + 1; j < orders.size(); j++) {
                         if (o.getType().equals(Type.Attack)) {
-                            System.out.println("go into the for loop");
-                            System.out.println(orders.get(i).getSrc().equals(orders.get(j).getDest()));
-                            System.out.println(orders.get(i).getDest().equals(orders.get(j).getSrc()));
-                            System.out.println(orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum());
-                            System.out.println(orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum());
-                            System.out.println("--------display info");
-                            System.out.println(orders.get(i).getSrc().displayInfo());
-                            System.out.println(orders.get(j).getDest().displayInfo());
-                            System.out.println("second compare");
-                            System.out.println(orders.get(i).getDest().displayInfo());
-                            System.out.println(orders.get(j).getSrc().displayInfo());
-                            System.out.println("end compare");
                             if (orders.get(i).getSrc().equals(orders.get(j).getDest()) &&
                                     orders.get(i).getDest().equals(orders.get(j).getSrc()) &&
                                     orders.get(i).getUnitNum() == orders.get(i).getSrc().getUnitNum() &&
                                     orders.get(j).getUnitNum() == orders.get(j).getSrc().getUnitNum()
                             ) {
-                                System.out.println("change home");
                                 orders.get(i).setType(Type.AttackAndChangeHome);
                                 orders.get(j).setType(Type.AttackAndChangeHome);
                             }
