@@ -41,4 +41,8 @@ public class UpgradeTech extends Order {
             }
         }
     }
+
+    public void combat(GameMap gameMap){
+
+    }
 }

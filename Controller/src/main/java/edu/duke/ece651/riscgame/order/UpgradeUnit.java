@@ -45,4 +45,8 @@ public class UpgradeUnit extends Order {
             }
         }
     }
+
+    public void combat(GameMap gameMap){
+
+    }
 }
