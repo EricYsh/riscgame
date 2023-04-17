@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.rule;
 
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.order.Order;
 
 /**
@@ -27,7 +28,7 @@ public abstract class OrderRuleChecker<T> {
      * @param theOrder The order we want to check.
      * @return null if the order follows the rule, otherwise returns an error message.
      */
-    protected abstract String checkMyRule(Order theOrder);
+    protected abstract String checkMyRule(Order theOrder, GameMap map);
 
     /**
      * To check the order with rules if it follows every rule, return null.
@@ -36,16 +37,16 @@ public abstract class OrderRuleChecker<T> {
      * @param theOrder The order we want to check.
      * @return null if the order follows every rule, otherwise returns the corresponding prompt.
      */
-    public String checkOrder(Order theOrder) {
+    public String checkOrder(Order theOrder, GameMap map) {
         // If the order fails the current rule: stop, the order is not legal
-        String tmp = checkMyRule(theOrder);
+        String tmp = checkMyRule(theOrder, map);
         if (tmp != null) {
             return tmp;
         }
 
         // Otherwise, ask the rest of the chain.
         if (next != null) {
-            return next.checkOrder(theOrder);
+            return next.checkOrder(theOrder, map);
         }
 
         // If there are no more rules, then the placement is legal

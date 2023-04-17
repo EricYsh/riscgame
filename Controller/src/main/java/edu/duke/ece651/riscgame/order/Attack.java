@@ -27,7 +27,10 @@ public class Attack extends Order {
     public void run(GameMap gameMap) {
         gameMap.getTerritoryByName(this.getSrc().getName()).minusUnit(this.getUnitNum());
     }
-
+    @Override
+    public int consumeFood() {
+        return this.getUnitNum();
+    }
     /**
      * Executes the attack action by simulating a battle between the attacker and defender.
      * Each iteration, both attacker and defender roll a 20-sided die. If the attacker's roll
