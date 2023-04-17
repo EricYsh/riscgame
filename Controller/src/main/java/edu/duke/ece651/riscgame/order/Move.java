@@ -80,4 +80,8 @@ public class Move extends Order {
             boardMap.getTerritoryByName(this.getDest().getName()).addUnit(count);
         }
     }
+
+    public void combat(GameMap gameMap){
+
+    }
 }
