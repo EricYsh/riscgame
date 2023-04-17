@@ -25,6 +25,15 @@ public class BoardGameMap implements GameMap, Serializable {
         return null;
     }
 
+    public Player getPlayerByName(String name) {
+        for (Player p : allPlayerList) {
+            if (p.getPlayerName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Player> getAllPlayerList() {
         return allPlayerList;
     }
@@ -89,7 +98,8 @@ public class BoardGameMap implements GameMap, Serializable {
      */
     public void callUp() {
         for (Territory t : territories) {
-            t.addUnit(1);
+//            t.addUnit(1);
+            t.addOneUnit();
         }
     }
 

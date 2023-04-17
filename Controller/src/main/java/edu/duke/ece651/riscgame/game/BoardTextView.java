@@ -4,7 +4,6 @@ import edu.duke.ece651.riscgame.order.*;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -65,6 +64,9 @@ public class BoardTextView {
     public void printPlayerMap(String playerName) {
         System.out.println("\n" + playerName + " Player:");
         System.out.println("-------------");
+        Player player = boardMap.getPlayerByName(playerName);
+        player.disPlayResources();
+        System.out.println("-------------");
         for (Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
             System.out.println(territory.displayInfo());
         }
@@ -72,6 +74,9 @@ public class BoardTextView {
 
     public void printPlayerMap(int playerId) {
         System.out.println("\n" + idToName.get(playerId) + " Player:");
+        System.out.println("-------------");
+        Player player = boardMap.getPlayerById(playerId);
+        player.disPlayResources();
         System.out.println("-------------");
         for (Territory territory : boardMap.getTerritoriesByOwnId(playerId)) {
             System.out.println(territory.displayInfo());
@@ -104,7 +109,7 @@ public class BoardTextView {
                 return issueUpgradeTechOrder(playerId);
             } else if (input.equals("D") || input.equals("d")) {
                 validInput = true;
-                return new Commit(0, null, null, Type.Commit, playerId, null);
+                return new Commit(0, null, null, Type.Commit, playerId, null, null);
             } else {
                 System.out.println("Please enter a valid input");
                 continue;
@@ -256,7 +261,7 @@ public class BoardTextView {
         System.out.println("Please enter the index of units you want to move (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
         ArrayList<Integer> unitIndex = getUnitIndex(playerId);
-        return new Move(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex);
+        return new Move(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
     }
 
 //    public Attack issueAttackOrder(int playerId) {
@@ -280,12 +285,12 @@ public class BoardTextView {
         System.out.println("Please enter the number of units you want to attack with (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
         ArrayList<Integer> unitIndex = getUnitIndex(playerId);
-        return new Attack(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex);
+        return new Attack(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex, null);
     }
 
     public UpgradeTech issueUpgradeTechOrder(int playerId) {
         System.out.println("You technology level will be upgraded by 1 at the end of the turn!");
-        return new UpgradeTech(-1, null, null, Type.UpgradeTech, playerId, null);
+        return new UpgradeTech(-1, null, null, Type.UpgradeTech, playerId, null, null);
     }
 
     public UpgradeUnit issueUpgradeUnitOrder(int playerId) {

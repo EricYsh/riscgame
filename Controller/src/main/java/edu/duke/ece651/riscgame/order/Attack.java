@@ -13,14 +13,14 @@ import java.util.*;
  */
 public class Attack extends Order {
 
-    // {index in the terr: the unit}
-    HashMap<Integer, Unit> unitForAttack;
+//    // {index in the terr: the unit}
+//    HashMap<Integer, Unit> unitForAttack;
 
     /**
      * Constructor for the Attack class.
      */
-    public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
-        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
+    public Attack(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
     }
 
     @Override

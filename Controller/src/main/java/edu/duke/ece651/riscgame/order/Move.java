@@ -1,15 +1,12 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Vector;
 
 /**
  * The Move class represents a move order in the RISC game.
@@ -20,8 +17,8 @@ public class Move extends Order {
     /**
      * Constructor for the Move class.
      */
-    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex) {
-        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex);
+    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
     }
 
     HashSet<Territory> used = new HashSet<>();

@@ -20,6 +20,10 @@ public class Player implements Serializable {
         this.techLevel = 1;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
     public int getClientID() {
         return clientID;
     }
@@ -46,5 +50,9 @@ public class Player implements Serializable {
 
     public void setTechLevel(int techLevel) {
         this.techLevel = techLevel;
+    }
+
+    public void disPlayResources() {
+        System.out.println("You have " + techResource + " tech resource and " + foodResource + " food resource.");
     }
 }
