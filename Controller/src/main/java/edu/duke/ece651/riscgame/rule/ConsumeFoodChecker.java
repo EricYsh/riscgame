@@ -16,7 +16,7 @@ public class ConsumeFoodChecker extends OrderRuleChecker{
 
     @Override
     protected String checkMyRule(Order theOrder, GameMap map) {
-        Player player = map.getPlayer(theOrder.getOrderOwnId());
+        Player player = map.getPlayerById(theOrder.getOrderOwnId());
         int totalFood = player.getFoodResource();
         int consuming = theOrder.consumeFood();
         if (consuming <= totalFood) return null;
