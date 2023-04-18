@@ -29,7 +29,8 @@ public class Commit extends Order {
 
     }
 
-    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack){
+    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack){}
+    public void combat(GameMap gameMap) {
 
     }
 
