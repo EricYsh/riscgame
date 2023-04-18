@@ -41,6 +41,12 @@ public class BoardGameMap implements GameMap, Serializable {
     public void setAllPlayerList(ArrayList<Player> allPlayerList) {
         this.allPlayerList = allPlayerList;
     }
+    public Player getPlayer(int playerID) {
+        for(Player p : allPlayerList) {
+            if (p.getClientID() == playerID) return p;
+        }
+        return null;
+    }
 
     /**
      * @param {ArrayList<Territory>} territories: the territories to be set

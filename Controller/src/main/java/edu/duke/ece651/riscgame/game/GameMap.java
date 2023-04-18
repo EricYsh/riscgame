@@ -20,6 +20,7 @@ public interface GameMap {
     public ArrayList<Player> getAllPlayerList();
     public void setAllPlayerList(ArrayList<Player> allPlayerList);
     public Player getPlayerById(int id);
+    public Player getPlayer(int playerID);
     /**
      * @param {String} name
      * @return {*}

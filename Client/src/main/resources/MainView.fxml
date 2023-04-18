@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="58.0" layoutY="513.0" text="Player 1" />
+         
+            <Polygon fx:id="player1_t1" fill="#f44336" layoutX="266.0" layoutY="13.0" onMouseClicked="#click_player1_t1" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="100.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="150.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="175.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="150.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="137.5" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player1_t2" fill="#f44336" layoutX="242.0" layoutY="12.0" onMouseClicked="#click_player1_t2" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="50.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="125.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="200.0" />
+               </points>
+            </Polygon>
+            <Polygon fx:id="player1_t3" fill="#f44336" layoutX="290.0" layoutY="77.0" onMouseClicked="#click_player1_t3" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="150.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="225.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="150.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="125.0" />
+                    <Double fx:value="137.5" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player2_t1" fill="#4caf50" layoutX="316.0" layoutY="75.0" onMouseClicked="#click_player2_t1" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="50.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="125.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="200.0" />
+               </points>
+            </Polygon>
+            <Polygon fx:id="player2_t2" fill="#4caf50" layoutX="242.0" layoutY="137.0" onMouseClicked="#click_player2_t2" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="50.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="125.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="200.0" />
+               </points>
+            </Polygon>
+            <Polygon fx:id="player2_t3" fill="#4caf50" layoutX="316.0" layoutY="199.0" onMouseClicked="#click_player2_t3" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="50.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="125.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="200.0" />
+               </points>
+            </Polygon>
+            <Polygon fx:id="player3_t1" fill="#2196f3" layoutX="315.0" layoutY="16.0" onMouseClicked="#click_player3_t1" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="200.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="250.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="275.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="250.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="175.0" />
+                    <Double fx:value="137.5" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player3_t2" fill="#2196f3" layoutX="413.0" layoutY="16.0" onMouseClicked="#click_player3_t2" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="100.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="150.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="175.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="150.0" />
+                    <Double fx:value="325.0" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="325.0" />
+                    <Double fx:value="75.0" />
+                    <Double fx:value="262.5" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player3_t3" fill="#2196f3" layoutX="390.0" layoutY="138.0" onMouseClicked="#click_player3_t3" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="50.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="125.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="200.0" />
+               </points>
+            </Polygon>
+            <Polygon fx:id="player4_t1" fill="#ffeb3b" layoutX="611.0" layoutY="-48.0" onMouseClicked="#click_player4_t1" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="50.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="125.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="50.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="25.0" />
+                    <Double fx:value="200.0" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player4_t2" fill="#ffeb3b" layoutX="538.0" layoutY="16.0" onMouseClicked="#click_player4_t2" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="50.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="125.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="50.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="25.0" />
+                    <Double fx:value="200.0" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player4_t3" fill="#ffeb3b" layoutX="612.0" layoutY="76.0" onMouseClicked="#click_player4_t3" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="50.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="125.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="50.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="25.0" />
+                    <Double fx:value="200.0" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player5_t1" fill="#9c27b0" layoutX="612.0" layoutY="200.0" onMouseClicked="#click_player5_t1" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="50.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="137.5" />
+                  <Double fx:value="125.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="200.0" />
+               </points>
+            </Polygon>
+            <Polygon fx:id="player5_t2" fill="#9c27b0" layoutX="538.0" layoutY="140.0" onMouseClicked="#click_player5_t2" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="50.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="137.5" />
+                    <Double fx:value="125.0" />
+                    <Double fx:value="200.0" />
+                    <Double fx:value="100.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="50.0" />
+                    <Double fx:value="262.5" />
+                    <Double fx:value="25.0" />
+                    <Double fx:value="200.0" />
+                </points>
+            </Polygon>
+            <Polygon fx:id="player5_t3" fill="#9c27b0" layoutX="414.0" layoutY="141.0" onMouseClicked="#click_player5_t3" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="100.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="150.0" />
+                  <Double fx:value="200.0" />
+                  <Double fx:value="175.0" />
+                  <Double fx:value="262.5" />
+                  <Double fx:value="150.0" />
+                  <Double fx:value="325.0" />
+                  <Double fx:value="100.0" />
+                  <Double fx:value="325.0" />
+                  <Double fx:value="75.0" />
+                  <Double fx:value="262.5" />
+               </points>
+            </Polygon>
+            <Label layoutX="240.0" layoutY="513.0" text="Player 2" />
+            <Label layoutX="427.0" layoutY="513.0" text="Player 3" />
+            <Label layoutX="610.0" layoutY="513.0" text="Player 4" />
+            <Label layoutX="792.0" layoutY="513.0" text="Player 5" />
+            <Polygon fill="#f44336" layoutX="163.0" layoutY="487.0" stroke="BLACK" strokeType="INSIDE">
+                <points>
+                    <Double fx:value="10.0" />
+                    <Double fx:value="27.5" />
+                    <Double fx:value="20.0" />
+                    <Double fx:value="27.5" />
+                    <Double fx:value="25.0" />
+                    <Double fx:value="40.0" />
+                    <Double fx:value="20.0" />
+                    <Double fx:value="52.5" />
+                    <Double fx:value="10.0" />
+                    <Double fx:value="52.5" />
+                    <Double fx:value="5.0" />
+                    <Double fx:value="40.0" />
+                </points>
+            </Polygon>
+            <Polygon fill="#4caf50" layoutX="345.0" layoutY="489.0" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="10.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="10.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="5.0" />
+                  <Double fx:value="40.0" />
+               </points>
+            </Polygon>
+            <Polygon fill="#2196f3" layoutX="532.0" layoutY="489.0" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="10.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="10.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="5.0" />
+                  <Double fx:value="40.0" />
+               </points>
+            </Polygon>
+            <Polygon fill="#ffeb3b" layoutX="715.0" layoutY="489.0" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="10.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="10.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="5.0" />
+                  <Double fx:value="40.0" />
+               </points>
+            </Polygon>
+            <Polygon fill="#9c27b0" layoutX="897.0" layoutY="489.0" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="10.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="27.5" />
+                  <Double fx:value="25.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="20.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="10.0" />
+                  <Double fx:value="52.5" />
+                  <Double fx:value="5.0" />
+                  <Double fx:value="40.0" />
+               </points>
+            </Polygon>
+            <Button fx:id="attack_btn" layoutX="790.0" layoutY="254.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack" />
+            <Button fx:id="move_btn" layoutX="790.0" layoutY="174.0" mnemonicParsing="false" onAction="#click_move" prefHeight="50.0" prefWidth="150.0" text="Move" />
+            <Button fx:id="upgrade_btn" layoutX="790.0" layoutY="334.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Upgrade" />
+            <Button fx:id="commit_btn" layoutX="790.0" layoutY="414.0" mnemonicParsing="false" onAction="#click_commit" prefHeight="50.0" prefWidth="150.0" text="Commit" />
+            <Label layoutX="363.0" layoutY="14.0" text="You are the Player 1">
+               <font>
+                  <Font name="System Italic" size="25.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="30.0" layoutY="76.0" prefHeight="400.0" prefWidth="220.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="220.0" />
+              </content>
+            </ScrollPane>
+            <Label layoutX="29.0" layoutY="31.0" text="Game Info">
+               <font>
+                  <Font name="System Italic" size="25.0" />
+               </font>
+            </Label>
+            <Text fx:id="territory_info" layoutX="780.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Territory Info:" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
+</BorderPane>

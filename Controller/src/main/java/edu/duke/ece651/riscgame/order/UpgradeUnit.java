@@ -22,6 +22,7 @@ public class UpgradeUnit extends Order {
 //        this.levelToUpgrade = levelToUpgrade;
     }
 
+
     @Override
     public void run(GameMap boardMap) {
         if (this.getType().equals(Type.UpgradeUnit)) {
@@ -46,11 +47,15 @@ public class UpgradeUnit extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap) {
 
     }
 
-    public void combat(GameMap gameMap, ArrayList<Unit> units){
+    public void combat(GameMap gameMap, ArrayList<Unit> units) {
+    }
 
+    @Override
+    public int consumeFood() {
+        return 0;
     }
 }

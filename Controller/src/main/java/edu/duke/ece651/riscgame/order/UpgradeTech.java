@@ -8,7 +8,7 @@ import edu.duke.ece651.riscgame.rule.Type;
 import java.util.ArrayList;
 
 public class UpgradeTech extends Order {
-                 //2   3    4    5    6
+    //2   3    4    5    6
     int[] cost = {50, 75, 125, 200, 300};
 
     public UpgradeTech(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
@@ -49,11 +49,15 @@ public class UpgradeTech extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap) {
 
     }
 
-    public void combat(GameMap gameMap, ArrayList<Unit> units){
+    public void combat(GameMap gameMap, ArrayList<Unit> units) {
+    }
 
+    @Override
+    public int consumeFood() {
+        return 0;
     }
 }

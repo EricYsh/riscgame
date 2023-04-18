@@ -29,12 +29,16 @@ public class Commit extends Order {
 
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap) {
 
     }
 
-    public void combat(GameMap gameMap, ArrayList<Unit> units){
+    public void combat(GameMap gameMap, ArrayList<Unit> units) {
+    }
 
+    @Override
+    public int consumeFood() {
+        return 0;
     }
 
 }

@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.rule;
 
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.order.Order;
 
 /**
@@ -30,7 +31,7 @@ public class DestChecker<T> extends OrderRuleChecker<T> {
      * @return null if the destination is valid, otherwise returns an error message.
      */
     @Override
-    protected String checkMyRule(Order theOrder) {
+    protected String checkMyRule(Order theOrder, GameMap map) {
         if (theOrder.getType().equals(Type.Move)) { // the destination and source must belong to the same player
             if (!theOrder.isFromOnePlayer()) {
                 return "The source and destination should come from one player.";

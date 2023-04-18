@@ -29,6 +29,20 @@ public class Attack extends Order {
     }
 
     @Override
+    public int consumeFood() {
+        return this.getUnitNum();
+    }
+    /**
+     * Executes the attack action by simulating a battle between the attacker and defender.
+     * Each iteration, both attacker and defender roll a 20-sided die. If the attacker's roll
+     * is higher than the defender's, a defending unit is removed. If the defender's roll is
+     * higher, an attacking unit is removed. The battle continues until either side has no units
+     * remaining.
+     * <p>
+     * If the defender wins, the defending territory's unit count is updated.
+     * If the attacker wins, the defending territory's ownership and unit count are updated.
+     */
+    @Override
     public void combat(GameMap gameMap) {
         // attack but use up all units, then these two parts will change home directly
         if (this.getType().equals(Type.AttackAndChangeHome)) {
