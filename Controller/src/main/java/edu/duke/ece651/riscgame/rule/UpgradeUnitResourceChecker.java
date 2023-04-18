@@ -22,7 +22,7 @@ public class UpgradeUnitResourceChecker extends OrderRuleChecker{
     @Override
     protected String checkMyRule(Order theOrder, GameMap map) {
         if (theOrder.getType().equals(Type.UpgradeUnit)) {
-            Player player = map.getPlayer(theOrder.getOrderOwnId());
+            Player player = map.getPlayerById(theOrder.getOrderOwnId());
             int originTech = player.getTechResource();
             int maxLevel = player.getTechLevel();
             ArrayList<Unit> units = theOrder.getSrc().getUnits();
@@ -34,8 +34,8 @@ public class UpgradeUnitResourceChecker extends OrderRuleChecker{
                 if (TechCost <= originTech) return null;
                 return "The technology resources are not enough to upgrade";
             }
+            return null;
         }
-
-        return null;
+        else return "The type should be UpgradeUnit";
     }
 }
