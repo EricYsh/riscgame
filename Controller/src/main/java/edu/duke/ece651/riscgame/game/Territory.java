@@ -25,8 +25,6 @@ public class Territory implements Serializable {
     UnitFactory unitFactory = new UnitFactory();
 
     private int technologyLevel;
-    private final int foodResourceIncreasement = 10;
-    private final int techResourceIncreasement = 50;
 
     public Territory(String tname) {
         this.name = tname;
@@ -207,6 +205,7 @@ public class Territory implements Serializable {
     }
 
     public int getFoodResource() {
+        int foodResourceIncreasement = 10;
         return foodResourceIncreasement;
     }
 
@@ -219,6 +218,7 @@ public class Territory implements Serializable {
     }
 
     public int getTechResource() {
+        int techResourceIncreasement = 50;
         return techResourceIncreasement;
     }
 
