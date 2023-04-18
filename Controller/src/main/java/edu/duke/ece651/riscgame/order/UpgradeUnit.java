@@ -23,7 +23,6 @@ public class UpgradeUnit extends Order {
     }
 
 
-
     @Override
     public void run(GameMap boardMap) {
         if (this.getType().equals(Type.UpgradeUnit)) {
@@ -48,8 +47,11 @@ public class UpgradeUnit extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap) {
 
+    }
+
+    public void combat(GameMap gameMap, ArrayList<Unit> units) {
     }
 
     @Override
