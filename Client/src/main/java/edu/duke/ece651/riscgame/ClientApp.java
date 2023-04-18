@@ -46,18 +46,18 @@ public class ClientApp extends Application{
     }
 
     public static void main(String[] args) {
-        launch(args);
-        // System.out.println(new ClientApp().getGreeting());
+        launch(args); // load the GUI
+        System.out.println(new ClientApp().getGreeting());
 
-        // GameClient gameClient = new GameClient(System.in);
-        // try {
-        //     gameClient.gameInit();
-        //     gameClient.playRounds();
-        //     gameClient.gameOver();
+        GameClient gameClient = new GameClient(System.in);
+        try {
+            gameClient.gameInit();
+            gameClient.playRounds();
+            gameClient.gameOver();
 
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        gameClient.gameOver();
 
 //         the two lines below for testing assign units manually
