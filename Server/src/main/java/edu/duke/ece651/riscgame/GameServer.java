@@ -139,15 +139,15 @@ public class GameServer {
 //            }
 //        }
 
-        ArrayList<ArrayList<Unit>> res = new ArrayList<>();
+        ArrayList<ArrayList<Unit>> attackUnitList = new ArrayList<>();
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
                 ArrayList<Unit> origin = gameMap.getTerritoryByName(o.getSrc().getName()).getUnits();
-                ArrayList<Unit> u1 = new ArrayList<>();
+                ArrayList<Unit> unitForAttack = new ArrayList<>();
                 for(Integer i : o.getSelectedUnitsIndex()) {
-                    u1.add(origin.get(i));
+                    unitForAttack.add(origin.get(i));
                 }
-                res.add(u1);
+                attackUnitList.add(unitForAttack);
                 o.run(gameMap);
             }
         }
@@ -161,15 +161,16 @@ public class GameServer {
         int i = 0;
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                o.combat(gameMap, res.get(i));
+                o.combat(gameMap, attackUnitList.get(i));
                 i++;
 //                o.run(gameMap);
             }
         }
 
-
+    boolean Flag = false;
         for(Order o : orders) {
-            if (o.getType().equals(Type.UpgradeTech)) {
+            if (!Flag && o.getType().equals(Type.UpgradeTech)) {
+                Flag = true;
                 o.run(gameMap);
             }
         }
