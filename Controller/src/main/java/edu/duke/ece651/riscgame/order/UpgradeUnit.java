@@ -49,4 +49,8 @@ public class UpgradeUnit extends Order {
     public void combat(GameMap gameMap){
 
     }
+
+    public void combat(GameMap gameMap, ArrayList<Unit> units){
+
+    }
 }
