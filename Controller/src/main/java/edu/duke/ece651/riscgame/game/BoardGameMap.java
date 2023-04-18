@@ -95,6 +95,18 @@ public class BoardGameMap implements GameMap, Serializable {
 //            t.addUnit(1);
             t.addOneUnit();
         }
+        // count the number of territories each player have
+        for (int i = 0; i < allPlayerList.size(); i++) {
+            Player p = allPlayerList.get(i);
+            p.setTerritoriesNum(getTerritoriesByOwnId(p.getClientID()).size());
+        }
+
+        // add resource to player according to the number of territories they own
+        for (int i = 0; i < allPlayerList.size(); i++) {
+            Player p = allPlayerList.get(i);
+            p.addFoodResource(p.getTerritoriesNum() * getTerritories().get(0).getFoodResource());
+            p.addTechResource(p.getTerritoriesNum() * getTerritories().get(0).getTechResource());
+        }
     }
 
     public Vector<Territory> getTerritoriesByOwnId(int ownId) {
