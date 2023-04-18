@@ -1,12 +1,10 @@
 package edu.duke.ece651.riscgame.game;
 
-import edu.duke.ece651.riscgame.order.Attack;
-import edu.duke.ece651.riscgame.order.Commit;
-import edu.duke.ece651.riscgame.order.Move;
-import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.order.*;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -29,9 +27,11 @@ public class BoardTextView {
     }
 
     public void printGameStartInfo(String playerName) {
-        System.out.println("You are the "+ playerName + " player, what would you like to do?");
+        System.out.println("You are the " + playerName + " player, what would you like to do?");
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
+        System.out.println("(U)pgrade");
+        System.out.println("(T)ech Upgrade");
         System.out.println("(D)one");
     }
 
@@ -64,7 +64,10 @@ public class BoardTextView {
     public void printPlayerMap(String playerName) {
         System.out.println("\n" + playerName + " Player:");
         System.out.println("-------------");
-        for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
+        Player player = boardMap.getPlayerByName(playerName);
+        player.disPlayResources();
+        System.out.println("-------------");
+        for (Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
             System.out.println(territory.displayInfo());
         }
     }
@@ -72,7 +75,10 @@ public class BoardTextView {
     public void printPlayerMap(int playerId) {
         System.out.println("\n" + idToName.get(playerId) + " Player:");
         System.out.println("-------------");
-        for(Territory territory : boardMap.getTerritoriesByOwnId(playerId)) {
+        Player player = boardMap.getPlayerById(playerId);
+        player.disPlayResources();
+        System.out.println("-------------");
+        for (Territory territory : boardMap.getTerritoriesByOwnId(playerId)) {
             System.out.println(territory.displayInfo());
         }
     }
@@ -81,6 +87,8 @@ public class BoardTextView {
         System.out.println("\nWhat would you like to do?");
         System.out.println("(M)ove");
         System.out.println("(A)ttack");
+        System.out.println("(U)pgrade Units");
+        System.out.println("(T)ech Upgrade");
         System.out.println("(D)one");
         Scanner scanner = new Scanner(System.in);
         String input = "";
@@ -93,9 +101,15 @@ public class BoardTextView {
             } else if (input.equals("A") || input.equals("a")) {
                 validInput = true;
                 return issueAttackOrder(playerId);
+            } else if (input.equals("U") || input.equals("u")) {
+                validInput = true;
+                return issueUpgradeUnitOrder(playerId);
+            } else if (input.equals("T") || input.equals("t")) {
+                validInput = true;
+                return issueUpgradeTechOrder(playerId);
             } else if (input.equals("D") || input.equals("d")) {
                 validInput = true;
-                return new Commit(0, null, null, Type.Commit, playerId);
+                return new Commit(0, null, null, Type.Commit, playerId, null, null);
             } else {
                 System.out.println("Please enter a valid input");
                 continue;
@@ -108,9 +122,9 @@ public class BoardTextView {
         Scanner scanner = new Scanner(System.in);
         int input = 0;
         boolean validInput = false;
-        while(!validInput) {
+        while (!validInput) {
             input = scanner.nextInt();
-            if(input > 0 && input <= maxNumUnits) {
+            if (input > 0 && input <= maxNumUnits) {
                 validInput = true;
                 return input;
             } else {
@@ -150,8 +164,8 @@ public class BoardTextView {
     }
 
     private boolean checkNeighbor(String fromTerritoryName, String toTerritoryName) {
-        for(Territory neighbor : boardMap.getTerritoryByName(fromTerritoryName).getNeighbors()) {
-            if(neighbor.getName().equals(toTerritoryName)) {
+        for (Territory neighbor : boardMap.getTerritoryByName(fromTerritoryName).getNeighbors()) {
+            if (neighbor.getName().equals(toTerritoryName)) {
                 return true;
             }
         }
@@ -177,8 +191,7 @@ public class BoardTextView {
                 } else if (!checkNeighbor(fromTerritoryName, input) && orderType.equals("ATTACK")) {
                     System.out.println(input + " is not a neighbor of " + fromTerritoryName);
                     continue;
-                }
-                else {
+                } else {
                     validInput = true;
                     return input;
                 }
@@ -190,25 +203,155 @@ public class BoardTextView {
         return input;
     }
 
+
+    private ArrayList<Integer> getUnitIndex(int playerId) {
+        Scanner scanner = new Scanner(System.in);
+        int territoryUnitMaxNum = boardMap.getTerritoriesByOwnId(playerId).size();
+        String input;
+        boolean isValid;
+        ArrayList<Integer> numbers;
+        do {
+            System.out.print("Please enter numbers with max length: " + territoryUnitMaxNum);
+            input = scanner.nextLine();
+            numbers = new ArrayList<>();
+            isValid = validateInput(input, numbers, territoryUnitMaxNum);
+        } while (!isValid);
+        return numbers;
+    }
+
+    private boolean validateInput(String input, ArrayList<Integer> numbers, int territoryUnitMaxNum) {
+        // separate the input string by space
+        String[] tokens = input.split(" ");
+        if (tokens.length < 1 || tokens.length > territoryUnitMaxNum) {
+            return false;
+        }
+        for (String token : tokens) {
+            try {
+                int number = Integer.parseInt(token);
+                if (number < 1 || number > territoryUnitMaxNum) {
+                    return false;
+                } else {
+                    numbers.add(number);
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+//    public Move issueMoveOrder(int playerId) {
+//        System.out.println("Please enter the territory you want to move from:");
+//        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+//        System.out.println("Please enter the territory you want to move to:");
+//        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
+//        System.out.println("Please enter the number of units you want to move:");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+//        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
+//    }
+
     public Move issueMoveOrder(int playerId) {
         System.out.println("Please enter the territory you want to move from:");
         String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
         System.out.println("Please enter the territory you want to move to:");
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
-        System.out.println("Please enter the number of units you want to move:");
-        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
+        System.out.println("---------The units you have in " + fromTerritoryName + "----------");
+        printAllTerritory(fromTerritoryName);
+        System.out.println("===================================================================");
+        System.out.println("Please enter the index of units you want to move (separate by a space):");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+        return new Move(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
     }
+
+//    public Attack issueAttackOrder(int playerId) {
+//        System.out.println("Please enter the territory you want to attack from:");
+//        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+//        System.out.println("Please enter the territory you want to attack:");
+//        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
+//        System.out.println("Please enter the number of units you want to attack with:");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+//        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
+//    }
 
     public Attack issueAttackOrder(int playerId) {
         System.out.println("Please enter the territory you want to attack from:");
         String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
         System.out.println("Please enter the territory you want to attack:");
         String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
-        System.out.println("Please enter the number of units you want to attack with:");
-        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
+        System.out.println("---------The units you have in " + fromTerritoryName + "----------");
+        printAllTerritory(fromTerritoryName);
+        System.out.println("===================================================================");
+        System.out.println("Please enter the number of units you want to attack with (separate by a space):");
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+        return new Attack(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex, null);
     }
+
+    public UpgradeTech issueUpgradeTechOrder(int playerId) {
+        System.out.println("You technology level will be upgraded by 1 at the end of the turn!");
+        return new UpgradeTech(-1, null, null, Type.UpgradeTech, playerId, null, null);
+    }
+
+    public UpgradeUnit issueUpgradeUnitOrder(int playerId) {
+        System.out.println("Please enter the territory you want to upgrade units in:");
+        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
+        // print out all units in the territory
+        System.out.println("---------The units you have in " + fromTerritoryName + "----------");
+        printAllTerritory(fromTerritoryName);
+        System.out.println("===================================================================");
+        System.out.println("Please enter the index of units you want to upgrade (separate by a space):");
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+        System.out.println("Please enter their level you want to upgrade to (separate by a space):");
+        ArrayList<Integer> unitLevel = getUnitLevel(playerId, unitIndex.size());
+//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+        return new UpgradeUnit(-1, boardMap.getTerritoryByName(fromTerritoryName), null, Type.UpgradeUnit, playerId, unitIndex, unitLevel);
+    }
+
+    private ArrayList<Integer> getUnitLevel(int playerId, int length) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        boolean isValid;
+        ArrayList<Integer> levels;
+        do {
+            System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 1-7 separated by spaces: ");
+            input = scanner.nextLine();
+            levels = new ArrayList<>();
+            isValid = validateInput(input, length, levels);
+        } while (!isValid);
+        return levels;
+    }
+
+    private boolean validateInput(String input, int length, ArrayList<Integer> numbers) {
+        String[] tokens = input.split(" ");
+        if (tokens.length != length) {
+            return false;
+        }
+
+        for (String token : tokens) {
+            try {
+                int number = Integer.parseInt(token);
+                if (number < 1 || number > 7) {
+                    return false;
+                } else {
+                    numbers.add(number);
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private void printAllTerritory(String territoryName) {
+        for (Territory territory : boardMap.getTerritories()) {
+            if (territory.getName().equals(territoryName)) {
+                territory.displayAllUnit();
+            }
+        }
+    }
+
 
     private boolean scanYN() throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -240,7 +383,7 @@ public class BoardTextView {
     public boolean printEndInfo() throws IOException {
         System.out.println("Game Over!");
         System.out.println("-------------");
-        for(Territory territory : boardMap.getTerritories()) {
+        for (Territory territory : boardMap.getTerritories()) {
             System.out.println(territory.displayInfo());
         }
         System.out.println("-------------");

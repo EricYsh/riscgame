@@ -1,9 +1,10 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.Type;
+
+import java.util.ArrayList;
 
 /**
  * The Commit class represents a commit order in the RISC game.
@@ -12,8 +13,8 @@ import edu.duke.ece651.riscgame.rule.Type;
 public class Commit extends Order {
 
     // constructor
-    public Commit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
-        super(unitNum, src, dest, type, orderOwnId);
+    public Commit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
     }
 
     /**
@@ -29,6 +30,11 @@ public class Commit extends Order {
 
     public void combat(GameMap gameMap){
 
+    }
+
+    @Override
+    public int consumeFood() {
+        return 0;
     }
 
 }

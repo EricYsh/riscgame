@@ -17,7 +17,10 @@ public interface GameMap {
      * @description: This function gets the territories
      */
     public ArrayList<Territory> getTerritories();
-
+    public ArrayList<Player> getAllPlayerList();
+    public void setAllPlayerList(ArrayList<Player> allPlayerList);
+    public Player getPlayerById(int id);
+    public Player getPlayer(int playerID);
     /**
      * @param {String} name
      * @return {*}
@@ -55,4 +58,6 @@ public interface GameMap {
      * @return true if the player has lost (i.e. does not own any territories), false otherwise
      */
     public boolean isLose(int playerId);
+
+    Player getPlayerByName(String playerName);
 }
