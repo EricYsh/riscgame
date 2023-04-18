@@ -314,7 +314,7 @@ public class BoardTextView {
         boolean isValid;
         ArrayList<Integer> levels;
         do {
-            System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 1-7 separated by spaces: ");
+            System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 0-6 separated by spaces: ");
             input = scanner.nextLine();
             levels = new ArrayList<>();
             isValid = validateInput(input, length, levels);
