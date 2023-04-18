@@ -5,7 +5,19 @@ import edu.duke.ece651.riscgame.game.Territory;
 import java.io.IOException;
 import java.util.Vector;
 
-public class ClientApp {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Button;
+
+import javafx.fxml.FXMLLoader;
+
+
+
+
+public class ClientApp extends Application{
     public String getGreeting() {
         return "Hello World!";
     }
@@ -23,7 +35,18 @@ public class ClientApp {
         territoryVector1.add(t3);
         return territoryVector1;
     }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
+        loader.setController(new ViewController());
+        Scene scene = new Scene(loader.load(), 1000, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static void main(String[] args) {
+        launch(args); // load the GUI
         System.out.println(new ClientApp().getGreeting());
 
         GameClient gameClient = new GameClient(System.in);

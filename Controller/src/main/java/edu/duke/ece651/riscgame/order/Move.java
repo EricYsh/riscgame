@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.GameMap;
+import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.game.Unit;
 import edu.duke.ece651.riscgame.rule.*;
@@ -24,8 +25,9 @@ public class Move extends Order {
     HashSet<Territory> used = new HashSet<>();
     private int cost = Integer.MAX_VALUE;
     HashSet<String> path = new HashSet<>();
-    public void shortestPath(Territory src, Territory dest, int totalCost){
-        if (src.getNeighbors().contains(dest) && src.getOwnId() == dest.getOwnId()){
+
+    public void shortestPath(Territory src, Territory dest, int totalCost) {
+        if (src.getNeighbors().contains(dest) && src.getOwnId() == dest.getOwnId()) {
             if (cost > totalCost) {
                 cost = totalCost;
 //                System.out.println("Path is ---------------");
@@ -35,7 +37,7 @@ public class Move extends Order {
             }
             return;
         }
-        for(Territory t1 : src.getNeighbors()){
+        for (Territory t1 : src.getNeighbors()) {
             if (used.contains(t1) || src.getOwnId() != dest.getOwnId()) continue;
             totalCost += t1.getSize();
             used.add(t1);
@@ -51,7 +53,12 @@ public class Move extends Order {
         }
     }
 
-    public int getCost() {
+    @Override
+    public int consumeFood() {
+        cost = Integer.MAX_VALUE;
+        shortestPath(this.getSrc(), this.getDest(), 0);
+        cost += getDest().getSize();
+        cost *= this.getUnitNum();
         return cost;
     }
 
@@ -69,11 +76,13 @@ public class Move extends Order {
             }
             int count = this.getUnitNum();
             // TODO find a shortest path to move
-            cost = Integer.MAX_VALUE;
-            shortestPath(this.getSrc(), this.getDest(), 0);
-            cost += getDest().getSize();
-            cost *= this.getUnitNum();
+            int consuming = consumeFood();
             //TODO: Need minus the food resources for the corresponding player
+            Player p = boardMap.getPlayer(this.getOrderOwnId());
+            int origin = p.getFoodResource();
+            origin -= consuming;
+            p.setFoodResource(origin);
+
 //            System.out.println("FinalCost is ---------------");
 //            System.out.println(cost);
             boardMap.getTerritoryByName(this.getSrc().getName()).minusUnit(count);
@@ -81,11 +90,11 @@ public class Move extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap) {
 
     }
 
-    public void combat(GameMap gameMap, ArrayList<Unit> units){
+    public void combat(GameMap gameMap, ArrayList<Unit> units) {
 
     }
 }
