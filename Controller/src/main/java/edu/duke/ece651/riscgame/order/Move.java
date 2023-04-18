@@ -78,7 +78,7 @@ public class Move extends Order {
             // TODO find a shortest path to move
             int consuming = consumeFood();
             //TODO: Need minus the food resources for the corresponding player
-            Player p = boardMap.getPlayer(this.getOrderOwnId());
+            Player p = boardMap.getPlayerById(this.getOrderOwnId());
             int origin = p.getFoodResource();
             origin -= consuming;
             p.setFoodResource(origin);

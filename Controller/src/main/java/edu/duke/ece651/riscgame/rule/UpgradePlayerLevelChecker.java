@@ -17,11 +17,12 @@ public class UpgradePlayerLevelChecker extends OrderRuleChecker{
     @Override
     protected String checkMyRule(Order theOrder, GameMap map) {
         if (theOrder.getType().equals(Type.UpgradeTech)) {
-           Player p =  map.getPlayer(theOrder.getOrderOwnId());
+           Player p =  map.getPlayerById(theOrder.getOrderOwnId());
            if (p.getTechLevel() >= 6) {
                return "You can not get upgrade anymore!";
            }
+           return null;
         }
-        return "The type must be UpgradeTech";
+        else return "Level : The type must be UpgradeTech";
     }
 }

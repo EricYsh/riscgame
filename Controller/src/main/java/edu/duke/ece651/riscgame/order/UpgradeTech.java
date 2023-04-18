@@ -19,8 +19,7 @@ public class UpgradeTech extends Order {
     public void run(GameMap gameMap) {
         // TODO upgrade terrtority tech level
         if (this.getType().equals(Type.UpgradeTech)) {
-            int oldTechLevel = gameMap.getTerritoryByName(this.getSrc().getName()).getTechnologyLevel();
-            gameMap.getTerritoryByName(this.getSrc().getName()).setTechnologyLevel(oldTechLevel + 1);
+            int oldTechLevel = gameMap.getPlayerById(this.getOrderOwnId()).getTechLevel();
             // TODO reduce player tech resources
             int oldTechResource = gameMap.getPlayerById(this.getOrderOwnId()).getTechResource();
             gameMap.getPlayerById(this.getOrderOwnId()).setTechResource(oldTechResource - cost[oldTechLevel - 1]);
