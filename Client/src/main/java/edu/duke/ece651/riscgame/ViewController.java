@@ -276,6 +276,10 @@ public class ViewController {
     @FXML
     private AnchorPane infoAnchorPane;
 
+    /*
+     * This method is called by the FXMLLoader when initialization is complete
+     * 
+     */
     public void displayInfo(String infoText) {
         Text infoTextNode = new Text(infoText);
         infoAnchorPane.getChildren().add(infoTextNode);
