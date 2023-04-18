@@ -285,4 +285,76 @@ public class ViewController {
         infoAnchorPane.getChildren().add(infoTextNode);
     }
 
+    //change the color of the territory, according to the winner name
+    public void changeTerritoryColor(int clientID, String territoryName) {
+        switch (clientID) {
+            case 1:
+                switch (territoryName) {
+                    case "Player 1 Territory 1":
+                        player1_t1.setFill(Color.RED);
+                        break;
+                    case "Player 1 Territory 2":
+                        player1_t2.setFill(Color.RED);
+                        break;
+                    case "Player 1 Territory 3":
+                        player1_t3.setFill(Color.RED);
+                        break;
+                }
+                break;
+            case 2:
+                switch (territoryName) {
+                    case "Player 2 Territory 1":
+                        player2_t1.setFill(Color.BLUE);
+                        break;
+                    case "Player 2 Territory 2":
+                        player2_t2.setFill(Color.BLUE);
+                        break;
+                    case "Player 2 Territory 3":
+                        player2_t3.setFill(Color.BLUE);
+                        break;
+                }
+                break;
+            case 3:
+                switch (territoryName) {
+                    case "Player 3 Territory 1":
+                        player3_t1.setFill(Color.GREEN);
+                        break;
+                    case "Player 3 Territory 2":
+                        player3_t2.setFill(Color.GREEN);
+                        break;
+                    case "Player 3 Territory 3":
+                        player3_t3.setFill(Color.GREEN);
+                        break;
+                }
+                break;
+            case 4:
+                switch (territoryName) {
+                    case "Player 4 Territory 1":
+                        player4_t1.setFill(Color.YELLOW);
+                        break;
+                    case "Player 4 Territory 2":
+                        player4_t2.setFill(Color.YELLOW);
+                        break;
+                    case "Player 4 Territory 3":
+                        player4_t3.setFill(Color.YELLOW);
+                        break;
+                }
+                break;
+            case 5:
+                switch (territoryName) {
+                    case "Player 5 Territory 1":
+                        player5_t1.setFill(Color.PURPLE);
+                        break;
+                    case "Player 5 Territory 2":
+                        player5_t2.setFill(Color.PURPLE);
+                        break;
+                    case "Player 5 Territory 3":
+                        player5_t3.setFill(Color.PURPLE);
+                        break;
+                }
+                break;
+        }
+    }
+
+
 }
