@@ -49,11 +49,9 @@ public class UpgradeTech extends Order {
         }
     }
 
+    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack){}
     public void combat(GameMap gameMap) {
 
-    }
-
-    public void combat(GameMap gameMap, ArrayList<Unit> units) {
     }
 
     @Override

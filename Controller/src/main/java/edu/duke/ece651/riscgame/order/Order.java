@@ -98,7 +98,6 @@ public abstract class Order implements Serializable {
     public abstract void run(GameMap gameMap);
 
     public abstract void combat(GameMap gameMap);
-
     public abstract void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack);
 
     // Other methods
