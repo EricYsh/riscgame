@@ -1,5 +1,6 @@
 package edu.duke.ece651.riscgame.rule;
 
+import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.order.Order;
 
 /**
@@ -29,7 +30,7 @@ public class UnitChecker<T> extends OrderRuleChecker<T> {
      * @return null if the number of units is legal, otherwise returns an error message.
      */
     @Override
-    protected String checkMyRule(Order theOrder) {
+    protected String checkMyRule(Order theOrder, GameMap map) {
         if (!theOrder.getSrc().getName().equals(theOrder.getDest().getName()) && theOrder.getSrc().getUnitNum() < theOrder.getUnitNum()) {
             return "There is not that much Units from the source : " + theOrder.getSrc().getName();
         }

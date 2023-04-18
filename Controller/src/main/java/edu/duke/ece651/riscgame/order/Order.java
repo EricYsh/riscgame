@@ -1,11 +1,11 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.rule.Type;
 import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -22,8 +22,12 @@ public abstract class Order implements Serializable {
     private int orderOwnId;
     public HashMap<Integer, String> ownership;
 
+    private ArrayList<Integer> selectedUnitsIndex;
+
+    private ArrayList<Integer> levelToUpgrade;
+
     // constructor
-    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
+    public Order(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
         this.unitNum = unitNum;
         this.src = src;
         this.dest = dest;
@@ -35,8 +39,18 @@ public abstract class Order implements Serializable {
         ownership.put(2, "Calador");
         ownership.put(3, "Excrier");
         ownership.put(4, "Ceyland");
+        this.selectedUnitsIndex = selectedUnitsIndex;
+        this.levelToUpgrade = levelToUpgrade;
     }
     // Getters
+
+    public ArrayList<Integer> getLevelToUpgrade() {
+        return levelToUpgrade;
+    }
+
+    public ArrayList<Integer> getSelectedUnitsIndex() {
+        return selectedUnitsIndex;
+    }
 
     public int getOrderOwnId() {
         return orderOwnId;
@@ -59,11 +73,19 @@ public abstract class Order implements Serializable {
     }
 
     // setter
+
+    public void setSelectedUnitsIndex(ArrayList<Integer> selectedUnitsIndex) {
+        this.selectedUnitsIndex = selectedUnitsIndex;
+    }
+
     public void setType(Type type) {
         this.type = type;
     }
 
-    // Abstract method to be implemented by derived classes
+    public void setLevelToUpgrade(ArrayList<Integer> levelToUpgrade) {
+        this.levelToUpgrade = levelToUpgrade;
+    }
+// Abstract method to be implemented by derived classes
 
 
     /**
@@ -86,4 +108,6 @@ public abstract class Order implements Serializable {
     public boolean isFromOnePlayer() {
         return dest.getOwnId() == src.getOwnId();
     }
+
+    public abstract int consumeFood();
 }

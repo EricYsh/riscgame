@@ -6,14 +6,47 @@ import java.util.*;
 public class BoardGameMap implements GameMap, Serializable {
     private ArrayList<Territory> territories;
 
+    private ArrayList<Player> allPlayerList;
+
     /**
      * @return {*}
      */
     public BoardGameMap() {
         territories = new ArrayList<>();
+        allPlayerList = new ArrayList<>();
     }
 
+    public Player getPlayerById(int id) {
+        for (Player p : allPlayerList) {
+            if (p.getClientID() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
 
+    public Player getPlayerByName(String name) {
+        for (Player p : allPlayerList) {
+            if (p.getPlayerName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Player> getAllPlayerList() {
+        return allPlayerList;
+    }
+
+    public void setAllPlayerList(ArrayList<Player> allPlayerList) {
+        this.allPlayerList = allPlayerList;
+    }
+    public Player getPlayer(int playerID) {
+        for(Player p : allPlayerList) {
+            if (p.getClientID() == playerID) return p;
+        }
+        return null;
+    }
 
     /**
      * @param {ArrayList<Territory>} territories: the territories to be set
@@ -65,7 +98,8 @@ public class BoardGameMap implements GameMap, Serializable {
      */
     public void callUp() {
         for (Territory t : territories) {
-            t.addUnit(1);
+//            t.addUnit(1);
+            t.addOneUnit();
         }
     }
 

@@ -1,12 +1,12 @@
 package edu.duke.ece651.riscgame.order;
 
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
+import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.rule.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Vector;
 
 /**
  * The Move class represents a move order in the RISC game.
@@ -17,8 +17,8 @@ public class Move extends Order {
     /**
      * Constructor for the Move class.
      */
-    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId) {
-        super(unitNum, src, dest, type, orderOwnId);
+    public Move(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
+        super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
     }
 
     HashSet<Territory> used = new HashSet<>();
@@ -50,9 +50,13 @@ public class Move extends Order {
             path.remove(t1.getName());
         }
     }
-
-    public int getCost() {
-        return cost;
+    @Override
+    public int consumeFood() {
+    cost = Integer.MAX_VALUE;
+    shortestPath(this.getSrc(), this.getDest(), 0);
+    cost += getDest().getSize();
+    cost *= this.getUnitNum();
+    return cost;
     }
 
     /**
@@ -69,11 +73,13 @@ public class Move extends Order {
             }
             int count = this.getUnitNum();
             // TODO find a shortest path to move
-            cost = Integer.MAX_VALUE;
-            shortestPath(this.getSrc(), this.getDest(), 0);
-            cost += getDest().getSize();
-            cost *= this.getUnitNum();
+           int consuming = consumeFood();
             //TODO: Need minus the food resources for the corresponding player
+            Player p =  boardMap.getPlayer(this.getOrderOwnId());
+            int origin = p.getFoodResource();
+            origin -= consuming;
+            p.setFoodResource(origin);
+
 //            System.out.println("FinalCost is ---------------");
 //            System.out.println(cost);
             boardMap.getTerritoryByName(this.getSrc().getName()).minusUnit(count);
