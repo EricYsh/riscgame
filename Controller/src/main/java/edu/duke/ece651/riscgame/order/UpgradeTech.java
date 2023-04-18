@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.game.Unit;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class UpgradeTech extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack){
 
     }
 
