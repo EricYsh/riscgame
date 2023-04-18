@@ -17,12 +17,16 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
     // private volatile ConcurrentHashMap<Integer, Order> orders;
     private GameMap map;
     private final OrderRuleChecker moveChecker;
-    private final OrderRuleChecker attackOrder;
+    private final OrderRuleChecker attackChecker;
+    private final OrderRuleChecker upgradePlayerChecker;
+    private final OrderRuleChecker upgradeUnitChecker;
     private final GameMessageStream<ActionInfo> gameMsgStream;
     public ReceiveActionOrderThread(Socket socket, GameMap m1) {
         super(socket);
-        moveChecker = new DestChecker(new UnitChecker(new MovePathChecker(null)));
-        attackOrder = new DestChecker(new UnitChecker(new AdjacentChecker(null)));
+        moveChecker = new DestChecker(new UnitChecker(new MovePathChecker(new ConsumeFoodChecker(null))));
+        attackChecker = new DestChecker(new UnitChecker(new AdjacentChecker(new ConsumeFoodChecker(null))));
+        upgradePlayerChecker = new UpgradePlayerLevelChecker(new UpgradePlayerResourceChecker(null));
+        upgradeUnitChecker = new UpgradeUnitLevelChecker(new UpgradeUnitResourceChecker(null));
         gameMsgStream = new GameMessageStream<>();
         this.map = m1;
     }
@@ -42,7 +46,13 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
                 check = moveChecker.checkOrder(oneOrder, map);
             }
             if (oneOrder.getType() == Type.Attack) {
-                check = attackOrder.checkOrder(oneOrder, map);
+                check = attackChecker.checkOrder(oneOrder, map);
+            }
+            if (oneOrder.getType() == Type.UpgradeTech) {
+                check = upgradePlayerChecker.checkOrder(oneOrder, map);
+            }
+            if (oneOrder.getType() == Type.UpgradeUnit) {
+                check = upgradeUnitChecker.checkOrder(oneOrder, map);
             }
             GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {
