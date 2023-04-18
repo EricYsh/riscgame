@@ -8,9 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+
 import javafx.stage.Stage;
 
 public class ViewController {
@@ -176,8 +180,8 @@ public class ViewController {
             territory_info.setText("Territory Info:\nPlayer 3 Territory 3");
         }
     }
-    
-    @FXML 
+
+    @FXML
     void click_player4_t1(MouseEvent event) {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
@@ -243,7 +247,7 @@ public class ViewController {
     }
 
     @FXML
-    void click_attack(ActionEvent event) throws Exception{
+    void click_attack(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AttackDialog.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 600, 800);
@@ -264,6 +268,17 @@ public class ViewController {
 
     public BoardGameMap getBoardGameMap() {
         return boardGameMap;
+    }
+
+
+    @FXML
+    private ScrollPane infoScrollPane;
+    @FXML
+    private AnchorPane infoAnchorPane;
+
+    public void displayInfo(String infoText) {
+        Text infoTextNode = new Text(infoText);
+        infoAnchorPane.getChildren().add(infoTextNode);
     }
 
 }
