@@ -26,6 +26,14 @@ public class Attack extends Order {
     @Override
     public void run(GameMap gameMap) {
         gameMap.getTerritoryByName(this.getSrc().getName()).minusUnit(this.getUnitNum());
+
+        ArrayList<Unit> origin = gameMap.getTerritoryByName(this.getSrc().getName()).getUnits();
+        ArrayList<Unit> u1 = new ArrayList<>();
+        for(Integer i : this.getSelectedUnitsIndex()) {
+            u1.add(origin.get(i));
+        }
+        origin.removeAll(u1);
+        gameMap.getTerritoryByName(this.getSrc().getName()).setUnits(origin);
     }
     @Override
     public int consumeFood() {
@@ -42,13 +50,14 @@ public class Attack extends Order {
      * If the attacker wins, the defending territory's ownership and unit count are updated.
      */
     @Override
-    public void combat(GameMap gameMap) {
+
+    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack) {
         // TODO attack cost 1 food resource per unit to perform
 
         // attack according to the type
-        if (this.getType().equals(Type.Attack)) {
-            doNormalAttack(gameMap);
-        }
+//        if (this.getType().equals(Type.Attack)) {
+//            doNormalAttack(gameMap);
+//        }
 
         // attack but use up all units, then these two parts will change home directly
         if (this.getType().equals(Type.AttackAndChangeHome)) {
@@ -57,15 +66,14 @@ public class Attack extends Order {
 
         // TODO test for evol2 Attack
         if (this.getType().equals(Type.Attack2)) {
-            doAttack(gameMap);
+            doAttack(gameMap, unitsForAttack);
         }
     }
 
-    private void doAttack(GameMap gameMap) {
+    private void doAttack(GameMap gameMap, ArrayList<Unit> unitsForAttack) {
         // TODO minus 1 food per unit attacking
-        // player food resource minus unitForAttack.size()
         // TODO order of execution alternates between
-        // TODO  highes-bonus attacker unit paired with the lowest-bonus defender unit
+        // TODO highes-bonus attacker unit paired with the lowest-bonus defender unit
         // TODO lowest-bonus attacker unit paired with the highest-bonus defend unit
 
         List<Integer> attackBonus = new ArrayList<>();
