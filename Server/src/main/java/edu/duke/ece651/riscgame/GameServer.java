@@ -142,7 +142,12 @@ public class GameServer {
         ArrayList<ArrayList<Unit>> res = new ArrayList<>();
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
-                res.add(gameMap.getTerritoryByName(o.getSrc().getName()).getUnits());
+                ArrayList<Unit> origin = gameMap.getTerritoryByName(o.getSrc().getName()).getUnits();
+                ArrayList<Unit> u1 = new ArrayList<>();
+                for(Integer i : o.getSelectedUnitsIndex()) {
+                    u1.add(origin.get(i));
+                }
+                res.add(u1);
                 o.run(gameMap);
             }
         }
