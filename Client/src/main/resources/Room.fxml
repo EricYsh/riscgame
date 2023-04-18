@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="room1_enter_btn" layoutX="399.0" layoutY="79.0" onAction="#click_one" mnemonicParsing="false" text="Enter" />
+      <Button fx:id="room2_enter_btn" layoutX="399.0" layoutY="176.0" onAction="#click_two" mnemonicParsing="false" text="Enter" />
+      <Button fx:id="room3_enter_btn" layoutX="399.0" layoutY="264.0" onAction="#click_three" mnemonicParsing="false" text="Enter" />
+      <Text layoutX="110.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room 1" />
+      <Line endX="200.0" layoutX="300.0" layoutY="150.0" startX="-200.0" />
+      <Line endX="200.0" layoutX="300.0" layoutY="250.0" startX="-200.0" />
+      <Text layoutX="110.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room 2" />
+      <Text layoutX="110.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room 3" />
+   </children>
+</AnchorPane>

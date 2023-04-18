@@ -17,6 +17,7 @@ public class BoardTextView {
     private HashMap<Integer, String> idToName;
     private ViewController viewController;
 
+
     public BoardTextView(GameMap boardMap) {
         this.boardMap = boardMap;
         idToName = new HashMap<>();
