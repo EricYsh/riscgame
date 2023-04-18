@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 
 public class GameClient {
+    //TODO: GUI display info, GUI interaction
     private NetClient netClient;
     private Player player;
     private GameMap gameMap;
