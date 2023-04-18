@@ -2,6 +2,7 @@ package edu.duke.ece651.riscgame;
 
 import java.util.HashMap;
 
+import edu.duke.ece651.riscgame.game.GameMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -33,6 +34,7 @@ public class LoginController {
 
     private String ClientId;
     private String ClientPassword;
+
 
     @FXML
     private TextField id;
