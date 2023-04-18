@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.MoveDialogController">
+   <center>
+      <AnchorPane prefHeight="394.0" prefWidth="532.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="num_units" layoutX="66.0" layoutY="281.0" prefHeight="50.0" prefWidth="170.0" />
+            <Label layoutX="66.0" layoutY="26.0" text="Source Territory">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="67.0" layoutY="137.0" text="Target Territory">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="66.0" layoutY="251.0" text="Input Number of Units">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="move_btn" layoutX="300.0" layoutY="219.0" mnemonicParsing="false" onAction="#click_move" prefHeight="30.0" prefWidth="60.0" text="Move" />
+            <Button fx:id="cancel_btn" layoutX="300.0" layoutY="124.0" mnemonicParsing="false" onAction="#click_cancel" prefHeight="30.0" prefWidth="60.0" text="Cancel" />
+            <TextField fx:id="target_territory" layoutX="66.0" layoutY="170.0" prefHeight="50.0" prefWidth="170.0" />
+            <TextField fx:id="source_territory" layoutX="66.0" layoutY="59.0" prefHeight="50.0" prefWidth="170.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
