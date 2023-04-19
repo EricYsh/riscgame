@@ -20,6 +20,8 @@ public class Player implements Serializable {
         this.clientID = clientID;
         this.playerName = playerName;
         this.techLevel = 1;
+        this.techResource = 150;
+        this.foodResource = 30;
     }
 
     public String getPlayerName() {

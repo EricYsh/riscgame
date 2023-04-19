@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame.order;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.game.Unit;
+import edu.duke.ece651.riscgame.game.UnitFactory;
 import edu.duke.ece651.riscgame.rule.*;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class Attack extends Order {
 
         ArrayList<Unit> origin = gameMap.getTerritoryByName(this.getSrc().getName()).getUnits();
         ArrayList<Unit> u1 = new ArrayList<>();
-        for(Integer i : this.getSelectedUnitsIndex()) {
+        for (Integer i : this.getSelectedUnitsIndex()) {
             u1.add(origin.get(i));
         }
         origin.removeAll(u1);
@@ -40,17 +41,10 @@ public class Attack extends Order {
     public int consumeFood() {
         return this.getUnitNum();
     }
-    /**
-     * Executes the attack action by simulating a battle between the attacker and defender.
-     * Each iteration, both attacker and defender roll a 20-sided die. If the attacker's roll
-     * is higher than the defender's, a defending unit is removed. If the defender's roll is
-     * higher, an attacking unit is removed. The battle continues until either side has no units
-     * remaining.
-     * <p>
-     * If the defender wins, the defending territory's unit count is updated.
-     * If the attacker wins, the defending territory's ownership and unit count are updated.
-     */
+
     public void combat(GameMap gameMap) {
+        int oldFood = gameMap.getPlayerById(this.getOrderOwnId()).getFoodResource();
+        gameMap.getPlayerById(this.getOrderOwnId()).setFoodResource(oldFood - getSelectedUnitsIndex().size());
         // attack but use up all units, then these two parts will change home directly
         if (this.getType().equals(Type.AttackAndChangeHome)) {
             doChangeHomeAttack(gameMap);
@@ -60,6 +54,8 @@ public class Attack extends Order {
     @Override
     public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack) {
         // TODO attack cost 1 food resource per unit to perform
+        int oldFood = gameMap.getPlayerById(this.getOrderOwnId()).getFoodResource();
+        gameMap.getPlayerById(this.getOrderOwnId()).setFoodResource(oldFood - getSelectedUnitsIndex().size());
 
         // TODO test for evol2 Attack
         if (this.getType().equals(Type.Attack)) {
@@ -96,57 +92,56 @@ public class Attack extends Order {
         Collections.sort(defendBonus); // sort in ascending order
 
         // Pair and execute attacks
-        int numberOfAttacks = Math.min(attackBonus.size(), defendBonus.size());
-        for (int i = 0; i < numberOfAttacks; i++) {
-            int attackerBonusIndex = i % 2 == 0 ? 0 : attackBonus.size() - 1;
-            int defenderBonusIndex = i % 2 == 0 ? defendBonus.size() - 1 : 0;
+//        int numberOfAttacks = Math.min(attackBonus.size(), defendBonus.size());
+        int switchHighLow = 0;
+        while (attackBonus.size() > 0 && defendBonus.size() > 0) {
+            int attackerBonusIndex = switchHighLow % 2 == 0 ? 0 : attackBonus.size() - 1;
+            int defenderBonusIndex = switchHighLow % 2 == 0 ? defendBonus.size() - 1 : 0;
             boolean attackResult = performAttack(attackBonus.get(attackerBonusIndex), defendBonus.get(defenderBonusIndex));
             if (attackResult) { // attacker wins
                 defendBonus.remove(defenderBonusIndex);
+                System.out.println("Attacker wins " + attackBonus.size() + " " + defendBonus.size());
             } else { // defender wins
                 attackBonus.remove(attackerBonusIndex);
+                System.out.println("Defender wins " + attackBonus.size() + " " + defendBonus.size());
             }
-            numberOfAttacks = Math.min(attackBonus.size(), defendBonus.size());
+//            numberOfAttacks = Math.min(attackBonus.size(), defendBonus.size());
+            switchHighLow++;
+        }
+
+        System.out.println("Attacker units remaining: " + attackBonus.size());
+        System.out.println("Defender units remaining: " + defendBonus.size());
+        UnitFactory unitFactory = new UnitFactory();
+        if (attackBonus.size() > 0) {
+            System.out.println("Attacker wins");
+            // TODO attacker wins, remove defender units and add attacker units to the territory
+            String ownerName = ownership.get(this.getOrderOwnId());
+            gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
+            gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
+            this.getDest().removeAllUnits();
+            for (Integer bonus : attackBonus) {
+                System.out.println("to add bonus is : " + bonus);
+                Unit unit = (Unit) unitFactory.createUnit(bonus);
+                gameMap.getTerritoryByName(this.getDest().getName()).addUpgradeUnit(unit);
+            }
+        } else {
+            System.out.println("Defender wins");
+            // TODO defender wins, remove attacker units
+            // create unit according the remaining bonus and add to the dest territory
+            this.getDest().removeAllUnits();
+            for (Integer bonus : defendBonus) {
+                Unit unit = (Unit) unitFactory.createUnit(bonus);
+                gameMap.getTerritoryByName(this.getDest().getName()).addUpgradeUnit(unit);
+            }
         }
     }
 
     private boolean performAttack(int attackerBonus, int defenderBonus) {
+        System.out.println("Attacker bonus: " + attackerBonus + " Attack Defender bonus:" + defenderBonus);
         Random random = new Random();
         int randomNumberAttack = random.nextInt(20) + 1;
         int randomNumberDefend = random.nextInt(20) + 1;
         return randomNumberAttack + attackerBonus > randomNumberDefend + defenderBonus; // attacker wins if larger
-    }
-
-    private void doNormalAttack(GameMap gameMap) {
-        // TODO order of execution alternates between
-        // TODO  highes-bonus attacker unit paired with the lowest-bonus defender unit
-        // TODO lowest-bonus attacker unit paired with the highest-bonus defend unit
-
-        int attckUnitNum = this.getUnitNum(); // use how many units to attack
-        int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
-
-        // Simulate battle between attacker and defender
-        while (attckUnitNum > 0 && defendUnitNum > 0) {
-            Random random = new Random();
-            // TODO add a bonus for the type of unit involved
-            int randomNumberAttack = random.nextInt(20) + 1;
-            int randomNumberDefend = random.nextInt(20) + 1;
-            if (randomNumberAttack > randomNumberDefend) {
-                defendUnitNum--;
-            } else {
-                attckUnitNum--;
-            }
-        }
-
-        // Update territory information based on battle outcome
-        if (defendUnitNum > 0) { // defend wins
-            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(defendUnitNum);
-        } else { // attack wins
-            String ownerName = ownership.get(this.getOrderOwnId());
-            gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
-            gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
-            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
-        }
     }
 
     private void doChangeHomeAttack(GameMap gameMap) {

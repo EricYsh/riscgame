@@ -138,19 +138,6 @@ public class GameServer {
             }
         }
 
-        // TODO now become minus the actual Unit
-
-//        for (Order o : orders) {
-//            if (o.getType().equals(Type.Attack)) {
-//                o.run(gameMap);
-////                gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
-////                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
-////                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
-////                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
-////                o.getSrc().minusUnit(o.getUnitNum());
-//            }
-//        }
-
         ArrayList<ArrayList<Unit>> attackUnitList = new ArrayList<>();
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
