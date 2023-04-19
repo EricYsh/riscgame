@@ -16,6 +16,7 @@ public class UpgradeUnit extends Order {
 
     private final int[] costForUpgrade = {3, 8, 19, 25, 35, 50};
 
+
     // constructor
     public UpgradeUnit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
         super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
@@ -49,6 +50,7 @@ public class UpgradeUnit extends Order {
                 // minus tech resources for the player for each unit upgrade
                 int oldTechResource = boardMap.getPlayerById(this.getOrderOwnId()).getTechResource();
                 boardMap.getPlayerById(this.getOrderOwnId()).setTechResource(oldTechResource - rescourseCost);
+
             }
         }
     }

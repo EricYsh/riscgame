@@ -210,14 +210,21 @@ public class BoardTextView {
     }
 
 
+<<<<<<< HEAD
     private ArrayList<Integer> getUnitIndex(int playerId, String fromTerritoryName) {
         Scanner scanner = new Scanner(System.in);
         int territoryUnitMaxNum = boardMap.getTerritoryByName(fromTerritoryName).getUnits().size();
+=======
+    private ArrayList<Integer> getUnitIndex(int playerId) {
+        Scanner scanner = new Scanner(System.in);
+        int territoryUnitMaxNum = boardMap.getTerritoriesByOwnId(playerId).size();
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         String input;
         boolean isValid;
         ArrayList<Integer> numbers;
         do {
             System.out.print("Please enter numbers with max length: " + territoryUnitMaxNum);
+<<<<<<< HEAD
             numbers = new ArrayList<>();
             input = scanner.nextLine();
             isValid = validateInputUnitIndex(input, numbers, territoryUnitMaxNum);
@@ -229,12 +236,29 @@ public class BoardTextView {
         // separate the input string by space
         String[] tokens = input.split(" ");
         if (tokens.length < 1 || tokens.length > territoryUnitMaxIndex) {
+=======
+            input = scanner.nextLine();
+            numbers = new ArrayList<>();
+            isValid = validateInput(input, numbers, territoryUnitMaxNum);
+        } while (!isValid);
+        return numbers;
+    }
+
+    private boolean validateInput(String input, ArrayList<Integer> numbers, int territoryUnitMaxNum) {
+        // separate the input string by space
+        String[] tokens = input.split(" ");
+        if (tokens.length < 1 || tokens.length > territoryUnitMaxNum) {
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
             return false;
         }
         for (String token : tokens) {
             try {
                 int number = Integer.parseInt(token);
+<<<<<<< HEAD
                 if (number < 0 || number >= territoryUnitMaxIndex) {
+=======
+                if (number < 1 || number > territoryUnitMaxNum) {
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
                     return false;
                 } else {
                     numbers.add(number);
@@ -266,7 +290,11 @@ public class BoardTextView {
         System.out.println("===================================================================");
         System.out.println("Please enter the index of units you want to move (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+<<<<<<< HEAD
         ArrayList<Integer> unitIndex = getUnitIndex(playerId, fromTerritoryName);
+=======
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         return new Move(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
     }
 
@@ -290,7 +318,11 @@ public class BoardTextView {
         System.out.println("===================================================================");
         System.out.println("Please enter the number of units you want to attack with (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
+<<<<<<< HEAD
         ArrayList<Integer> unitIndex = getUnitIndex(playerId, fromTerritoryName);
+=======
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         return new Attack(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex, null);
     }
 
@@ -307,7 +339,11 @@ public class BoardTextView {
         printAllTerritory(fromTerritoryName);
         System.out.println("===================================================================");
         System.out.println("Please enter the index of units you want to upgrade (separate by a space):");
+<<<<<<< HEAD
         ArrayList<Integer> unitIndex = getUnitIndex(playerId, fromTerritoryName);
+=======
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         System.out.println("Please enter their level you want to upgrade to (separate by a space):");
         ArrayList<Integer> unitLevel = getUnitLevel(playerId, unitIndex.size());
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
@@ -323,12 +359,20 @@ public class BoardTextView {
             System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 0-6 separated by spaces: ");
             input = scanner.nextLine();
             levels = new ArrayList<>();
+<<<<<<< HEAD
             isValid = validateInputLevel(input, length, levels);
+=======
+            isValid = validateInput(input, length, levels);
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         } while (!isValid);
         return levels;
     }
 
+<<<<<<< HEAD
     private boolean validateInputLevel(String input, int length, ArrayList<Integer> numbers) {
+=======
+    private boolean validateInput(String input, int length, ArrayList<Integer> numbers) {
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         String[] tokens = input.split(" ");
         if (tokens.length != length) {
             return false;
@@ -337,7 +381,11 @@ public class BoardTextView {
         for (String token : tokens) {
             try {
                 int number = Integer.parseInt(token);
+<<<<<<< HEAD
                 if (number < 1 || number > 6) {
+=======
+                if (number < 1 || number > 7) {
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
                     return false;
                 } else {
                     numbers.add(number);

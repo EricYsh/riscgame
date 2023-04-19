@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+<<<<<<< HEAD
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +17,11 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 
+=======
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
 import javafx.stage.Stage;
 
 public class ViewController {
@@ -181,8 +187,13 @@ public class ViewController {
             territory_info.setText("Territory Info:\nPlayer 3 Territory 3");
         }
     }
+<<<<<<< HEAD
 
     @FXML
+=======
+    
+    @FXML 
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
     void click_player4_t1(MouseEvent event) {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
@@ -248,7 +259,11 @@ public class ViewController {
     }
 
     @FXML
+<<<<<<< HEAD
     void click_attack(ActionEvent event) throws Exception {
+=======
+    void click_attack(ActionEvent event) throws Exception{
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AttackDialog.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 600, 800);
@@ -271,6 +286,7 @@ public class ViewController {
         return boardGameMap;
     }
 
+<<<<<<< HEAD
 
     @FXML
     private ScrollPane infoScrollPane;
@@ -385,4 +401,6 @@ public class ViewController {
             player5_t3.setFill(Color.WHITE);
         }
     } 
+=======
+>>>>>>> 1057107511b36ca44d727e38a8cfce0af15287f2
 }

@@ -23,7 +23,8 @@ public class Move extends Order {
     }
 
     HashSet<Territory> used = new HashSet<>();
-    private int cost;
+
+    private int cost = Integer.MAX_VALUE;
     HashSet<String> path = new HashSet<>();
 
     public void shortestPath(Territory src, Territory dest, int totalCost) {
