@@ -52,10 +52,7 @@ public class RoomController {
     @FXML
     private Button room3_enter_btn;
 
-    @FXML
-    void click_one() {
-        this.roomID = 1;
-    }
+
 
     @FXML
     void click_one(ActionEvent event) throws Exception {
@@ -80,6 +77,7 @@ public class RoomController {
         stage.setScene(scene);
         stage.show();
 
+        
 
     }
 

@@ -1,5 +1,7 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.RoomController;
+
 public class ServerApp {
     public String getGreeting() {
         return "Hello World!";
@@ -17,16 +19,35 @@ public class ServerApp {
             System.out.println("err: number of player must between 2 and 5");
             return;
         }
-//        int numClient = 2;
-        GameServer gameServer = new GameServer(numClient);
+        Room room1 = new Room(1, numClient, 8888);
+        Room room2 = new Room(2, numClient, 8889);
+        Room room3 = new Room(3, numClient, 8890);
 
-//        gameServer.GameInit();
-//        gameServer.gameOver();
+        // GameServer gameServer = new GameServer(numClient);
 
-        // the two lines below for testing assign units manually
-        gameServer.GameInit();
-        gameServer.playRounds();
-        gameServer.gameOver();
+        // gameServer.GameInit();
+        // gameServer.playRounds();
+        // gameServer.gameOver();
+        RoomController roomController = new RoomController();
+
+        int roomID = roomController.getRoomID();
+
+        switch (roomID) {
+            case 1:
+                room1.start();
+                break;
+            case 2:
+                room2.start();
+                break;
+            case 3:
+                room3.start();
+                break;
+            default:
+                System.out.println("err: roomID is not valid");
+                break;
+        }
+
+
 
         System.out.println("received correctly");
     }

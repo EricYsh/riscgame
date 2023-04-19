@@ -11,12 +11,10 @@ public class Room {
     private int roomID;
     private int port;
     private GameServer gameServer;
-    private Vector<Integer> clientIDs;
 
     public Room(int roomID, int numClient, int port) {
         this.roomID = roomID;
         this.port = port;
-        this.clientIDs = new Vector<Integer>();
         this.gameServer = new GameServer(numClient, port);
     }
 
