@@ -47,8 +47,8 @@ public class UpgradeUnit extends Order {
                 }
                 System.out.println("rescourseCost : " + rescourseCost);
                 // minus tech resources for the player for each unit upgrade
-                int oldFoodResource = boardMap.getPlayerById(this.getOrderOwnId()).getFoodResource();
-                boardMap.getPlayerById(this.getOrderOwnId()).setFoodResource(oldFoodResource - rescourseCost);
+                int oldTechResource = boardMap.getPlayerById(this.getOrderOwnId()).getTechResource();
+                boardMap.getPlayerById(this.getOrderOwnId()).setTechResource(oldTechResource - rescourseCost);
             }
         }
     }
