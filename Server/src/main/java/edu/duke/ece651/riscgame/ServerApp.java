@@ -18,7 +18,7 @@ public class ServerApp {
             return;
         }
         int numClient = Integer.parseInt(args[0]);
-    
+
         // Check that number of players is within range
         if (numClient < 2 || numClient > 5) {
             System.out.println("err: number of players must be between 2 and 5");
@@ -28,37 +28,32 @@ public class ServerApp {
         Room room1 = new Room(1, numClient, 8888);
         Room room2 = new Room(2, numClient, 8889);
         Room room3 = new Room(3, numClient, 8890);
-    
+
         // Load FXML file and create RoomController object
+        // how to load the fxml file
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServerApp.class.getResource("/Client/Room.fxml"));
-        try {
-            AnchorPane root = (AnchorPane) loader.load();
-            RoomController roomController = loader.getController();
-    
-            // Get room ID from RoomController
-            int roomID = roomController.getRoomID();
-    
-            // Start corresponding Room object based on room ID
-            switch (roomID){
-                case 1:
-                    room1.start();
-                    break;
-                case 2:
-                    room2.start();
-                    break;
-                case 3:
-                    room3.start();
-                    break;
-                default:
-                    System.out.println("err: invalid room ID");
-                    break;
-            }
-    
-        } catch (IOException e) {
-            e.printStackTrace();
+        loader.setLocation(ServerApp.class.getResource("Room.fxml"));
+        RoomController roomController = loader.getController();
+
+        // Get room ID from RoomController
+        int roomID = roomController.getRoomID();
+
+        // Start corresponding Room object based on room ID
+        switch (roomID) {
+            case 1:
+                room1.start();
+                break;
+            case 2:
+                room2.start();
+                break;
+            case 3:
+                room3.start();
+                break;
+            default:
+                System.out.println("err: invalid room ID");
+                break;
         }
+
     }
-    
-    
+
 }
