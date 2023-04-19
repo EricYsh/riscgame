@@ -9,6 +9,7 @@ public class Player implements Serializable {
     // TODO add his territory
     private final int clientID;
     private String playerName;
+    private String password;
     // private Vector<Territory> ownedTerr;
     private int techLevel;
     private int techResource; // send to server and receive back each turn

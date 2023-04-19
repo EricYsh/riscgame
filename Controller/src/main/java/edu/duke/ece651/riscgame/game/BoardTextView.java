@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+// import edu.duke.ece651.riscgame.Client.*;
+//TODO: change textview to gui
+//call the controller of javafx to interact with the gui.
+
 public class BoardTextView {
     private GameMap boardMap;
     private HashMap<Integer, String> idToName;
+    // private ViewController viewController;
+
 
     public BoardTextView(GameMap boardMap) {
         this.boardMap = boardMap;

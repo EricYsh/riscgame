@@ -8,9 +8,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+
 import javafx.stage.Stage;
 
 public class ViewController {
@@ -176,8 +181,8 @@ public class ViewController {
             territory_info.setText("Territory Info:\nPlayer 3 Territory 3");
         }
     }
-    
-    @FXML 
+
+    @FXML
     void click_player4_t1(MouseEvent event) {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
@@ -243,7 +248,7 @@ public class ViewController {
     }
 
     @FXML
-    void click_attack(ActionEvent event) throws Exception{
+    void click_attack(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AttackDialog.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 600, 800);
@@ -266,4 +271,118 @@ public class ViewController {
         return boardGameMap;
     }
 
+
+    @FXML
+    private ScrollPane infoScrollPane;
+    @FXML
+    private AnchorPane infoAnchorPane;
+
+    /*
+     * This method is called by the FXMLLoader when initialization is complete
+     * 
+     */
+    public void displayInfo(String infoText) {
+        Text infoTextNode = new Text(infoText);
+        infoAnchorPane.getChildren().add(infoTextNode);
+    }
+
+    //change the color of the territory, according to the winner name
+    public void changeTerritoryColor(int clientID, String territoryName) {
+        switch (clientID) {
+            case 1:
+                switch (territoryName) {
+                    case "Player 1 Territory 1":
+                        player1_t1.setFill(Color.RED);
+                        break;
+                    case "Player 1 Territory 2":
+                        player1_t2.setFill(Color.RED);
+                        break;
+                    case "Player 1 Territory 3":
+                        player1_t3.setFill(Color.RED);
+                        break;
+                }
+                break;
+            case 2:
+                switch (territoryName) {
+                    case "Player 2 Territory 1":
+                        player2_t1.setFill(Color.BLUE);
+                        break;
+                    case "Player 2 Territory 2":
+                        player2_t2.setFill(Color.BLUE);
+                        break;
+                    case "Player 2 Territory 3":
+                        player2_t3.setFill(Color.BLUE);
+                        break;
+                }
+                break;
+            case 3:
+                switch (territoryName) {
+                    case "Player 3 Territory 1":
+                        player3_t1.setFill(Color.GREEN);
+                        break;
+                    case "Player 3 Territory 2":
+                        player3_t2.setFill(Color.GREEN);
+                        break;
+                    case "Player 3 Territory 3":
+                        player3_t3.setFill(Color.GREEN);
+                        break;
+                }
+                break;
+            case 4:
+                switch (territoryName) {
+                    case "Player 4 Territory 1":
+                        player4_t1.setFill(Color.YELLOW);
+                        break;
+                    case "Player 4 Territory 2":
+                        player4_t2.setFill(Color.YELLOW);
+                        break;
+                    case "Player 4 Territory 3":
+                        player4_t3.setFill(Color.YELLOW);
+                        break;
+                }
+                break;
+            case 5:
+                switch (territoryName) {
+                    case "Player 5 Territory 1":
+                        player5_t1.setFill(Color.PURPLE);
+                        break;
+                    case "Player 5 Territory 2":
+                        player5_t2.setFill(Color.PURPLE);
+                        break;
+                    case "Player 5 Territory 3":
+                        player5_t3.setFill(Color.PURPLE);
+                        break;
+                }
+                break;
+        }
+    }
+
+    //this function is used to set the polyon to white in order to ignore it
+    public void setTerritoryToWhite(int ClientID){
+        if(ClientID == 1){
+            player1_t1.setFill(Color.WHITE);
+            player1_t2.setFill(Color.WHITE);
+            player1_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 2){
+            player2_t1.setFill(Color.WHITE);
+            player2_t2.setFill(Color.WHITE);
+            player2_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 3){
+            player3_t1.setFill(Color.WHITE);
+            player3_t2.setFill(Color.WHITE);
+            player3_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 4){
+            player4_t1.setFill(Color.WHITE);
+            player4_t2.setFill(Color.WHITE);
+            player4_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 5){
+            player5_t1.setFill(Color.WHITE);
+            player5_t2.setFill(Color.WHITE);
+            player5_t3.setFill(Color.WHITE);
+        }
+    } 
 }
