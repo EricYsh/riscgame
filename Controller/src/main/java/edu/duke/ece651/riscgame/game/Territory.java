@@ -72,6 +72,9 @@ public class Territory implements Serializable {
     public void addUpgradeUnit(Unit unitToAdd) {
         units.add(unitToAdd);
     }
+    public void addUnitList(Collection<Unit> unitsList) {
+        units.addAll(unitsList);
+    }
 
     public void deleteOldLevelUnit(int level) {
         Iterator<Unit> iterator = units.iterator();

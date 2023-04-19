@@ -23,7 +23,7 @@ public class Move extends Order {
     }
 
     HashSet<Territory> used = new HashSet<>();
-    private int cost = Integer.MAX_VALUE;
+    private int cost;
     HashSet<String> path = new HashSet<>();
 
     public void shortestPath(Territory src, Territory dest, int totalCost) {
@@ -75,18 +75,31 @@ public class Move extends Order {
                 return; // do nothing if they have the same source and destination
             }
             int count = this.getUnitNum();
-            // TODO find a shortest path to move
-            int consuming = consumeFood();
             //TODO: Need minus the food resources for the corresponding player
+            ArrayList<Unit> originUnit = boardMap.getTerritoryByName(this.getSrc().getName()).getUnits();
+
             Player p = boardMap.getPlayerById(this.getOrderOwnId());
+
             int origin = p.getFoodResource();
+//            System.out.print("origin: ");
+//            System.out.println(origin);
+            int consuming = consumeFood();
             origin -= consuming;
             p.setFoodResource(origin);
+//            System.out.print("consuming: ");
+//            System.out.println(origin);
 
-//            System.out.println("FinalCost is ---------------");
-//            System.out.println(cost);
+            HashSet<Unit> unitToAdd = new HashSet<>();
+            for(Integer i : this.getSelectedUnitsIndex()) {
+                unitToAdd.add(originUnit.get(i));
+            }
+            originUnit.removeAll(unitToAdd);
+            boardMap.getTerritoryByName(this.getSrc().getName()).setUnits(originUnit);
+            boardMap.getTerritoryByName(this.getDest().getName()).addUnitList(unitToAdd);
+
             boardMap.getTerritoryByName(this.getSrc().getName()).minusUnit(count);
             boardMap.getTerritoryByName(this.getDest().getName()).addUnit(count);
+
         }
     }
 

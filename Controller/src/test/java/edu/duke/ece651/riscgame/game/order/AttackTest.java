@@ -1,4 +1,4 @@
-package edu.duke.ece651.riscgame.order;
+package edu.duke.ece651.riscgame.game.order;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.BoardMapFactory;

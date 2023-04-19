@@ -1,9 +1,10 @@
-package edu.duke.ece651.riscgame.order;
+package edu.duke.ece651.riscgame.game.order;
 
 import edu.duke.ece651.riscgame.game.BoardMapFactory;
 import edu.duke.ece651.riscgame.game.BoardTextView;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.UpgradeUnit;
 import edu.duke.ece651.riscgame.rule.Type;
 import org.junit.jupiter.api.Test;
 
