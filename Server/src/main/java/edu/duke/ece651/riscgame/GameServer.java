@@ -4,6 +4,7 @@ import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameOverInfo;
 import edu.duke.ece651.riscgame.commuMedium.RoundResult;
 import edu.duke.ece651.riscgame.game.*;
+import edu.duke.ece651.riscgame.order.Attack;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.Type;
 
@@ -87,15 +88,22 @@ public class GameServer {
     }
 
     public void executeOrders(ArrayList<Order> orders) {
-        // make modification to gameMap
         System.out.println("orders size:" + orders.size());
+        // upgrade unit first
+        System.out.println("upgrade units....");
+        for (Order o : orders) {
+            if (o.getType().equals(Type.UpgradeUnit)) {
+                o.run(gameMap);
+            }
+        }
+
+        // make modification to gameMap
+        System.out.println("move units....");
         for (Order o : orders) {
             if (o.getType().equals(Type.Move)) {
                 o.run(gameMap);
             }
         }
-
-        System.out.println("begin the second for loop -------------");
 
         // TODO merge attack before actually attack
 
@@ -119,21 +127,51 @@ public class GameServer {
         }
 
         // TODO now become minus the actual Unit
+
+//        for (Order o : orders) {
+//            if (o.getType().equals(Type.Attack)) {
+//                o.run(gameMap);
+////                gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
+////                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
+////                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
+////                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
+////                o.getSrc().minusUnit(o.getUnitNum());
+//            }
+//        }
+
+        ArrayList<ArrayList<Unit>> attackUnitList = new ArrayList<>();
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
+                ArrayList<Unit> origin = gameMap.getTerritoryByName(o.getSrc().getName()).getUnits();
+                ArrayList<Unit> unitForAttack = new ArrayList<>();
+                for(Integer i : o.getSelectedUnitsIndex()) {
+                    unitForAttack.add(origin.get(i));
+                }
+                attackUnitList.add(unitForAttack);
                 o.run(gameMap);
-//                gameMap.getTerritoryByName(o.getSrc().getName()).minusUnit(o.getUnitNum());
-//                System.out.print(gameMap.getTerritoryByName(o.getSrc().getName()).getName() + " has units ");
-//                System.out.println(gameMap.getTerritoryByName(o.getSrc().getName()).getUnitNum());
-//                gameMap.getEqualTerritory(o.getSrc()).minusUnit(o.getUnitNum());
-//                o.getSrc().minusUnit(o.getUnitNum());
             }
         }
 
         for (Order o : orders) {
-            if (o.getType().equals(Type.Attack) || o.getType().equals(Type.AttackAndChangeHome)) {
+            if (o.getType().equals(Type.AttackAndChangeHome)) {
                 o.combat(gameMap);
+            }
+        }
+
+        int i = 0;
+        for (Order o : orders) {
+            if (o.getType().equals(Type.Attack)) {
+                o.combat(gameMap, attackUnitList.get(i));
+                i++;
 //                o.run(gameMap);
+            }
+        }
+
+    boolean Flag = false;
+        for(Order o : orders) {
+            if (!Flag && o.getType().equals(Type.UpgradeTech)) {
+                Flag = true;
+                o.run(gameMap);
             }
         }
     }

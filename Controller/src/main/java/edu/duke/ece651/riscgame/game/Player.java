@@ -3,7 +3,6 @@ package edu.duke.ece651.riscgame.game;
 import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.Serializable;
-import java.util.Vector;
 
 public class Player implements Serializable {
 
@@ -15,6 +14,8 @@ public class Player implements Serializable {
     private int techLevel;
     private int techResource; // send to server and receive back each turn
     private int foodResource; // send to server and receive back each turn
+
+    private int territoriesNum;
     public Player (int clientID, String playerName) {
         this.clientID = clientID;
         this.playerName = playerName;
@@ -31,6 +32,10 @@ public class Player implements Serializable {
 
     public int getTechResource() {
         return techResource;
+    }
+
+    public int getTerritoriesNum() {
+        return territoriesNum;
     }
 
     public void setTechResource(int techResource) {
@@ -53,7 +58,19 @@ public class Player implements Serializable {
         this.techLevel = techLevel;
     }
 
+    public void setTerritoriesNum(int territoriesNum) {
+        this.territoriesNum = territoriesNum;
+    }
+
     public void disPlayResources() {
         System.out.println("You have " + techResource + " tech resource and " + foodResource + " food resource.");
+    }
+
+    public void addTechResource(int techResource) {
+        this.techResource += techResource;
+    }
+
+    public void addFoodResource(int foodResource) {
+        this.foodResource += foodResource;
     }
 }
