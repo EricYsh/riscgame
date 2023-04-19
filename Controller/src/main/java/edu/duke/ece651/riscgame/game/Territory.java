@@ -1,10 +1,7 @@
 package edu.duke.ece651.riscgame.game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Territory implements Serializable {
     private final String name;
@@ -24,13 +21,8 @@ public class Territory implements Serializable {
     //  user input : 1,2,3
     UnitFactory unitFactory = new UnitFactory();
 
-    private int technologyLevel;
-    private final int foodResourceIncreasement = 10;
-    private final int techResourceIncreasement = 50;
-
     public Territory(String tname) {
         this.name = tname;
-        this.technologyLevel = 1;
         neighbors = new HashSet<>();
 //        units = new HashMap<>();
 //        for (int i = 0; i < unitNum; i++) {
@@ -48,7 +40,6 @@ public class Territory implements Serializable {
         this.ownerName = oName;
         this.ownId = oId;
         this.unitNum = unitNum;
-        this.technologyLevel = 1;
         neighbors = new HashSet<>();
 //        units = new HashMap<>();
 //        for (int i = 0; i < unitNum; i++) {
@@ -66,7 +57,6 @@ public class Territory implements Serializable {
         this.name = tName;
         this.ownId = ownId;
         this.unitNum = unitNum;
-        this.technologyLevel = 1;
         neighbors = new HashSet<>();
 //        units = new HashMap<>();
 //        for (int i = 0; i < unitNum; i++) {
@@ -77,6 +67,21 @@ public class Territory implements Serializable {
             units.add((Unit) unitFactory.createUnit(0, 0));
         }
         this.size = 10;
+    }
+
+    public void addUpgradeUnit(Unit unitToAdd) {
+        units.add(unitToAdd);
+    }
+
+    public void deleteOldLevelUnit(int level) {
+        Iterator<Unit> iterator = units.iterator();
+        while(iterator.hasNext()){
+            Unit unit = iterator.next();
+            if (unit.getLevel() == level) {
+                iterator.remove();
+                break;
+            }
+        }
     }
 
 
@@ -94,14 +99,6 @@ public class Territory implements Serializable {
 
     public void setUnits(ArrayList<Unit> units) {
         this.units = units;
-    }
-
-    public int getTechnologyLevel() {
-        return technologyLevel;
-    }
-
-    public void setTechnologyLevel(int technologyLevel) {
-        this.technologyLevel = technologyLevel;
     }
 
     public String getName() {
@@ -163,7 +160,7 @@ public class Territory implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Territory territory = (Territory) o;
-        return ownId == territory.ownId && unitNum == territory.unitNum && technologyLevel == territory.technologyLevel && name.equals(territory.name) && ownerName.equals(territory.ownerName);
+        return ownId == territory.ownId && unitNum == territory.unitNum && name.equals(territory.name) && ownerName.equals(territory.ownerName);
     }
 
     //    public void displayAllUnit() {
@@ -188,7 +185,7 @@ public class Territory implements Serializable {
         }
 
         for (int i = 0; i < levelCount.length; i++) {
-            System.out.print("Level " + (i + 1) + " : " + levelCount[i]);
+            System.out.print("Level " + i + " : " + levelCount[i]);
             System.out.println(" with Index: " + levelIndices.get(i));
         }
     }
@@ -207,6 +204,7 @@ public class Territory implements Serializable {
     }
 
     public int getFoodResource() {
+        int foodResourceIncreasement = 10;
         return foodResourceIncreasement;
     }
 
@@ -219,6 +217,7 @@ public class Territory implements Serializable {
     }
 
     public int getTechResource() {
+        int techResourceIncreasement = 50;
         return techResourceIncreasement;
     }
 

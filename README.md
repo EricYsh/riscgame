@@ -12,6 +12,8 @@
 
 👦 Shanghui Yin (sy275)
 
+Thank everyone for their efforts.
+
 ## UML Diagram
 
 link

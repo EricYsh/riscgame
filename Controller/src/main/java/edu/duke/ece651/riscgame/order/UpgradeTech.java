@@ -2,12 +2,13 @@ package edu.duke.ece651.riscgame.order;
 
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.game.Unit;
 import edu.duke.ece651.riscgame.rule.Type;
 
 import java.util.ArrayList;
 
 public class UpgradeTech extends Order {
-                 //2   3    4    5    6
+    //2   3    4    5    6
     int[] cost = {50, 75, 125, 200, 300};
 
     public UpgradeTech(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
@@ -18,8 +19,7 @@ public class UpgradeTech extends Order {
     public void run(GameMap gameMap) {
         // TODO upgrade terrtority tech level
         if (this.getType().equals(Type.UpgradeTech)) {
-            int oldTechLevel = gameMap.getTerritoryByName(this.getSrc().getName()).getTechnologyLevel();
-            gameMap.getTerritoryByName(this.getSrc().getName()).setTechnologyLevel(oldTechLevel + 1);
+            int oldTechLevel = gameMap.getPlayerById(this.getOrderOwnId()).getTechLevel();
             // TODO reduce player tech resources
             int oldTechResource = gameMap.getPlayerById(this.getOrderOwnId()).getTechResource();
             gameMap.getPlayerById(this.getOrderOwnId()).setTechResource(oldTechResource - cost[oldTechLevel - 1]);
@@ -48,7 +48,8 @@ public class UpgradeTech extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack){}
+    public void combat(GameMap gameMap) {
 
     }
 

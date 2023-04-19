@@ -23,7 +23,6 @@ public class UpgradeUnit extends Order {
     }
 
 
-
     @Override
     public void run(GameMap boardMap) {
         if (this.getType().equals(Type.UpgradeUnit)) {
@@ -33,9 +32,14 @@ public class UpgradeUnit extends Order {
             for (int i = 0; i < this.getSelectedUnitsIndex().size(); i++) {
                 Unit unit = terrUnits.get(i); // unit to upgrade
                 int oldLevel = unit.getLevel();
-                int newLevel = levelToUpgrade.get(i);
-                unit.setLevel(levelToUpgrade.get(i));
-                unit.setBonus(bonusForUnit[newLevel - 1]);
+                int newLevel = this.getLevelToUpgrade().get(i);
+                this.getSrc().deleteOldLevelUnit(oldLevel);
+                Unit unitToAdd = (Unit) factory.createUnit(newLevel, bonusForUnit[newLevel]);
+                this.getSrc().addUpgradeUnit(unitToAdd);
+                System.out.print("Bonus : ");
+                System.out.println(unitToAdd.getBonus());
+                System.out.print("Level : ");
+                System.out.println(unitToAdd.getLevel());
                 int rescourseCost = 0;
                 // 0 -> 3
                 for (int k = oldLevel; k < newLevel; k++) {
@@ -48,7 +52,9 @@ public class UpgradeUnit extends Order {
         }
     }
 
-    public void combat(GameMap gameMap){
+    public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack) {
+    }
+    public void combat(GameMap gameMap) {
 
     }
 

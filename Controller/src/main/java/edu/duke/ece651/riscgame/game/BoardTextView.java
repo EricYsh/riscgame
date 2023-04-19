@@ -267,7 +267,7 @@ public class BoardTextView {
         System.out.println("Please enter the index of units you want to move (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
         ArrayList<Integer> unitIndex = getUnitIndex(playerId);
-        return new Move(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
+        return new Move(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
     }
 
 //    public Attack issueAttackOrder(int playerId) {
@@ -291,7 +291,7 @@ public class BoardTextView {
         System.out.println("Please enter the number of units you want to attack with (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
         ArrayList<Integer> unitIndex = getUnitIndex(playerId);
-        return new Attack(-1, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex, null);
+        return new Attack(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex, null);
     }
 
     public UpgradeTech issueUpgradeTechOrder(int playerId) {
@@ -311,7 +311,7 @@ public class BoardTextView {
         System.out.println("Please enter their level you want to upgrade to (separate by a space):");
         ArrayList<Integer> unitLevel = getUnitLevel(playerId, unitIndex.size());
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        return new UpgradeUnit(-1, boardMap.getTerritoryByName(fromTerritoryName), null, Type.UpgradeUnit, playerId, unitIndex, unitLevel);
+        return new UpgradeUnit(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), null, Type.UpgradeUnit, playerId, unitIndex, unitLevel);
     }
 
     private ArrayList<Integer> getUnitLevel(int playerId, int length) {
@@ -320,7 +320,7 @@ public class BoardTextView {
         boolean isValid;
         ArrayList<Integer> levels;
         do {
-            System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 1-7 separated by spaces: ");
+            System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 0-6 separated by spaces: ");
             input = scanner.nextLine();
             levels = new ArrayList<>();
             isValid = validateInput(input, length, levels);
