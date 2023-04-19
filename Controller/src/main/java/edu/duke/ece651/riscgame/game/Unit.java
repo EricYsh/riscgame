@@ -34,23 +34,23 @@ public abstract class Unit implements UnitInterface, Serializable {
             case 1:
                 this.level = 1;
                 break;
-            case 2:
+            case 3:
                 this.level = 2;
                 break;
-            case 3:
+            case 5:
                 this.level = 3;
                 break;
-            case 4:
+            case 8:
                 this.level = 4;
                 break;
-            case 5:
+            case 11:
                 this.level = 5;
                 break;
-            case 6:
+            case 15:
                 this.level = 6;
                 break;
             default:
-                this.level = 1;
+                this.level = 0;
                 break;
         }
         this.bonus = bonus;

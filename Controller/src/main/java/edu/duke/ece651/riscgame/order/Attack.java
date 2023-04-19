@@ -116,6 +116,7 @@ public class Attack extends Order {
             gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
             this.getDest().removeAllUnits();
             for (Integer bonus : attackBonus) {
+                System.out.println("to add bonus is : " + bonus);
                 Unit unit = (Unit) unitFactory.createUnit(bonus);
                 gameMap.getTerritoryByName(this.getDest().getName()).addUpgradeUnit(unit);
             }
