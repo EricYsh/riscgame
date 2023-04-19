@@ -18,3 +18,5 @@ bin/
 
 # Ignore local class files
 *.class
+
+*.hprof
