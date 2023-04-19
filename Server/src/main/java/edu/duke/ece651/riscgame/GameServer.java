@@ -20,7 +20,7 @@ public class GameServer {
     private NetServer netServer;
     private BoardMapFactory mapFactory;
     private GameMap gameMap;
-    private Player player;
+    private ArrayList<Player> players;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
@@ -50,11 +50,16 @@ public class GameServer {
             countryName.add(countries[i]);
         }
     }
-
-    public void GameInit() {
-        int numUnit = 30;
+    public void connect () {
         netServer.connectWithMultiClients();
         netServer.sendClientID();
+
+    }
+    public void GameInit() {
+        int numUnit = 30;
+
+
+        this.players = netServer.receivePlayer();
         System.out.println(1);
         netServer.broadCast(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
@@ -83,6 +88,7 @@ public class GameServer {
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();
+        netServer.reLogin(players);
         netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
                                             gameMap.getTerritoryNameAndOwnership(),
                                             gameMap.getAllPlayerList()));

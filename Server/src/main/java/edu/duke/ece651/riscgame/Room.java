@@ -7,7 +7,7 @@ import java.util.Vector;
  * Every room has a gameserver, which can connect to serveral clients
  * Initialize it by 3
  */
-public class Room {
+public class Room extends Thread{
     private int roomID;
     private int port;
     private GameServer gameServer;
@@ -33,6 +33,7 @@ public class Room {
     }
 
     public void start(){
+        gameServer.connect();
         gameServer.GameInit();
         gameServer.playRounds();
         gameServer.gameOver();

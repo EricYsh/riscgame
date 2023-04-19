@@ -20,5 +20,7 @@ public enum Type {
     Attack2,
     Commit,
     UpgradeUnit,
-    UpgradeTech
+    UpgradeTech,
+    LogOut,
+    Switch
 }
