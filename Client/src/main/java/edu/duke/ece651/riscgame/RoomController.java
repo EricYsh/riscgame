@@ -91,9 +91,10 @@ public class RoomController {
         Scene scene = new Scene(root, 400, 400);
         LoginController loginController = loader.getController();
         Stage stage = new Stage();
-        
+
         stage.setScene(scene);
         stage.show();
+        
     }
 
 

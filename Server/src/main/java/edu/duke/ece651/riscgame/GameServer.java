@@ -39,6 +39,17 @@ public class GameServer {
         }
     }
 
+    public GameServer(int numClient, int port) {
+        this.numClient = numClient;
+        this.countryName = new Vector<String>();
+        this.mapFactory = new BoardMapFactory();
+        this.gameMap = mapFactory.generateMap(numClient);// the map is chosen when declared
+        this.netServer = new NetServer(numClient, port);
+        for (int i = 0; i < numClient; i++) { // playerList
+            countryName.add(countries[i]);
+        }
+    }
+
     public void GameInit() {
         int numUnit = 30;
         netServer.connectWithMultiClients();

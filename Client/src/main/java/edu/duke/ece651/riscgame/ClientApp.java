@@ -48,7 +48,7 @@ public class ClientApp extends Application{
 
 
     public static void main(String[] args) {
-//        launch(args); // load the GUI
+       launch(args); // load the GUI
         System.out.println(new ClientApp().getGreeting());
 
         GameClient gameClient = new GameClient(System.in);
