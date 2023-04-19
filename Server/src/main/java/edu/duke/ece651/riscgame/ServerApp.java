@@ -11,7 +11,7 @@ public class ServerApp {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         // Parse command-line arguments
         if (args.length != 1) {
             System.out.println("usage: <number of players>");
@@ -32,7 +32,8 @@ public class ServerApp {
         // Load FXML file and create RoomController object
         // how to load the fxml file
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServerApp.class.getResource("Room.fxml"));
+        loader.setLocation(ServerApp.class.getResource("/Room.fxml"));
+        AnchorPane room = loader.load();
         RoomController roomController = loader.getController();
 
         // Get room ID from RoomController
