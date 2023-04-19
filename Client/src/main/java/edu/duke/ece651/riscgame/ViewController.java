@@ -1,6 +1,7 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,12 @@ import javafx.stage.Stage;
 public class ViewController {
 
     private BoardGameMap boardGameMap;
+
+    private String playerName;
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
 
     @FXML
     private Button move_btn;
@@ -244,6 +251,7 @@ public class ViewController {
         MoveDialogController moveController = loader.getController();
         Stage stage = new Stage();
         stage.setScene(scene);
+        stage.setTitle("Move");
         stage.show();
     }
 
@@ -255,6 +263,7 @@ public class ViewController {
         AttackDialogController attackController = loader.getController();
         Stage stage = new Stage();
         stage.setScene(scene);
+        stage.setTitle("Attack");
         stage.show();
     }
 
@@ -361,28 +370,43 @@ public class ViewController {
     public void setTerritoryToWhite(int ClientID){
         if(ClientID == 1){
             player1_t1.setFill(Color.WHITE);
+            player1_t1.setOnMouseClicked(event -> {event.consume();});
             player1_t2.setFill(Color.WHITE);
+            player1_t2.setOnMouseClicked(event -> {event.consume();});
             player1_t3.setFill(Color.WHITE);
+            player1_t3.setOnMouseClicked(event -> {event.consume();});
         }
         else if(ClientID == 2){
             player2_t1.setFill(Color.WHITE);
+            player2_t1.setOnMouseClicked(event -> {event.consume();});
             player2_t2.setFill(Color.WHITE);
+            player2_t2.setOnMouseClicked(event -> {event.consume();});
             player2_t3.setFill(Color.WHITE);
+            player2_t3.setOnMouseClicked(event -> {event.consume();});
         }
         else if(ClientID == 3){
             player3_t1.setFill(Color.WHITE);
+            player3_t1.setOnMouseClicked(event -> {event.consume();});
             player3_t2.setFill(Color.WHITE);
+            player3_t2.setOnMouseClicked(event -> {event.consume();});
             player3_t3.setFill(Color.WHITE);
+            player3_t3.setOnMouseClicked(event -> {event.consume();});
         }
         else if(ClientID == 4){
             player4_t1.setFill(Color.WHITE);
+            player4_t1.setOnMouseClicked(event -> {event.consume();});
             player4_t2.setFill(Color.WHITE);
+            player4_t2.setOnMouseClicked(event -> {event.consume();});
             player4_t3.setFill(Color.WHITE);
+            player4_t3.setOnMouseClicked(event -> {event.consume();});
         }
         else if(ClientID == 5){
             player5_t1.setFill(Color.WHITE);
+            player5_t1.setOnMouseClicked(event -> {event.consume();});
             player5_t2.setFill(Color.WHITE);
+            player5_t2.setOnMouseClicked(event -> {event.consume();});
             player5_t3.setFill(Color.WHITE);
+            player5_t3.setOnMouseClicked(event -> {event.consume();});
         }
     } 
 }
