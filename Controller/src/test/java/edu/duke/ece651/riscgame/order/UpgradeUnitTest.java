@@ -8,6 +8,8 @@ import edu.duke.ece651.riscgame.rule.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,8 +23,10 @@ class UpgradeUnitTest {
         Territory t1 = map.getTerritoryByName("T1");
         ArrayList<Integer> index = new ArrayList<>();
         ArrayList<Integer> Level = new ArrayList<>();
-        index.add(1);
-        Level.add(3);
+        List<Integer> elementsToAdd1 = Arrays.asList(0, 2, 9);
+        index.addAll(elementsToAdd1);
+        List<Integer> levelToUpgrade = Arrays.asList(0, 1, 6);
+        Level.addAll(levelToUpgrade);
         t1.displayAllUnit();
 
         UpgradeUnit u1 = new UpgradeUnit(index.size(), t1 , null, Type.UpgradeUnit, 0, index, Level);
