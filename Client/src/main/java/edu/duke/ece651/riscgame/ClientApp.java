@@ -61,6 +61,7 @@ public class ClientApp extends Application{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
 //        gameClient.gameOver();
 
 //         the two lines below for testing assign units manually

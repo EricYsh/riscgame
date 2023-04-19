@@ -29,6 +29,26 @@ public class ViewController {
         this.playerName = playerName;
     }
 
+    private boolean isTechUpgrade = false;
+
+    public void setTechUpgrade(boolean techUpgrade) {
+        isTechUpgrade = techUpgrade;
+    }
+
+    public boolean isTechUpgrade() {
+        return isTechUpgrade;
+    }
+
+    private boolean isCommit = false;
+
+    public void setCommit(boolean commit) {
+        isCommit = commit;
+    }
+
+    public boolean isCommit() {
+        return isCommit;
+    }
+
     @FXML
     private Button move_btn;
 
@@ -247,11 +267,12 @@ public class ViewController {
     void click_move(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MoveDialog.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, 600, 400);
         MoveDialogController moveController = loader.getController();
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Move");
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -259,17 +280,36 @@ public class ViewController {
     void click_attack(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AttackDialog.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 800);
+        Scene scene = new Scene(root, 600, 400);
         AttackDialogController attackController = loader.getController();
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Attack");
+        stage.setResizable(false);
         stage.show();
     }
 
     @FXML
-    void click_commit(ActionEvent event) {
+    void click_up_unit(ActionEvent event) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UnitUpDialog.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        UnitUpDialogController unitUpController = loader.getController();
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Unit Up");
+        stage.setResizable(false);
+        stage.show();
+    }
 
+    @FXML
+    void click_up_tech(ActionEvent event) {
+        setTechUpgrade(true);
+    }
+
+    @FXML
+    void click_commit(ActionEvent event) {
+        setCommit(true);
     }
 
     public void setBoardGameMap(BoardGameMap boardGameMap) {
@@ -409,4 +449,6 @@ public class ViewController {
             player5_t3.setOnMouseClicked(event -> {event.consume();});
         }
     } 
+
+
 }

@@ -1,73 +1,70 @@
 package edu.duke.ece651.riscgame;
 
-import java.util.HashMap;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AttackDialogController {
+public class UnitUpDialogController {
 
-    private String sourceTerritory;
-    private String targetTerritory;
+    private String territoryIn;
     private String unitsIndex;
+    private String levelTo;
+
+    public String getTerritoryIn() {
+        return territoryIn;
+    }
+
+    public String getUnitsIndex() {
+        return unitsIndex;
+    }
+
+    public String getLevelTo() {
+        return levelTo;
+    }
 
     @FXML
     private Button cancel_btn;
 
     @FXML
-    private Button attack_btn;
+    private Button up_unit_btn;
 
     @FXML
-    private TextField source_territory;
-
-    @FXML
-    private TextField target_territory;
+    private TextField territory_in;
 
     @FXML
     private TextField units_index;
 
-    public String getSourceTerritory() {
-        return sourceTerritory;
-    }
-
-    public String getTargetTerritory() {
-        return targetTerritory;
-    }
-
-    public String getUnitsIndex() {
-        return unitsIndex;
-    }   
+    @FXML
+    private TextField level_to;  
 
     @FXML
-    void click_attack(ActionEvent event) {
-        sourceTerritory = source_territory.getText();
-        targetTerritory = target_territory.getText();
+    void click_up_unit(ActionEvent event) {
+        territoryIn = territory_in.getText();
         unitsIndex = units_index.getText();
+        levelTo = level_to.getText();
 
         boolean isValidInput = true;
         
-        if (sourceTerritory == null || sourceTerritory.isEmpty()) {
-            isValidInput = false;
-        }
-        if (targetTerritory == null || targetTerritory.isEmpty()) {
+        if (territoryIn == null || territoryIn.isEmpty()) {
             isValidInput = false;
         }
         if (unitsIndex == null || unitsIndex.isEmpty()) {
             isValidInput = false;
         }
+        if (levelTo == null || levelTo.isEmpty()) {
+            isValidInput = false;
+        }
         
         if (isValidInput) {
             // for test
-            System.out.println("sourceTerritory: " + sourceTerritory);
-            System.out.println("targetTerritory: " + targetTerritory);
+            System.out.println("territoryIn: " + territoryIn);
             System.out.println("unitsIndex: " + unitsIndex);
+            System.out.println("levelTo: " + levelTo);
         
-            Stage stage = (Stage) attack_btn.getScene().getWindow();
+            Stage stage = (Stage) up_unit_btn.getScene().getWindow();
             stage.close();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -83,6 +80,5 @@ public class AttackDialogController {
         Stage stage = (Stage) cancel_btn.getScene().getWindow();
         stage.close();
     }
+
 }
-
-
