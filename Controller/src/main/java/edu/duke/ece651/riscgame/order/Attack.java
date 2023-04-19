@@ -43,6 +43,8 @@ public class Attack extends Order {
     }
 
     public void combat(GameMap gameMap) {
+        int oldFood = gameMap.getPlayerById(this.getOrderOwnId()).getFoodResource();
+        gameMap.getPlayerById(this.getOrderOwnId()).setFoodResource(oldFood - getSelectedUnitsIndex().size());
         // attack but use up all units, then these two parts will change home directly
         if (this.getType().equals(Type.AttackAndChangeHome)) {
             doChangeHomeAttack(gameMap);
@@ -52,6 +54,8 @@ public class Attack extends Order {
     @Override
     public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack) {
         // TODO attack cost 1 food resource per unit to perform
+        int oldFood = gameMap.getPlayerById(this.getOrderOwnId()).getFoodResource();
+        gameMap.getPlayerById(this.getOrderOwnId()).setFoodResource(oldFood - getSelectedUnitsIndex().size());
 
         // TODO test for evol2 Attack
         if (this.getType().equals(Type.Attack)) {
@@ -138,38 +142,6 @@ public class Attack extends Order {
         int randomNumberAttack = random.nextInt(20) + 1;
         int randomNumberDefend = random.nextInt(20) + 1;
         return randomNumberAttack + attackerBonus > randomNumberDefend + defenderBonus; // attacker wins if larger
-    }
-
-    private void doNormalAttack(GameMap gameMap) {
-        // TODO order of execution alternates between
-        // TODO  highes-bonus attacker unit paired with the lowest-bonus defender unit
-        // TODO lowest-bonus attacker unit paired with the highest-bonus defend unit
-
-        int attckUnitNum = this.getUnitNum(); // use how many units to attack
-        int defendUnitNum = this.getDest().getUnitNum(); // defender unit count
-
-        // Simulate battle between attacker and defender
-        while (attckUnitNum > 0 && defendUnitNum > 0) {
-            Random random = new Random();
-            // TODO add a bonus for the type of unit involved
-            int randomNumberAttack = random.nextInt(20) + 1;
-            int randomNumberDefend = random.nextInt(20) + 1;
-            if (randomNumberAttack > randomNumberDefend) {
-                defendUnitNum--;
-            } else {
-                attckUnitNum--;
-            }
-        }
-
-        // Update territory information based on battle outcome
-        if (defendUnitNum > 0) { // defend wins
-            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(defendUnitNum);
-        } else { // attack wins
-            String ownerName = ownership.get(this.getOrderOwnId());
-            gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
-            gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
-            gameMap.getTerritoryByName(this.getDest().getName()).setUnitNum(attckUnitNum);
-        }
     }
 
     private void doChangeHomeAttack(GameMap gameMap) {
