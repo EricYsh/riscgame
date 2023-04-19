@@ -204,31 +204,30 @@ public class BoardTextView {
     }
 
 
-    private ArrayList<Integer> getUnitIndex(int playerId) {
+    private ArrayList<Integer> getUnitIndex(int playerId, String fromTerritoryName) {
         Scanner scanner = new Scanner(System.in);
-        int territoryUnitMaxNum = boardMap.getTerritoriesByOwnId(playerId).size();
+        int territoryUnitMaxNum = boardMap.getTerritoryByName(fromTerritoryName).getUnits().size();
         String input;
-        boolean isValid;
-        ArrayList<Integer> numbers;
-        do {
+        boolean isValid =false;
+        ArrayList<Integer> numbers = new ArrayList<>();
+        while(!isValid) {
             System.out.print("Please enter numbers with max length: " + territoryUnitMaxNum);
             input = scanner.nextLine();
-            numbers = new ArrayList<>();
             isValid = validateInput(input, numbers, territoryUnitMaxNum);
-        } while (!isValid);
+        }
         return numbers;
     }
 
-    private boolean validateInput(String input, ArrayList<Integer> numbers, int territoryUnitMaxNum) {
+    private boolean validateInput(String input, ArrayList<Integer> numbers, int territoryUnitMaxIndex) {
         // separate the input string by space
         String[] tokens = input.split(" ");
-        if (tokens.length < 1 || tokens.length > territoryUnitMaxNum) {
+        if (tokens.length < 1 || tokens.length > territoryUnitMaxIndex) {
             return false;
         }
         for (String token : tokens) {
             try {
                 int number = Integer.parseInt(token);
-                if (number < 1 || number > territoryUnitMaxNum) {
+                if (number < 1 || number > territoryUnitMaxIndex) {
                     return false;
                 } else {
                     numbers.add(number);
@@ -260,7 +259,7 @@ public class BoardTextView {
         System.out.println("===================================================================");
         System.out.println("Please enter the index of units you want to move (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId, fromTerritoryName);
         return new Move(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
     }
 
@@ -284,7 +283,7 @@ public class BoardTextView {
         System.out.println("===================================================================");
         System.out.println("Please enter the number of units you want to attack with (separate by a space):");
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId, fromTerritoryName);
         return new Attack(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId, unitIndex, null);
     }
 
@@ -301,7 +300,7 @@ public class BoardTextView {
         printAllTerritory(fromTerritoryName);
         System.out.println("===================================================================");
         System.out.println("Please enter the index of units you want to upgrade (separate by a space):");
-        ArrayList<Integer> unitIndex = getUnitIndex(playerId);
+        ArrayList<Integer> unitIndex = getUnitIndex(playerId, fromTerritoryName);
         System.out.println("Please enter their level you want to upgrade to (separate by a space):");
         ArrayList<Integer> unitLevel = getUnitLevel(playerId, unitIndex.size());
 //        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
