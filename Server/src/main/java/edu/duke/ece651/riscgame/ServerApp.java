@@ -31,6 +31,7 @@ public class ServerApp {
 
         // Load FXML file and create RoomController object
         // how to load the fxml file
+        //TODO: toolkit bug, why??
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ServerApp.class.getResource("/Room.fxml"));
         AnchorPane room = loader.load();
