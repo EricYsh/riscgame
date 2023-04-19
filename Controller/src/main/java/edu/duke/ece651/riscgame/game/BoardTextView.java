@@ -214,17 +214,18 @@ public class BoardTextView {
         Scanner scanner = new Scanner(System.in);
         int territoryUnitMaxNum = boardMap.getTerritoryByName(fromTerritoryName).getUnits().size();
         String input;
-        boolean isValid =false;
-        ArrayList<Integer> numbers = new ArrayList<>();
-        while(!isValid) {
+        boolean isValid;
+        ArrayList<Integer> numbers;
+        do {
             System.out.print("Please enter numbers with max length: " + territoryUnitMaxNum);
+            numbers = new ArrayList<>();
             input = scanner.nextLine();
-            isValid = validateInput(input, numbers, territoryUnitMaxNum);
-        }
+            isValid = validateInputUnitIndex(input, numbers, territoryUnitMaxNum);
+        } while(!isValid);
         return numbers;
     }
 
-    private boolean validateInput(String input, ArrayList<Integer> numbers, int territoryUnitMaxIndex) {
+    private boolean validateInputUnitIndex(String input, ArrayList<Integer> numbers, int territoryUnitMaxIndex) {
         // separate the input string by space
         String[] tokens = input.split(" ");
         if (tokens.length < 1 || tokens.length > territoryUnitMaxIndex) {
@@ -233,7 +234,7 @@ public class BoardTextView {
         for (String token : tokens) {
             try {
                 int number = Integer.parseInt(token);
-                if (number < 1 || number > territoryUnitMaxIndex) {
+                if (number < 0 || number >= territoryUnitMaxIndex) {
                     return false;
                 } else {
                     numbers.add(number);
@@ -322,12 +323,12 @@ public class BoardTextView {
             System.out.print("Player " + playerId + ": Please enter " + length + " numbers between 0-6 separated by spaces: ");
             input = scanner.nextLine();
             levels = new ArrayList<>();
-            isValid = validateInput(input, length, levels);
+            isValid = validateInputLevel(input, length, levels);
         } while (!isValid);
         return levels;
     }
 
-    private boolean validateInput(String input, int length, ArrayList<Integer> numbers) {
+    private boolean validateInputLevel(String input, int length, ArrayList<Integer> numbers) {
         String[] tokens = input.split(" ");
         if (tokens.length != length) {
             return false;
@@ -336,7 +337,7 @@ public class BoardTextView {
         for (String token : tokens) {
             try {
                 int number = Integer.parseInt(token);
-                if (number < 1 || number > 7) {
+                if (number < 1 || number > 6) {
                     return false;
                 } else {
                     numbers.add(number);
