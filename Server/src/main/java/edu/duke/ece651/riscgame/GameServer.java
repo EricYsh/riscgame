@@ -20,6 +20,7 @@ public class GameServer {
     private NetServer netServer;
     private BoardMapFactory mapFactory;
     private GameMap gameMap;
+    private Player player;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
