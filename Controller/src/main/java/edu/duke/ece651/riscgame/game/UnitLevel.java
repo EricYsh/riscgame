@@ -19,6 +19,10 @@ public class UnitLevel extends Unit {
         super(level, bonus);
     }
 
+    public UnitLevel(int bonus){
+        super(bonus);
+    }
+
     /**
      * Displays the information of this unit, including its level and bonus.
      * This method implements the disPlayUnitInfo() method from the UnitInterface.

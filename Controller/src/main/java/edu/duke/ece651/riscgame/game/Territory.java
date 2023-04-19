@@ -53,21 +53,21 @@ public class Territory implements Serializable {
     }
 
 
-    public Territory(String tName, int ownId, int unitNum) {
-        this.name = tName;
-        this.ownId = ownId;
-        this.unitNum = unitNum;
-        neighbors = new HashSet<>();
-//        units = new HashMap<>();
+//    public Territory(String tName, int ownId, int unitNum) {
+//        this.name = tName;
+//        this.ownId = ownId;
+//        this.unitNum = unitNum;
+//        neighbors = new HashSet<>();
+////        units = new HashMap<>();
+////        for (int i = 0; i < unitNum; i++) {
+////            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+////        }
+//        units = new ArrayList<>();
 //        for (int i = 0; i < unitNum; i++) {
-//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
+//            units.add((Unit) unitFactory.createUnit(0, 0));
 //        }
-        units = new ArrayList<>();
-        for (int i = 0; i < unitNum; i++) {
-            units.add((Unit) unitFactory.createUnit(0, 0));
-        }
-        this.size = 10;
-    }
+//        this.size = 10;
+//    }
 
     public void addUpgradeUnit(Unit unitToAdd) {
         units.add(unitToAdd);
@@ -155,6 +155,10 @@ public class Territory implements Serializable {
         }
     }
 
+    public void addUnitList(Collection<Unit> unitsList) {
+        units.addAll(unitsList);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -193,7 +197,7 @@ public class Territory implements Serializable {
 
     public String displayInfo() {
         StringBuilder info = new StringBuilder("");
-        String format = unitNum + " units in " + name + " (next to: ";
+        String format = units.size() + " units in " + name + " (next to: ";
         info.append(format);
         for (Territory t1 : neighbors) {
             info.append(t1.getName()).append(", ");
@@ -219,6 +223,11 @@ public class Territory implements Serializable {
     public int getTechResource() {
         int techResourceIncreasement = 50;
         return techResourceIncreasement;
+    }
+
+    // remove all units in this territory
+    public void removeAllUnits() {
+        units.clear();
     }
 
     //    public boolean equals(Territory t1) {

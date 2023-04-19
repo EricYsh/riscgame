@@ -29,6 +29,33 @@ public abstract class Unit implements UnitInterface, Serializable {
         this.bonus = bonus;
     }
 
+    public Unit(int bonus) {
+        switch (bonus) {
+            case 1:
+                this.level = 1;
+                break;
+            case 2:
+                this.level = 2;
+                break;
+            case 3:
+                this.level = 3;
+                break;
+            case 4:
+                this.level = 4;
+                break;
+            case 5:
+                this.level = 5;
+                break;
+            case 6:
+                this.level = 6;
+                break;
+            default:
+                this.level = 1;
+                break;
+        }
+        this.bonus = bonus;
+    }
+
     /**
      * Retrieves the level of this unit.
      *
