@@ -3,6 +3,7 @@ package edu.duke.ece651.riscgame;
 import java.io.IOException;
 
 import edu.duke.ece651.riscgame.RoomController;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -32,6 +33,8 @@ public class ServerApp {
         // Load FXML file and create RoomController object
         // how to load the fxml file
         //TODO: toolkit bug, why??
+
+        Platform.startup(() -> {});
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ServerApp.class.getResource("/Room.fxml"));
         AnchorPane room = loader.load();
