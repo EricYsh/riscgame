@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class BoardTextView {
     private GameMap boardMap;
     private HashMap<Integer, String> idToName;
-    private ViewController viewController;
+    // private ViewController viewController;
 
 
     public BoardTextView(GameMap boardMap) {

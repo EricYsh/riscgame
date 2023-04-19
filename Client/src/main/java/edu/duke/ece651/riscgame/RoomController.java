@@ -70,7 +70,7 @@ public class RoomController {
     }
 
     @FXML
-    void click_two() {
+    void click_two(ActionEvent event) throws Exception{
         this.roomID = 2;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();
@@ -79,10 +79,12 @@ public class RoomController {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
+
+
     }
 
     @FXML
-    void click_three() {
+    void click_three(ActionEvent event) throws Exception{
         this.roomID = 3;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();

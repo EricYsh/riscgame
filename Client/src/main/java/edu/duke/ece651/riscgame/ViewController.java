@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
@@ -356,5 +357,32 @@ public class ViewController {
         }
     }
 
-
+    //this function is used to set the polyon to white in order to ignore it
+    public void setTerritoryToWhite(int ClientID){
+        if(ClientID == 1){
+            player1_t1.setFill(Color.WHITE);
+            player1_t2.setFill(Color.WHITE);
+            player1_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 2){
+            player2_t1.setFill(Color.WHITE);
+            player2_t2.setFill(Color.WHITE);
+            player2_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 3){
+            player3_t1.setFill(Color.WHITE);
+            player3_t2.setFill(Color.WHITE);
+            player3_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 4){
+            player4_t1.setFill(Color.WHITE);
+            player4_t2.setFill(Color.WHITE);
+            player4_t3.setFill(Color.WHITE);
+        }
+        else if(ClientID == 5){
+            player5_t1.setFill(Color.WHITE);
+            player5_t2.setFill(Color.WHITE);
+            player5_t3.setFill(Color.WHITE);
+        }
+    } 
 }
