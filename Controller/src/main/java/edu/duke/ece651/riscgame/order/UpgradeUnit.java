@@ -14,7 +14,7 @@ public class UpgradeUnit extends Order {
 
     private final int[] bonusForUnit = {0, 1, 3, 5, 8, 11, 15};
 
-    private final int[] costForUpgrade = {0, 3, 8, 19, 25, 36, 50};
+    private final int[] costForUpgrade = {3, 8, 19, 25, 35, 50};
 
     // constructor
     public UpgradeUnit(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
@@ -45,6 +45,7 @@ public class UpgradeUnit extends Order {
                 for (int k = oldLevel; k < newLevel; k++) {
                     rescourseCost += costForUpgrade[k];
                 }
+                System.out.println("rescourseCost : " + rescourseCost);
                 // minus tech resources for the player for each unit upgrade
                 int oldFoodResource = boardMap.getPlayerById(this.getOrderOwnId()).getFoodResource();
                 boardMap.getPlayerById(this.getOrderOwnId()).setFoodResource(oldFoodResource - rescourseCost);
