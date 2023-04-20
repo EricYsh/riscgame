@@ -25,17 +25,20 @@ public class ServerApp {
             System.out.println("err: number of players must be between 2 and 5");
             return;
         }
-        GameServer gameServer = new GameServer(numClient);
-        gameServer.GameInit();
-        gameServer.playRounds();
-        gameServer.gameOver();
+        // GameServer gameServer = new GameServer(numClient);
+        // gameServer.GameInit();
+        // gameServer.playRounds();
+        // gameServer.gameOver();
     
 
 
 
-        // Room room1 = new Room(1, numClient, 8888);
-        // Room room2 = new Room(2, numClient, 8889);
-        // Room room3 = new Room(3, numClient, 8890);
+        Room room1 = new Room(1, numClient, 8888);
+        Room room2 = new Room(2, numClient, 8889);
+        Room room3 = new Room(3, numClient, 8890);
+        room1.start();
+        room2.start();
+        room3.start();
 
         // // Load FXML file and create RoomController object
         // // how to load the fxml file

@@ -1,5 +1,12 @@
 package edu.duke.ece651.riscgame;
 
+import java.util.ArrayList;
+
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Move;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,6 +19,22 @@ public class MoveDialogController {
     private String sourceTerritory;
     private String targetTerritory;
     private String unitsIndex;
+
+    public BoardGameMap gameMap;
+    public int clientID;
+    public NetClient netClient;
+
+    public void setNetClient(NetClient netClient) {
+        this.netClient = netClient;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
+    public void setGameMap(BoardGameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     @FXML
     private Button cancel_btn;
@@ -63,6 +86,19 @@ public class MoveDialogController {
             System.out.println("sourceTerritory: " + sourceTerritory);
             System.out.println("targetTerritory: " + targetTerritory);
             System.out.println("unitsIndex: " + unitsIndex);
+            String[] unitsIndexArray = unitsIndex.split(" ");
+            ArrayList<Integer> unitsIndexList = new ArrayList<Integer>();
+            for (String index : unitsIndexArray) {
+                unitsIndexList.add(Integer.parseInt(index));
+            }
+            Territory src = gameMap.getTerritoryByName(sourceTerritory);
+            Territory dest = gameMap.getTerritoryByName(targetTerritory);
+            Move moveOrder = new Move(unitsIndexList.size(), src, dest, Type.Move, clientID, unitsIndexList, null);
+            ActionInfo info = new ActionInfo(moveOrder);
+
+
+            netClient.sendActionInfo(info);
+
         
             Stage stage = (Stage) move_btn.getScene().getWindow();
             stage.close();

@@ -1,7 +1,14 @@
 package edu.duke.ece651.riscgame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Attack;
+import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,6 +22,22 @@ public class AttackDialogController {
     private String sourceTerritory;
     private String targetTerritory;
     private String unitsIndex;
+    
+    public NetClient netClient;
+    public BoardGameMap gameMap;
+    public int clientID;
+
+    public void setNetClient(NetClient netClient) {
+        this.netClient = netClient;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
+    public void setGameMap(BoardGameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     @FXML
     private Button cancel_btn;
@@ -66,7 +89,17 @@ public class AttackDialogController {
             System.out.println("sourceTerritory: " + sourceTerritory);
             System.out.println("targetTerritory: " + targetTerritory);
             System.out.println("unitsIndex: " + unitsIndex);
-        
+            String[] unitsIndexArray = unitsIndex.split(" ");
+            ArrayList<Integer> unitsIndexList = new ArrayList<Integer>();
+            for (String index : unitsIndexArray) {
+                unitsIndexList.add(Integer.parseInt(index));
+            }
+            Territory src = gameMap.getTerritoryByName(sourceTerritory);
+            Territory dest = gameMap.getTerritoryByName(targetTerritory);
+
+            Attack attackOrder = new Attack(unitsIndexList.size(), src, dest, Type.Attack, clientID, unitsIndexList, null);
+            ActionInfo info = new ActionInfo(attackOrder);
+            netClient.sendActionInfo(info);
             Stage stage = (Stage) attack_btn.getScene().getWindow();
             stage.close();
         } else {

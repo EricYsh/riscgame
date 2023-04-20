@@ -36,6 +36,14 @@ public class Player implements Serializable {
         return techResource;
     }
 
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
     public int getTerritoriesNum() {
         return territoriesNum;
     }

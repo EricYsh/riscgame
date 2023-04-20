@@ -1,6 +1,8 @@
 package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.*;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 
 import java.io.*;
@@ -21,6 +23,11 @@ public class NetClient {
         GameMessageStream<Integer> gameMsgStream = new GameMessageStream<>();
         return gameMsgStream.receiveObject(clientSocket);
     }
+    public BoardGameMap receiveGameMap () {
+        GameMessageStream<BoardGameMap> gameMsgStream = new GameMessageStream<>();
+        return gameMsgStream.receiveObject(clientSocket);
+    }
+
     public GameInitInfo receiveGameInitInfo () {
         GameMessageStream<GameInitInfo> gameMsgStream = new GameMessageStream<>();
         return gameMsgStream.receiveObject(clientSocket);
@@ -28,6 +35,11 @@ public class NetClient {
     public void sendUnitAssignment (Vector<Territory> territoryVector) {
         GameMessageStream.sendObject(territoryVector, clientSocket);
     }
+
+    public void sendPlayer (Player player) {
+        GameMessageStream.sendObject(player, clientSocket);
+    }
+
     public ValidationResult receiveValidationResult () {
         GameMessageStream<ValidationResult> gameMsgStream = new GameMessageStream<>();
         return gameMsgStream.receiveObject(clientSocket);

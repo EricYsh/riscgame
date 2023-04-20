@@ -1,5 +1,12 @@
 package edu.duke.ece651.riscgame;
 
+import java.util.ArrayList;
+
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.UpgradeUnit;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,6 +19,22 @@ public class UnitUpDialogController {
     private String territoryIn;
     private String unitsIndex;
     private String levelTo;
+
+    public BoardGameMap gameMap;
+    public int clientID;
+    public NetClient netClient;
+
+    public void setNetClient(NetClient netClient) {
+        this.netClient = netClient;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
+    public void setGameMap(BoardGameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     public String getTerritoryIn() {
         return territoryIn;
@@ -63,6 +86,20 @@ public class UnitUpDialogController {
             System.out.println("territoryIn: " + territoryIn);
             System.out.println("unitsIndex: " + unitsIndex);
             System.out.println("levelTo: " + levelTo);
+            String[] unitsIndexArray = unitsIndex.split(" ");
+            ArrayList<Integer> unitsIndexList = new ArrayList<Integer>();
+            for (String index : unitsIndexArray) {
+                unitsIndexList.add(Integer.parseInt(index));
+            }
+            String[] unitsLevelTo = levelTo.split(" ");
+            ArrayList<Integer> unitsLevelToList = new ArrayList<Integer>();
+            for (String level : unitsLevelTo) {
+                unitsLevelToList.add(Integer.parseInt(level));
+            }
+            Territory src = gameMap.getTerritoryByName(territoryIn);
+            UpgradeUnit moveOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
+            ActionInfo info = new ActionInfo(moveOrder);
+            netClient.sendActionInfo(info);
         
             Stage stage = (Stage) up_unit_btn.getScene().getWindow();
             stage.close();

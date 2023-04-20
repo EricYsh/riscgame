@@ -168,6 +168,23 @@ public class Territory implements Serializable {
     }
 
 
+    private String splitString(String input, int length) {
+        String[] words = input.split("\\s+"); // 根据空格分隔字符串
+        StringBuilder output = new StringBuilder(input.length());
+        int lineLength = 0;
+        for (String word : words) {
+            if (lineLength + word.length() > length) {
+                output.append("\n"); // 换行
+                lineLength = 0;
+            }
+            output.append(word).append(" ");
+            lineLength += word.length() + 1;
+        }
+        return output.toString();
+    }
+    
+
+
     public String getAllUnitsInfo() {
         StringBuilder info = new StringBuilder("");
         int[] levelCount = new int[7];
@@ -189,7 +206,7 @@ public class Territory implements Serializable {
             info.append(" with Index: " + levelIndices.get(i));
             info.append("\n");
         }
-        return info.toString();
+        return splitString(info.toString(), 20);
     }
 
     public void displayAllUnit() {

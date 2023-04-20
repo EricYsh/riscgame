@@ -42,6 +42,11 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
                 GameMessageStream.sendObject(new ValidationResult(null, true), socket);
                 return orders;
             }
+            if (oneOrder.getType() == Type.LogOut || oneOrder.getType() == Type.Switch) {
+                GameMessageStream.sendObject(new ValidationResult(null, true), socket);
+                orders.add(oneOrder);
+                return orders;
+            }
             if (oneOrder.getType() == Type.Move) {
                 check = moveChecker.checkOrder(oneOrder, map);
             }
@@ -54,7 +59,7 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
             if (oneOrder.getType() == Type.UpgradeUnit) {
                 check = upgradeUnitChecker.checkOrder(oneOrder, map);
             }
-            GameMessageStream.sendObject(new ValidationResult(check, false), socket);
+            // GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {
                 System.out.println("receive valid order");
                 orders.add(oneOrder);

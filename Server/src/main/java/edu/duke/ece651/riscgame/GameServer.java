@@ -19,8 +19,8 @@ public class GameServer {
     private final String[] countries = new String[]{"Avalon", "Braglavia", "Calador", "Excrier", "Ceyland"};
     private NetServer netServer;
     private BoardMapFactory mapFactory;
-    private GameMap gameMap;
-    private Player player;
+    private BoardGameMap gameMap;
+    private ArrayList<Player> players;
     // private BoardTextView gameView; // maybe the server don't need to view the boardMap
 
     private final int numClient;
@@ -50,22 +50,28 @@ public class GameServer {
             countryName.add(countries[i]);
         }
     }
+    public void connect () {
+        netServer.connectWithMultiClients();
+        System.out.println("connected");
+        netServer.sendClientID();
 
+    }
     public void GameInit() {
         int numUnit = 30;
-        netServer.connectWithMultiClients();
-        netServer.sendClientID();
+
+
+        this.players = netServer.receivePlayer();
         System.out.println(1);
         netServer.broadCast(new GameInitInfo(gameMap, numUnit, countryName)); // aim to pass map
         System.out.println(2);
-        ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
-        System.out.println(3);
-        gameMap.setTerritories(assignments);
-        System.out.println(4);
-        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
-                                            gameMap.getTerritoryNameAndOwnership(),
-                                            gameMap.getAllPlayerList()));
-        System.out.println(5);
+        // ArrayList<Territory> assignments = netServer.validateUnitAssignment(numUnit);
+        // System.out.println(3);
+        // gameMap.setTerritories(assignments);
+        // System.out.println(4);
+        // netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
+        //                                     gameMap.getTerritoryNameAndOwnership(),
+        //                                     gameMap.getAllPlayerList()));
+        // System.out.println(5);
     }
 
     public void playRounds() {
@@ -83,9 +89,12 @@ public class GameServer {
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();
-        netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
-                                            gameMap.getTerritoryNameAndOwnership(),
-                                            gameMap.getAllPlayerList()));
+        // netServer.reLogin(players);
+
+        // netServer.broadCast(new RoundResult(gameMap.getTerritoryNameAndUnitNums (),
+        //                                     gameMap.getTerritoryNameAndOwnership(),
+        //                                     gameMap.getAllPlayerList()));
+        netServer.broadCast(gameMap);
         // output results for checking
         System.out.println(gameMap.getTerritoryNameAndUnitNums());
         System.out.println(gameMap.getTerritoryNameAndOwnership());
