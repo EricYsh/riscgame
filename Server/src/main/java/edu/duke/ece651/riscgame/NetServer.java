@@ -128,10 +128,17 @@ public class NetServer {
         for (Future<Vector<Order>> future: actionOrderFutures) {
             try {
                 Vector<Order> temp = future.get();
-                if (temp.lastElement().getType() == Type.Switch ||
-                        temp.lastElement().getType() == Type.LogOut) {
-                    logOutClientSockets.add(clientSockets.get(i));
+                for (Order onOrder : temp) {
+                    System.out.println(i + "order type: " + onOrder.getType());
                 }
+                if (temp.size() != 0) {
+                    if (temp.lastElement().getType() == Type.Switch ||
+                        temp.lastElement().getType() == Type.LogOut) {
+                        logOutClientSockets.add(clientSockets.get(i));
+                    }
+                }
+                
+                System.out.println("action order size: " + temp.size());
                 container.addAll(temp);
                 i++;
                 if (i >= numClient) i -= numClient;
@@ -139,6 +146,7 @@ public class NetServer {
                 e.printStackTrace();
             }
         }
+        System.out.println("action order size: " + container.size());
         return container;
     }
 

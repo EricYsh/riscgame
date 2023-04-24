@@ -41,6 +41,6 @@ test {
     useJUnitPlatform()
 }
 
-run {
-    standardInput = System.in
-}
+// run {
+//     standardInput = System.in
+// }
