@@ -1,5 +1,12 @@
 package edu.duke.ece651.riscgame;
 
+import java.util.ArrayList;
+
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Move;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,22 +18,38 @@ public class MoveDialogController {
 
     private String sourceTerritory;
     private String targetTerritory;
-    private int numUnits;
+    private String unitsIndex;
+
+    public BoardGameMap gameMap;
+    public int clientID;
+    public NetClient netClient;
+
+    public void setNetClient(NetClient netClient) {
+        this.netClient = netClient;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
+    public void setGameMap(BoardGameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     @FXML
     private Button cancel_btn;
 
     @FXML
-    private TextField num_units;
+    private Button move_btn;
 
     @FXML
     private TextField source_territory;
 
     @FXML
-    private Button move_btn;
+    private TextField target_territory;
 
     @FXML
-    private TextField target_territory;
+    private TextField units_index;
 
     public String getSourceTerritory() {
         return sourceTerritory;
@@ -36,15 +59,16 @@ public class MoveDialogController {
         return targetTerritory;
     }
 
-    public int getNumUnits() {
-        return numUnits;
+    public String getUnitsIndex() {
+        return unitsIndex;
     }   
 
     @FXML
     void click_move(ActionEvent event) {
-        String sourceTerritory = source_territory.getText();
-        String targetTerritory = target_territory.getText();
-        int numUnits = 0;
+        sourceTerritory = source_territory.getText();
+        targetTerritory = target_territory.getText();
+        unitsIndex = units_index.getText();
+
         boolean isValidInput = true;
         
         if (sourceTerritory == null || sourceTerritory.isEmpty()) {
@@ -53,13 +77,7 @@ public class MoveDialogController {
         if (targetTerritory == null || targetTerritory.isEmpty()) {
             isValidInput = false;
         }
-        if (num_units.getText() != null && !num_units.getText().isEmpty()) {
-            try {
-                numUnits = Integer.parseInt(num_units.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
+        if (unitsIndex == null || unitsIndex.isEmpty()) {
             isValidInput = false;
         }
         
@@ -67,7 +85,20 @@ public class MoveDialogController {
             // for test
             System.out.println("sourceTerritory: " + sourceTerritory);
             System.out.println("targetTerritory: " + targetTerritory);
-            System.out.println("numUnits: " + numUnits);
+            System.out.println("unitsIndex: " + unitsIndex);
+            String[] unitsIndexArray = unitsIndex.split(" ");
+            ArrayList<Integer> unitsIndexList = new ArrayList<Integer>();
+            for (String index : unitsIndexArray) {
+                unitsIndexList.add(Integer.parseInt(index));
+            }
+            Territory src = gameMap.getTerritoryByName(sourceTerritory);
+            Territory dest = gameMap.getTerritoryByName(targetTerritory);
+            Move moveOrder = new Move(unitsIndexList.size(), src, dest, Type.Move, clientID, unitsIndexList, null);
+            ActionInfo info = new ActionInfo(moveOrder);
+
+
+            netClient.sendActionInfo(info);
+
         
             Stage stage = (Stage) move_btn.getScene().getWindow();
             stage.close();
@@ -82,7 +113,7 @@ public class MoveDialogController {
 
     @FXML
     void click_cancel(ActionEvent event) {
-        Stage stage = (Stage) move_btn.getScene().getWindow();
+        Stage stage = (Stage) cancel_btn.getScene().getWindow();
         stage.close();
     }
 }

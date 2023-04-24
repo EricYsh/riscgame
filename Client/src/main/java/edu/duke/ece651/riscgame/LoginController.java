@@ -1,9 +1,11 @@
 package edu.duke.ece651.riscgame;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.HashMap;
 
 import edu.duke.ece651.riscgame.game.GameMap;
+import edu.duke.ece651.riscgame.game.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,28 +17,33 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import edu.duke.ece651.riscgame.ViewController;
-
-// <?xml version="1.0" encoding="UTF-8"?>
-
-// <?import javafx.scene.control.*?>
-// <?import java.lang.*?>
-// <?import javafx.scene.layout.*?>
-
-// <AnchorPane prefHeight="400.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-//    <children>
-//       <Label layoutX="138.0" layoutY="105.0" text="ID:" />
-//       <Label layoutX="73.0" layoutY="172.0" text="Password:" />
-//       <TextField fx:id="id" layoutX="199.0" layoutY="97.0" prefHeight="48.0" prefWidth="232.0" />
-//       <TextField fx:id="password" layoutX="199.0" layoutY="164.0" prefHeight="48.0" prefWidth="232.0" />
-//       <Button fx:id="cancel_btn" layoutX="188.0" layoutY="276.0" mnemonicParsing="false" onAction="#click_cancel" text="Cancel" />
-//       <Button fx:id="login_btn" layoutX="334.0" layoutY="276.0" mnemonicParsing="false" onAction="#click_login" text="Login" />
-//    </children>
-// </AnchorPane>
+import edu.duke.ece651.riscgame.commuMedium.GameInitInfo;
+import edu.duke.ece651.riscgame.commuMedium.GameLoginInfo;
 
 public class LoginController {
 
-    private String ClientId;
+    private String userId;
+    private NetClient netClient;
+    private int ClientId;
     private String ClientPassword;
+    private Socket socket;
+    private Player player;
+
+    public void setNetClient(NetClient netClient) {
+        this.netClient = netClient;
+    }
+
+    public void setClientId(int clientId) {
+        this.ClientId = clientId;
+    }
+
+    private ViewController viewController;
+
+    public ViewController getViewController() {
+        return viewController;
+    }
+
+
 
     @FXML
     private TextField id;
@@ -57,56 +64,60 @@ public class LoginController {
     }
 
     @FXML
+    public Player getPlayer(){
+        return player;
+    }
+
+
+
+    @FXML
     void click_login(ActionEvent event) throws IOException {
-        this.ClientId = id.getText();
+        userId = id.getText();
         this.ClientPassword = password.getText();
-        if (this.id.equals("")) {
+        player = new Player(Integer.parseInt(userId), "current");
+        player.setPassword(ClientPassword);
+        netClient.sendPlayer(player);
+
+
+
+        if (this.userId.equals("") || this.userId.isEmpty() || this.userId == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("ID cannot be empty");
             alert.setContentText("Please enter your ID");
             alert.showAndWait();
-        } else if (this.password.equals("")) {
+        } else if (this.ClientPassword.equals("") || this.ClientPassword.isEmpty() || this.ClientPassword == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Password cannot be empty");
             alert.setContentText("Please enter your password");
             alert.showAndWait();
         } else {
-            // TODO: how to interact with map??
-            System.out.println("ID: " + this.ClientId);
-            System.out.println("Password: " + this.ClientPassword);
-
-            // Load FXML file for main interface
-            // try {
-            // Parent root = loader.load();
-            // // Get controller for main interface
-            // ViewController mainController = loader.getController();
-            // // mainController.initData(this.ClientId, this.ClientPassword);
-
-            // // Set the main interface as the current scene
-            // Scene scene = new Scene(root);
-            // Stage stage = (Stage) login_btn.getScene().getWindow();
-            // stage.setScene(scene);
-            // stage.show();
-
-            // } catch (IOException e) {
-            // // TODO: handle exception
-            // }
+            // System.out.println("ID: " + this.ClientId);
+            // System.out.println("Password: " + this.ClientPassword);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 1000, 600);
-            ViewController viewController = loader.getController();
+            GameInitInfo info = netClient.receiveGameInitInfo();
+            viewController = loader.getController();
+            viewController.initializeScrollPane();
+            viewController.setClientId(ClientId);
+            viewController.setNetClient(netClient);
+            for (int i = 0; i < 5 - info.getPlayerName().size(); i++) {
+                viewController.setTerritoryToWhite(5 - i);
+            }
+            viewController.setBoardGameMap(info.getMap());
+            // TODO: set playerName before show the view!!!
+            viewController.printPlayerInfo("You are the Player" + String.valueOf(ClientId + 1));
             Stage stage = new Stage();
             stage.setScene(scene);
+            stage.setTitle("Risc Game");
+            stage.setResizable(false);
             stage.show();
-
-
+            
+            Stage loginStage = (Stage) login_btn.getScene().getWindow();
+            loginStage.close();
         }
-    }
-
-    public String getClientId() {
-        return ClientId;
     }
 
     public String getClientPassword() {

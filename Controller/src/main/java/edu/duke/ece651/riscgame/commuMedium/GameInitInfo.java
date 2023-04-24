@@ -9,12 +9,12 @@ import java.util.Vector;
 
 public class GameInitInfo implements Serializable {
     String testStr = "HELLO, this is a GameInitInfo";
-    private GameMap gameMap;
+    private BoardGameMap gameMap;
     private int numUnit; // add this to inform client how units he/she can assign
     private Vector<String> playerName;
 
     // constructor
-    public GameInitInfo(GameMap gameMap, int numUnit, Vector<String> playerName) {
+    public GameInitInfo(BoardGameMap gameMap, int numUnit, Vector<String> playerName) {
         this.gameMap = gameMap;
         this.numUnit = numUnit;
         this.playerName = playerName;
@@ -27,7 +27,7 @@ public class GameInitInfo implements Serializable {
     public int getNumUnit () {
         return numUnit;
     }
-    public GameMap getMap() {
+    public BoardGameMap getMap() {
         return gameMap;
     }
 

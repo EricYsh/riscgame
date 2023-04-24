@@ -167,11 +167,48 @@ public class Territory implements Serializable {
         return ownId == territory.ownId && unitNum == territory.unitNum && name.equals(territory.name) && ownerName.equals(territory.ownerName);
     }
 
-    //    public void displayAllUnit() {
-//        for (int i = 0; i < units.size(); i++) {
-//            System.out.println("Unit " + (i+1) + ": " + units.get(i).getLevel() + " level, " + units.get(i).getBonus() + " bonus");
-//        }
-//    }
+
+    private String splitString(String input, int length) {
+        String[] words = input.split("\\s+"); // 根据空格分隔字符串
+        StringBuilder output = new StringBuilder(input.length());
+        int lineLength = 0;
+        for (String word : words) {
+            if (lineLength + word.length() > length) {
+                output.append("\n"); // 换行
+                lineLength = 0;
+            }
+            output.append(word).append(" ");
+            lineLength += word.length() + 1;
+        }
+        return output.toString();
+    }
+    
+
+
+    public String getAllUnitsInfo() {
+        StringBuilder info = new StringBuilder("");
+        int[] levelCount = new int[7];
+        List<List<Integer>> levelIndices = new ArrayList<>();
+
+        // Initialize the ArrayLists in the list
+        for (int i = 0; i < 7; i++) {
+            levelIndices.add(new ArrayList<>());
+        }
+
+        for (Unit u : units) {
+            int level = u.getLevel();
+            levelCount[level]++;
+            levelIndices.get(level).add(units.indexOf(u));
+        }
+
+        for (int i = 0; i < levelCount.length; i++) {
+            info.append("Level " + i + " : " + levelCount[i]);
+            info.append(" with Index: " + levelIndices.get(i));
+            info.append("\n");
+        }
+        return splitString(info.toString(), 20);
+    }
+
     public void displayAllUnit() {
         // display all units according to 7 levels
         int[] levelCount = new int[7];

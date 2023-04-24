@@ -10,6 +10,7 @@ import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.Type;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,8 @@ public class GameClient {
     private final InputStream localIn;
     private Scanner scanner;
     private Collection<String> playerList;
+
+
 
 //    private Collection<Player> playerList;
 
@@ -49,14 +52,14 @@ public class GameClient {
 
 
 
-        do {
-            assignUnit(info.getNumUnit());
-            netClient.sendUnitAssignment(ownedTerr);
-        } while (!receiveACK());
-        updateLocalGameMap();
-        for (String s : info.getPlayerName()) {
-            gameView.printPlayerMap(s);
-        }
+        // do {
+        //     assignUnit(info.getNumUnit());
+        //     netClient.sendUnitAssignment(ownedTerr);
+        // } while (!receiveACK());
+        // updateLocalGameMap();
+        // for (String s : info.getPlayerName()) {
+        //     gameView.printPlayerMap(s);
+        // }
 
     }
 
