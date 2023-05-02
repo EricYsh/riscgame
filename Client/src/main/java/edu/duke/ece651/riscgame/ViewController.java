@@ -4,6 +4,7 @@ import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Commit;
+import edu.duke.ece651.riscgame.order.UpgradeTech;
 import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -371,6 +372,9 @@ public class ViewController {
         moveController.setClientID(clientID);
         moveController.setNetClient(netClient);
         moveController.setGameMap(boardGameMap);
+
+
+
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Move");
@@ -384,7 +388,7 @@ public class ViewController {
         Parent root = loader.load();
         Scene scene = new Scene(root, 600, 400);
         AttackDialogController attackController = loader.getController();
-   attackController.setGameMap(boardGameMap);
+        attackController.setGameMap(boardGameMap);
         attackController.setClientID(clientID);
         attackController.setNetClient(netClient);   
         attackController.setGameMap(boardGameMap);  
@@ -414,6 +418,10 @@ public class ViewController {
 
     @FXML
     void click_up_tech(ActionEvent event) {
+        UpgradeTech techUpgradeOrder = new UpgradeTech(0, null, null, Type.UpgradeTech, clientID, null, null);
+        ActionInfo info = new ActionInfo(techUpgradeOrder);
+        netClient.sendActionInfo(info);
+        techUpgradeOrder.run(boardGameMap);
         setTechUpgrade(true);
         // setBoardGameMap(netClient.receiveGameMap());
     }
@@ -425,7 +433,9 @@ public class ViewController {
         netClient.sendActionInfo(info);
         setCommit(true);
         netClient.receiveValidationResult();
-        this.setBoardGameMap(netClient.receiveGameMap());
+        setBoardGameMap(netClient.receiveGameMap());
+        System.out.println(boardGameMap.getTerritoryNameAndUnitNums());
+        System.out.println(boardGameMap.getTerritoryNameAndOwnership());
         refreshMap();
     }
 

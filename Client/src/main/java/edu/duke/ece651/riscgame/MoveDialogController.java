@@ -98,7 +98,8 @@ public class MoveDialogController {
 
 
             netClient.sendActionInfo(info);
-
+            moveOrder.run(gameMap);
+            
         
             Stage stage = (Stage) move_btn.getScene().getWindow();
             stage.close();

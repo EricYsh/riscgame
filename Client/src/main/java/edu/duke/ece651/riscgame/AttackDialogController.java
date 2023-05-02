@@ -95,11 +95,18 @@ public class AttackDialogController {
                 unitsIndexList.add(Integer.parseInt(index));
             }
             Territory src = gameMap.getTerritoryByName(sourceTerritory);
+            System.out.println("src: " + src.displayInfo());
             Territory dest = gameMap.getTerritoryByName(targetTerritory);
+            System.out.println("dest: " + dest.displayInfo());
 
+
+            
             Attack attackOrder = new Attack(unitsIndexList.size(), src, dest, Type.Attack, clientID, unitsIndexList, null);
             ActionInfo info = new ActionInfo(attackOrder);
             netClient.sendActionInfo(info);
+            attackOrder.run(gameMap);
+            
+
             Stage stage = (Stage) attack_btn.getScene().getWindow();
             stage.close();
         } else {

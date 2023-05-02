@@ -86,6 +86,9 @@ public class GameServer {
      */
     private void oneRound() {
         ArrayList<Order> orders = netServer.validateActionOrders(gameMap);
+        // for (Order oneOrder : orders) {
+        //     System.out.println(oneOrder.toString());
+        // }
         executeOrders(orders);
         gameMap.callUp(); // add one unit in territories
         playerLost();

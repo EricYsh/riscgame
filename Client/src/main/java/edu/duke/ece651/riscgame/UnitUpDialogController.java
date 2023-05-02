@@ -97,10 +97,11 @@ public class UnitUpDialogController {
                 unitsLevelToList.add(Integer.parseInt(level));
             }
             Territory src = gameMap.getTerritoryByName(territoryIn);
-            UpgradeUnit moveOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
-            ActionInfo info = new ActionInfo(moveOrder);
+            UpgradeUnit upgradeOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
+            ActionInfo info = new ActionInfo(upgradeOrder);
             netClient.sendActionInfo(info);
-        
+            upgradeOrder.run(gameMap);
+            
             Stage stage = (Stage) up_unit_btn.getScene().getWindow();
             stage.close();
         } else {
