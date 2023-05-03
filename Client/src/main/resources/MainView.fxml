@@ -367,8 +367,8 @@
                   <Font size="14.0" />
                </font></Text>
             <Button fx:id="upgrade_tech_btn" layoutX="790.0" layoutY="387.0" mnemonicParsing="false" onAction="#click_up_tech" prefHeight="50.0" prefWidth="150.0" text="Tech Up" />
-            <Button fx:id="switch_btn" layoutX="30.0" layoutY="15.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Switch" />
-            <Button fx:id="quit_btn" layoutX="150.0" layoutY="15.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Quit" />
+            <Button fx:id="switch_btn" layoutX="30.0" layoutY="15.0" mnemonicParsing="false" onAction="#click_switch" prefHeight="30.0" prefWidth="100.0" text="Switch" />
+            <Button fx:id="quit_btn" layoutX="150.0" layoutY="15.0" mnemonicParsing="false" onAction="#click_quit" prefHeight="30.0" prefWidth="100.0" text="Quit" />
          </children>
          <BorderPane.margin>
             <Insets />
