@@ -441,6 +441,17 @@ public class ViewController {
 
 
     @FXML
+    void click_switch(ActionEvent event) {
+
+    }
+
+    @FXML
+    void click_quit(ActionEvent event) {
+
+    }
+
+
+    @FXML
     private ScrollPane infoScrollPane;
 
 

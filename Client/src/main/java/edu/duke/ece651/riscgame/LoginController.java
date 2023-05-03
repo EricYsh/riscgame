@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
 
+import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.game.Player;
+import edu.duke.ece651.riscgame.game.Territory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -99,6 +101,9 @@ public class LoginController {
             Parent root = loader.load();
             Scene scene = new Scene(root, 1000, 600);
             GameInitInfo info = netClient.receiveGameInitInfo();
+            for(Territory t: info.getMap().getTerritories()) {
+                System.out.println(t.displayInfo());
+            }
             viewController = loader.getController();
             viewController.initializeScrollPane();
             viewController.setClientId(ClientId);
