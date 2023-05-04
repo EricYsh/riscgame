@@ -25,7 +25,7 @@ public class UpgradeUnitResourceChecker extends OrderRuleChecker{
             Player player = map.getPlayerById(theOrder.getOrderOwnId());
             int originTech = player.getTechResource();
             int maxLevel = player.getTechLevel();
-            ArrayList<Unit> units = theOrder.getSrc().getUnits();
+            ArrayList<Unit> units = map.getTerritoryByName(theOrder.getSrc().getName()).getUnits();
 
             for (Integer i : theOrder.getSelectedUnitsIndex()) {
                 int originLevel = units.get(i).getLevel();

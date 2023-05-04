@@ -20,7 +20,7 @@ public class AdjacentChecker<T> extends OrderRuleChecker<T> {
     @Override
     protected String checkMyRule(Order theOrder, GameMap map) {
         if (theOrder.getType().equals(Type.Attack)) {//the destination and source must from one player
-            if (!theOrder.getSrc().getNeighbors().contains(theOrder.getDest())) {
+            if (!map.getTerritoryByName(theOrder.getSrc().getName()).getNeighbors().contains(map.getTerritoryByName(theOrder.getDest().getName()))) {
                 return "Units may only attack directly adjacent territories";
             }
             return null;

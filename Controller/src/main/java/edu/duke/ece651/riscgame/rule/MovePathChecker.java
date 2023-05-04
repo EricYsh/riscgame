@@ -15,7 +15,7 @@ public class MovePathChecker<T> extends OrderRuleChecker<T> {
         for(Territory t1 : src.getNeighbors()){
             if (used.contains(t1) || src.getOwnId() != dest.getOwnId()) continue;
             used.add(t1);
-           if(ifPathExist(t1, dest)) return true;
+            if(ifPathExist(t1, dest)) return true;
             used.remove(t1);
         }
         return false;
@@ -37,7 +37,7 @@ public class MovePathChecker<T> extends OrderRuleChecker<T> {
     @Override
     protected String checkMyRule(Order theOrder, GameMap map) {
         if (theOrder.getType().equals(Type.Move)){
-            if (!ifPathExist(theOrder.getSrc(), theOrder.getDest()))  return "There is no path to move";
+            if (!ifPathExist(map.getTerritoryByName(theOrder.getSrc().getName()), map.getTerritoryByName(theOrder.getSrc().getName())))  return "There is no path to move";
             return null;
         }
         return "It is not a attack order";

@@ -19,7 +19,7 @@ public class InputIndexChecker extends OrderRuleChecker{
         for(Integer i : theOrder.getSelectedUnitsIndex()) {
             if (i < 1) {
                 return "Unit index should be greater than 0!";
-            } else if (i > theOrder.getSrc().getUnitNum()){
+            } else if (i > map.getTerritoryByName(theOrder.getSrc().getName()).getUnitNum()){
                 return "Unit index can not be larger than " + theOrder.getSrc().getUnitNum() + "!";
             }
         }
