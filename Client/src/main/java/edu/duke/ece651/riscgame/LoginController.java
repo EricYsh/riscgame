@@ -99,7 +99,7 @@ public class LoginController {
             // System.out.println("Password: " + this.ClientPassword);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 1000, 600);
+            Scene scene = new Scene(root, 1200, 600);
             GameInitInfo info = netClient.receiveGameInitInfo();
             for(Territory t: info.getMap().getTerritories()) {
                 System.out.println(t.displayInfo());

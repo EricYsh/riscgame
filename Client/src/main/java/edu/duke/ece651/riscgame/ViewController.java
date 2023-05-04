@@ -450,6 +450,20 @@ public class ViewController {
 
     }
 
+    @FXML
+    void click_cloak(ActionEvent event) {
+
+    }
+
+    @FXML
+    void click_spy_move(ActionEvent event) {
+
+    }
+
+    @FXML
+    void click_spy_up_unit(ActionEvent event) {
+
+    }
 
     @FXML
     private ScrollPane infoScrollPane;
