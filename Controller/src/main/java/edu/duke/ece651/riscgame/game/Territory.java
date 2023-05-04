@@ -11,23 +11,18 @@ public class Territory implements Serializable {
     private int size;
     private HashSet<Territory> neighbors;
 
-    // {unitId, Real Unit}
-//    private HashMap<Integer, Unit> units;
-    //  TODO confirm evol2 design. Use hashmap or arraylist?
     private ArrayList<Unit> units;
     //  1 : level1
     //  2 : leve 3
     //  3 : level7
     //  user input : 1,2,3
+
+    private ArrayList<Spy> spies;
     UnitFactory unitFactory = new UnitFactory();
 
     public Territory(String tname) {
         this.name = tname;
         neighbors = new HashSet<>();
-//        units = new HashMap<>();
-//        for (int i = 0; i < unitNum; i++) {
-//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
-//        }
         units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
@@ -41,10 +36,6 @@ public class Territory implements Serializable {
         this.ownId = oId;
         this.unitNum = unitNum;
         neighbors = new HashSet<>();
-//        units = new HashMap<>();
-//        for (int i = 0; i < unitNum; i++) {
-//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
-//        }
         units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
@@ -53,29 +44,13 @@ public class Territory implements Serializable {
     }
 
 
-//    public Territory(String tName, int ownId, int unitNum) {
-//        this.name = tName;
-//        this.ownId = ownId;
-//        this.unitNum = unitNum;
-//        neighbors = new HashSet<>();
-////        units = new HashMap<>();
-////        for (int i = 0; i < unitNum; i++) {
-////            units.put(i, (Unit) unitFactory.createUnit(0, 0));
-////        }
-//        units = new ArrayList<>();
-//        for (int i = 0; i < unitNum; i++) {
-//            units.add((Unit) unitFactory.createUnit(0, 0));
-//        }
-//        this.size = 10;
-//    }
-
     public void addUpgradeUnit(Unit unitToAdd) {
         units.add(unitToAdd);
     }
 
     public void deleteOldLevelUnit(int level) {
         Iterator<Unit> iterator = units.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Unit unit = iterator.next();
             if (unit.getLevel() == level) {
                 iterator.remove();
@@ -84,14 +59,6 @@ public class Territory implements Serializable {
         }
     }
 
-
-//    public HashMap<Integer, Unit> getUnits() {
-//        return units;
-//    }
-//
-//    public void setUnits(HashMap<Integer, Unit> units) {
-//        this.units = units;
-//    }
 
     public ArrayList<Unit> getUnits() {
         return units;
@@ -159,6 +126,23 @@ public class Territory implements Serializable {
         units.addAll(unitsList);
     }
 
+    public ArrayList<Spy> getSpies() {
+        return spies;
+    }
+
+    public void addSpyList(Spy... spyList) {
+        spies.addAll(Arrays.asList(spyList));
+    }
+
+    public void deleteSpy(int spyId) {
+        for (Spy s : spies) {
+            if (s.getSpyId() == spyId) {
+                spies.remove(s);
+                break;
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -182,7 +166,6 @@ public class Territory implements Serializable {
         }
         return output.toString();
     }
-    
 
 
     public String getAllUnitsInfo() {
