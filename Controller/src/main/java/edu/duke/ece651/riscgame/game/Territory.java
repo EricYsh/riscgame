@@ -192,6 +192,17 @@ public class Territory implements Serializable {
         return splitString(info.toString(), 20);
     }
 
+    public String getFogInfo() {
+        // TODO any immediately adjacent enemy territory is visible to the player
+
+        // TODO for any territory that has never been seen, only the outline should be displayed,
+        //  but no information about who occurpy it or how many units are there
+
+        // TODO if you have previously seen a territory, but no longer see it now (i.e. lose adjacncy)
+        //  show what you know in the past and clearly indicate the info is old!!!
+        return "This is not your territory! TODO";
+    }
+
     public void displayAllUnit() {
         // display all units according to 7 levels
         int[] levelCount = new int[7];

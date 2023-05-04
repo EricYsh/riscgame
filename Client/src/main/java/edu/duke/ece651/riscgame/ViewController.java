@@ -47,7 +47,7 @@ public class ViewController {
     public BoardGameMap getBoardGameMap() {
         return boardGameMap;
     }
-    
+
     @FXML
     private Label player_info;
 
@@ -157,16 +157,28 @@ public class ViewController {
         player5_t3.setOpacity(1);
     }
 
+    String getTextToSet(String territoryName) {
+        // players own territores are visible to them, which is initial state as below
+        if (boardGameMap.getTerritoryByName(territoryName).getOwnId() == clientID) {
+            return "Territory Name: " + territoryName +
+                    "\n Your Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getFoodResource()
+                    + "\n Your Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechResource()
+                    + "\n Your Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechLevel()
+                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo();
+        } else { // otherwise display info by fog
+            return "Territory Name: " + territoryName +
+                    "\n Food Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()
+                    + "\n Technology Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getTechResource()
+                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getFogInfo();
+        }
+    }
+
     @FXML
     void click_player1_t1(MouseEvent event) {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t1.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T1").getAllUnitsInfo() + 
-            "\n Territory Name: T1" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T1").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T1").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T1").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T1"));
         }
     }
 
@@ -175,12 +187,7 @@ public class ViewController {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t2.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T2").getAllUnitsInfo()  + 
-            "\n Territory Name: T2" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T2").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T2").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T2").getOwnId()).getTechLevel());
-            
+            territory_info.setText(getTextToSet("T2"));
         }
     }
 
@@ -189,11 +196,7 @@ public class ViewController {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t3.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T3").getAllUnitsInfo()  + 
-            "\n Territory Name: T3" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T3").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T3").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T3").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T3"));
         }
     }
 
@@ -202,11 +205,7 @@ public class ViewController {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t1.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T4").getAllUnitsInfo()  + 
-            "\n Territory Name: T4" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T4").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T4").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T4").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T4"));
         }
     }
 
@@ -215,11 +214,7 @@ public class ViewController {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t2.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T5").getAllUnitsInfo()  + 
-            "\n Territory Name: T5" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T5").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T5").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T5").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T5"));
         }
     }
 
@@ -228,11 +223,7 @@ public class ViewController {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t3.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T6").getAllUnitsInfo()  + 
-            "\n Territory Name: T6" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T6").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T6").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T6").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T6"));
         }
     }
 
@@ -242,12 +233,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player3_t1.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 3 Territory 1");
-            territory_info.setText(boardGameMap.getTerritoryByName("T7").getAllUnitsInfo()  + 
-            "\n Territory Name: T7" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T7").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T7").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T7").getOwnId()).getTechLevel());
-
+            territory_info.setText(getTextToSet("T7"));
         }
     }
 
@@ -257,11 +243,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player3_t2.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 3 Territory 2");
-            territory_info.setText(boardGameMap.getTerritoryByName("T8").getAllUnitsInfo()  + 
-            "\n Territory Name: T8" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T8").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T8").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T8").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T8"));
         }
     }
 
@@ -270,11 +252,7 @@ public class ViewController {
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t3.setOpacity(0.5);
-            territory_info.setText(boardGameMap.getTerritoryByName("T9").getAllUnitsInfo()  +
-            "\n Territory Name: T9" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T9").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T9").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T9").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T9"));
         }
     }
 
@@ -284,11 +262,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player4_t1.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 4 Territory 1");
-            territory_info.setText(boardGameMap.getTerritoryByName("T10").getAllUnitsInfo()  +
-            "\n Territory Name: T10" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T10").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T10").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T10").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T10"));
         }
     }
 
@@ -298,11 +272,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player4_t2.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 4 Territory 2");
-            territory_info.setText(boardGameMap.getTerritoryByName("T11").getAllUnitsInfo()  +
-            "\n Territory Name: T11" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T11").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T11").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T11").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T11"));
         }
     }
 
@@ -312,11 +282,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player4_t3.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 4 Territory 3");
-            territory_info.setText(boardGameMap.getTerritoryByName("T12").getAllUnitsInfo()  +
-            "\n Territory Name: T12" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T12").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T12").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T12").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T12"));
         }
     }
 
@@ -326,11 +292,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player5_t1.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 5 Territory 1");
-            territory_info.setText(boardGameMap.getTerritoryByName("T13").getAllUnitsInfo()  +
-            "\n Territory Name: T13" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T13").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T13").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T13").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T13"));
         }
     }
 
@@ -340,11 +302,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player5_t2.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 5 Territory 2");
-            territory_info.setText(boardGameMap.getTerritoryByName("T14").getAllUnitsInfo()  +
-            "\n Territory Name: T14" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T14").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T14").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T14").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T14"));
         }
     }
 
@@ -354,11 +312,7 @@ public class ViewController {
             resetTerritoryOpacity();
             player5_t3.setOpacity(0.5);
             // territory_info.setText("Territory Info:\nPlayer 5 Territory 3");
-            territory_info.setText(boardGameMap.getTerritoryByName("T15").getAllUnitsInfo()  +
-            "\n Territory Name: T15" +
-            "\n The Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T15").getOwnId()).getFoodResource()
-            + "\n The Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T15").getOwnId()).getTechResource()
-            + "\n The Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName("T15").getOwnId()).getTechLevel());
+            territory_info.setText(getTextToSet("T15"));
         }
     }
 
@@ -372,7 +326,6 @@ public class ViewController {
         moveController.setClientID(clientID);
         moveController.setNetClient(netClient);
         moveController.setGameMap(boardGameMap);
-
 
 
         Stage stage = new Stage();
@@ -390,8 +343,8 @@ public class ViewController {
         AttackDialogController attackController = loader.getController();
         attackController.setGameMap(boardGameMap);
         attackController.setClientID(clientID);
-        attackController.setNetClient(netClient);   
-        attackController.setGameMap(boardGameMap);  
+        attackController.setNetClient(netClient);
+        attackController.setGameMap(boardGameMap);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Attack");
@@ -483,11 +436,11 @@ public class ViewController {
 
     /*
      * This method is called by the FXMLLoader when initialization is complete
-     * 
+     *
      */
     public void displayInfo(String infoText) {
         Text infoTextNode = new Text(infoText);
-        infoAnchorPane.getChildren().add(infoTextNode);  
+        infoAnchorPane.getChildren().add(infoTextNode);
     }
 
     public void refreshMap() {
@@ -570,48 +523,74 @@ public class ViewController {
     }
 
     //this function is used to set the polyon to white in order to ignore it
-    public void setTerritoryToWhite(int ClientID){
-        if(ClientID == 1){
+    public void setTerritoryToWhite(int ClientID) {
+        if (ClientID == 1) {
             player1_t1.setFill(Color.WHITE);
-            player1_t1.setOnMouseClicked(event -> {event.consume();});
+            player1_t1.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player1_t2.setFill(Color.WHITE);
-            player1_t2.setOnMouseClicked(event -> {event.consume();});
+            player1_t2.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player1_t3.setFill(Color.WHITE);
-            player1_t3.setOnMouseClicked(event -> {event.consume();});
-        }
-        else if(ClientID == 2){
+            player1_t3.setOnMouseClicked(event -> {
+                event.consume();
+            });
+        } else if (ClientID == 2) {
             player2_t1.setFill(Color.WHITE);
-            player2_t1.setOnMouseClicked(event -> {event.consume();});
+            player2_t1.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player2_t2.setFill(Color.WHITE);
-            player2_t2.setOnMouseClicked(event -> {event.consume();});
+            player2_t2.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player2_t3.setFill(Color.WHITE);
-            player2_t3.setOnMouseClicked(event -> {event.consume();});
-        }
-        else if(ClientID == 3){
+            player2_t3.setOnMouseClicked(event -> {
+                event.consume();
+            });
+        } else if (ClientID == 3) {
             player3_t1.setFill(Color.WHITE);
-            player3_t1.setOnMouseClicked(event -> {event.consume();});
+            player3_t1.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player3_t2.setFill(Color.WHITE);
-            player3_t2.setOnMouseClicked(event -> {event.consume();});
+            player3_t2.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player3_t3.setFill(Color.WHITE);
-            player3_t3.setOnMouseClicked(event -> {event.consume();});
-        }
-        else if(ClientID == 4){
+            player3_t3.setOnMouseClicked(event -> {
+                event.consume();
+            });
+        } else if (ClientID == 4) {
             player4_t1.setFill(Color.WHITE);
-            player4_t1.setOnMouseClicked(event -> {event.consume();});
+            player4_t1.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player4_t2.setFill(Color.WHITE);
-            player4_t2.setOnMouseClicked(event -> {event.consume();});
+            player4_t2.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player4_t3.setFill(Color.WHITE);
-            player4_t3.setOnMouseClicked(event -> {event.consume();});
-        }
-        else if(ClientID == 5){
+            player4_t3.setOnMouseClicked(event -> {
+                event.consume();
+            });
+        } else if (ClientID == 5) {
             player5_t1.setFill(Color.WHITE);
-            player5_t1.setOnMouseClicked(event -> {event.consume();});
+            player5_t1.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player5_t2.setFill(Color.WHITE);
-            player5_t2.setOnMouseClicked(event -> {event.consume();});
+            player5_t2.setOnMouseClicked(event -> {
+                event.consume();
+            });
             player5_t3.setFill(Color.WHITE);
-            player5_t3.setOnMouseClicked(event -> {event.consume();});
+            player5_t3.setOnMouseClicked(event -> {
+                event.consume();
+            });
         }
-    } 
+    }
 
 
 }

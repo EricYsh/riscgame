@@ -1,6 +1,8 @@
 package edu.duke.ece651.riscgame.game;
 
-public class Spy {
+import java.io.Serializable;
+
+public class Spy implements Serializable {
     private final int ownerId;
 
     static int spyId = 0;
