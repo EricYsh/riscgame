@@ -161,14 +161,14 @@ public class ViewController {
         // players own territores are visible to them, which is initial state as below
         if (boardGameMap.getTerritoryByName(territoryName).getOwnId() == clientID) {
             return "Territory Name: " + territoryName +
-                    "\n Your Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getFoodResource()
-                    + "\n Your Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechResource()
-                    + "\n Your Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechLevel()
-                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo();
+                    "\nYour Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getFoodResource()
+                    + "\nYour Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechResource()
+                    + "\nYour Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechLevel()
+                    + "\n\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo();
         } else { // otherwise display info by fog
             return "Territory Name: " + territoryName +
-                    "\n Food Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()
-                    + "\n Technology Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getTechResource()
+                    "\nFood Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()
+                    + "\nTechnology Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getTechResource()
                     + "\n" + boardGameMap.getTerritoryByName(territoryName).getFogInfo();
         }
     }

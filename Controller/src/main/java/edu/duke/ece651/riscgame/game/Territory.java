@@ -186,10 +186,10 @@ public class Territory implements Serializable {
 
         for (int i = 0; i < levelCount.length; i++) {
             info.append("Level " + i + " : " + levelCount[i]);
-            info.append(" with Index: " + levelIndices.get(i));
+            info.append(" with Index: " + "\n " + splitString(levelIndices.get(i).toString(), 30) );
             info.append("\n");
         }
-        return splitString(info.toString(), 20);
+        return info.toString();
     }
 
     public String getFogInfo() {
