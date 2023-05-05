@@ -1,5 +1,7 @@
 package edu.duke.ece651.riscgame;
 
+import org.checkerframework.checker.fenum.qual.Fenum;
+
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.Territory;
@@ -89,6 +91,12 @@ public class ViewController {
 
     @FXML
     private Button commit_btn;
+
+    @FXML
+    private Button switch_btn;
+
+    @FXML
+    private Button quit_btn;
 
     @FXML
     private Text territory_info;
@@ -394,13 +402,29 @@ public class ViewController {
 
 
     @FXML
-    void click_switch(ActionEvent event) {
+    void click_switch(ActionEvent event) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Room.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        RoomController roomController = loader.getController();
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Room");
+        stage.show();
 
+        //close the current window
+        Stage currentStage = (Stage) switch_btn.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML
-    void click_quit(ActionEvent event) {
-
+    /*
+     *This method is used to quit the game
+     */
+    void click_quit(ActionEvent event){
+        Stage stage = (Stage) quit_btn.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
