@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="178.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.UnitUpDialogController">
+   <center>
+      <AnchorPane prefHeight="394.0" prefWidth="532.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="territory_cloak" layoutX="59.0" layoutY="103.0" prefHeight="50.0" prefWidth="293.0" />
+            <Label layoutX="57.0" layoutY="36.0" text="The territory you want to cloak are:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="55.0" layoutY="64.0" text="(separate by a space): e.g. &quot;T1 T2 T3&quot;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="cancel_btn" layoutX="394.0" layoutY="40.0" mnemonicParsing="false" onAction="#click_cancel" prefHeight="48.0" prefWidth="158.0" text="Cancel" />
+            <Button fx:id="cloak_btn" layoutX="394.0" layoutY="104.0" mnemonicParsing="false" onAction="#click_cloak" prefHeight="48.0" prefWidth="159.0" text="Cloak" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
