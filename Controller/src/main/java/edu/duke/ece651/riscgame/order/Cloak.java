@@ -12,20 +12,20 @@ public class Cloak extends Order{
     public Cloak(int unitNum, Territory src, Territory dest, Type type, int orderOwnId, ArrayList<Integer> selectedUnitsIndex, ArrayList<Integer> levelToUpgrade) {
         super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
     }
+    //Cloak : unitIndex, Src
 
     @Override
     public void run(GameMap gameMap) {
-
+        gameMap.getTerritoryByName(this.getSrc().getName()).setCloackTimes(3);
+        gameMap.getPlayerById(this.getOrderOwnId()).minusTechResource(20);
     }
 
     @Override
     public void combat(GameMap gameMap) {
-
     }
 
     @Override
     public void combat(GameMap gameMap, ArrayList<Unit> unitsForAttack) {
-
     }
 
     @Override
