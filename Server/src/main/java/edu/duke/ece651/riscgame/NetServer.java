@@ -80,6 +80,7 @@ public class NetServer {
     }
     public void broadCast (Object object) {
         for (Socket socket: clientSockets) {
+            if (logOutClientSockets.contains(socket)) continue;
             GameMessageStream.sendObject(object, socket);
         }
     }

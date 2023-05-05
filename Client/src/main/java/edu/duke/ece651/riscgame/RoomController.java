@@ -73,6 +73,7 @@ public class RoomController {
     void click_two(ActionEvent event) throws Exception{
         netClient = new NetClient(8889);
         int clientID = netClient.receiveClientID();
+        System.out.println("room 2, client ID: " + clientID);
         roomInfo.put(2, clientID);
         //gui
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));

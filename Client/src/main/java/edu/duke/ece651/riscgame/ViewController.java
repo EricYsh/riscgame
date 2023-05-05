@@ -1,5 +1,7 @@
 package edu.duke.ece651.riscgame;
 
+import edu.duke.ece651.riscgame.order.LogOut;
+import edu.duke.ece651.riscgame.order.Switch;
 import org.checkerframework.checker.fenum.qual.Fenum;
 
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
@@ -393,6 +395,7 @@ public class ViewController {
         ActionInfo info = new ActionInfo(commitOrder);
         netClient.sendActionInfo(info);
         setCommit(true);
+
         netClient.receiveValidationResult();
         setBoardGameMap(netClient.receiveGameMap());
         System.out.println(boardGameMap.getTerritoryNameAndUnitNums());
@@ -403,19 +406,25 @@ public class ViewController {
 
     @FXML
     void click_switch(ActionEvent event) throws Exception{
+//        Switch LogOutOrder = new Switch(0, null, null, Type.Switch, clientID, null, null);
+//        ActionInfo info = new ActionInfo(LogOutOrder);
+//        netClient.sendActionInfo(info);
+//        netClient.receiveValidationResult();
+
+        //close the current window
+        Stage currentStage = (Stage) switch_btn.getScene().getWindow();
+        currentStage.close();
+
+        // jump to room login window
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Room.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 300, 300);
         RoomController roomController = loader.getController();
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Room");
         stage.show();
-
-        //close the current window
-        Stage currentStage = (Stage) switch_btn.getScene().getWindow();
-        currentStage.close();
     }
 
     @FXML
@@ -423,6 +432,10 @@ public class ViewController {
      *This method is used to quit the game
      */
     void click_quit(ActionEvent event){
+        LogOut LogOutOrder = new LogOut(0, null, null, Type.LogOut, clientID, null, null);
+        ActionInfo info = new ActionInfo(LogOutOrder);
+        netClient.sendActionInfo(info);
+        netClient.receiveValidationResult();
         Stage stage = (Stage) quit_btn.getScene().getWindow();
         stage.close();
     }
