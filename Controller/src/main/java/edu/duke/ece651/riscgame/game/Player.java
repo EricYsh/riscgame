@@ -83,4 +83,12 @@ public class Player implements Serializable {
     public void addFoodResource(int foodResource) {
         this.foodResource += foodResource;
     }
+
+    public void minusTechResource(int techResource) {
+        this.techResource -= techResource;
+    }
+
+    public void minusFoodResource(int foodResource) {
+        this.foodResource -= foodResource;
+    }
 }

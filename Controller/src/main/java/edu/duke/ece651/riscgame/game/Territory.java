@@ -10,6 +10,7 @@ public class Territory implements Serializable {
     private int unitNum;
     private int size;
     private HashSet<Territory> neighbors;
+    public int cloackTimes;
 
     private ArrayList<Unit> units;
     //  1 : level1
@@ -27,6 +28,7 @@ public class Territory implements Serializable {
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
         }
+        this.cloackTimes = 0;
         this.size = 10;
     }
 
@@ -59,6 +61,13 @@ public class Territory implements Serializable {
         }
     }
 
+    public int getCloackTimes() {
+        return cloackTimes;
+    }
+
+    public void setCloackTimes(int cloackTimes) {
+        this.cloackTimes = cloackTimes;
+    }
 
     public ArrayList<Unit> getUnits() {
         return units;

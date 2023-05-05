@@ -61,7 +61,7 @@ public class MoveDialogController {
 
     public String getUnitsIndex() {
         return unitsIndex;
-    }   
+    }
 
     @FXML
     void click_move(ActionEvent event) {
@@ -70,7 +70,7 @@ public class MoveDialogController {
         unitsIndex = units_index.getText();
 
         boolean isValidInput = true;
-        
+
         if (sourceTerritory == null || sourceTerritory.isEmpty()) {
             isValidInput = false;
         }
@@ -80,7 +80,15 @@ public class MoveDialogController {
         if (unitsIndex == null || unitsIndex.isEmpty()) {
             isValidInput = false;
         }
-        
+        checkTerritoryName(sourceTerritory, targetTerritory);
+        if (! checkUnitIndex(sourceTerritory, unitsIndex)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Invalid Unit Index");
+            alert.showAndWait();
+        }
+
         if (isValidInput) {
             // for test
             System.out.println("sourceTerritory: " + sourceTerritory);
@@ -99,8 +107,8 @@ public class MoveDialogController {
 
             netClient.sendActionInfo(info);
             moveOrder.run(gameMap);
-            
-        
+
+
             Stage stage = (Stage) move_btn.getScene().getWindow();
             stage.close();
         } else {
@@ -110,6 +118,53 @@ public class MoveDialogController {
             alert.setContentText("Please fill in all fields.");
             alert.showAndWait();
         }
+    }
+
+
+    public static boolean validateInputUnitIndex(String input, ArrayList<Integer> numbers, int territoryUnitMaxIndex) {
+        // separate the input string by space
+        String[] tokens = input.split(" ");
+        if (tokens.length < 1 || tokens.length > territoryUnitMaxIndex) {
+            return false;
+        }
+        for (String token : tokens) {
+            try {
+                int number = Integer.parseInt(token);
+                if (number < 0 || number >= territoryUnitMaxIndex) {
+                    return false;
+                } else {
+                    numbers.add(number);
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void checkTerritoryName(String srcName, String destName) {
+        if (gameMap.getTerritoryByName(srcName) != null || gameMap.getTerritoryByName(destName) != null ) {
+            if (gameMap.getTerritoryByName(srcName).getOwnId() != clientID || gameMap.getTerritoryByName(destName).getOwnId() != clientID) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You don't own " + srcName + " or " + destName);
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please enter a valid territory name");
+            alert.showAndWait();
+        }
+}
+
+    private boolean checkUnitIndex(String srcName, String unitsIndex) {
+        int maxNum = gameMap.getTerritoryByName(srcName).getUnits().size();
+        ArrayList<Integer> numbers  = new ArrayList<>();
+    //    System.out.print("Please enter numbers with max length: " + maxNum);
+        return validateInputUnitIndex(unitsIndex, numbers, maxNum);
     }
 
     @FXML
