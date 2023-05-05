@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import static edu.duke.ece651.riscgame.MoveDialogController.validateInputUnitIndex;
+
 public class AttackDialogController {
 
     private String sourceTerritory;
@@ -83,7 +85,14 @@ public class AttackDialogController {
         if (unitsIndex == null || unitsIndex.isEmpty()) {
             isValidInput = false;
         }
-        
+        checkTerritoryName(sourceTerritory,targetTerritory);
+        if (!checkUnitIndex(sourceTerritory, unitsIndex)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Invalid Unit Index");
+            alert.showAndWait();
+        }
         if (isValidInput) {
             // for test
             System.out.println("sourceTerritory: " + sourceTerritory);
@@ -98,8 +107,6 @@ public class AttackDialogController {
             System.out.println("src: " + src.displayInfo());
             Territory dest = gameMap.getTerritoryByName(targetTerritory);
             System.out.println("dest: " + dest.displayInfo());
-
-
             
             Attack attackOrder = new Attack(unitsIndexList.size(), src, dest, Type.Attack, clientID, unitsIndexList, null);
             ActionInfo info = new ActionInfo(attackOrder);
@@ -117,6 +124,53 @@ public class AttackDialogController {
             alert.showAndWait();
         }
     }
+
+    private boolean checkNeighbor(String fromTerritoryName, String toTerritoryName) {
+        for (Territory neighbor : gameMap.getTerritoryByName(fromTerritoryName).getNeighbors()) {
+            if (neighbor.getName().equals(toTerritoryName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkTerritoryName(String srcName, String destName) {
+        if (gameMap.getTerritoryByName(srcName) != null || gameMap.getTerritoryByName(destName) != null ) {
+            if (gameMap.getTerritoryByName(srcName).getOwnId() != clientID) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You don't own " + srcName);
+                alert.showAndWait();
+            } else if (!checkNeighbor(srcName, destName)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText(srcName + " is not a neighbor of " + destName);
+                alert.showAndWait();
+            } else if (gameMap.getTerritoryByName(destName).getOwnId() == clientID){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText(destName + " is your own territory!");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please enter a valid territory name");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean checkUnitIndex(String srcName, String unitsIndex) {
+        int maxNum = gameMap.getTerritoryByName(srcName).getUnits().size();
+        ArrayList<Integer> numbers  = new ArrayList<>();
+        //    System.out.print("Please enter numbers with max length: " + maxNum);
+        return validateInputUnitIndex(unitsIndex, numbers, maxNum);
+    }
+
 
     @FXML
     void click_cancel(ActionEvent event) {
