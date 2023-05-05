@@ -2,11 +2,6 @@ package edu.duke.ece651.riscgame;
 
 import java.io.IOException;
 
-import edu.duke.ece651.riscgame.RoomController;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
-
 public class ServerApp {
     public String getGreeting() {
         return "Hello World!";
@@ -36,9 +31,13 @@ public class ServerApp {
         Room room1 = new Room(1, numClient, 8888);
         Room room2 = new Room(2, numClient, 8889);
         Room room3 = new Room(3, numClient, 8890);
-        room1.start();
-        room2.start();
-        room3.start();
+        Thread thread1 = new Thread(room1);
+        Thread thread2 = new Thread(room2);
+        Thread thread3 = new Thread(room3);
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
 
         // // Load FXML file and create RoomController object
         // // how to load the fxml file

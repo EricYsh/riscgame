@@ -1,13 +1,11 @@
 package edu.duke.ece651.riscgame;
 
-import java.util.Vector;
-
 /*
  * This class is used to store the information of a room
  * Every room has a gameserver, which can connect to serveral clients
  * Initialize it by 3
  */
-public class Room extends Thread{
+public class Room implements Runnable{
     private int roomID;
     private int port;
     private GameServer gameServer;
@@ -32,7 +30,8 @@ public class Room extends Thread{
         return port;
     }
 
-    public void start(){
+    @Override
+    public void run() {
         gameServer.connect();
         gameServer.GameInit();
         gameServer.playRounds();
