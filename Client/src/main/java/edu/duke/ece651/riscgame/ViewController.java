@@ -19,14 +19,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
-import javafx.scene.control.Label;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -140,13 +137,10 @@ public class ViewController implements Initializable{
     private Button upgrade_spy_unit_btn;
 
     public void initialize(URL location, ResourceBundle resources) {
-        //set the background image of the button
 
-        // attack_btn.setStyle("-fx-background-color: #4CAF50;");
         Image backgroundImage = new Image(getClass().getResourceAsStream("/images/button.png"));
         BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-        
         attack_btn.setBackground(new Background(background));
         move_btn.setBackground(new Background(background));
         commit_btn.setBackground(new Background(background));
@@ -160,7 +154,7 @@ public class ViewController implements Initializable{
         upgrade_spy_unit_btn.setBackground(new Background(background));
 
         Media audioFile = new Media(getClass().getResource("/audio/bgm.mp3").toExternalForm());
-
+        
 
         // Create a new MediaPlayer with the audio file
         MediaPlayer mediaPlayer = new MediaPlayer(audioFile);
@@ -267,7 +261,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t1.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T1"));
+            // territory_info.setText(getTextToSet("T1"));
+            game_info_text.setText(getTextToSet("T1"));
         }
     }
 
@@ -276,7 +271,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t2.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T2"));
+            // territory_info.setText(getTextToSet("T2"));
+            game_info_text.setText(getTextToSet("T2"));
         }
     }
 
@@ -285,7 +281,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t3.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T3"));
+            // territory_info.setText(getTextToSet("T3"));
+            game_info_text.setText(getTextToSet("T3"));
         }
     }
 
@@ -294,7 +291,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t1.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T4"));
+            // territory_info.setText(getTextToSet("T4"));
+            game_info_text.setText(getTextToSet("T4"));
         }
     }
 
@@ -303,7 +301,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t2.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T5"));
+            // territory_info.setText(getTextToSet("T5"));
+            game_info_text.setText(getTextToSet("T5"));
         }
     }
 
@@ -312,7 +311,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t3.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T6"));
+            // territory_info.setText(getTextToSet("T6"));
+            game_info_text.setText(getTextToSet("T6"));
         }
     }
 
@@ -321,8 +321,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t1.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 3 Territory 1");
-            territory_info.setText(getTextToSet("T7"));
+            // territory_info.setText(getTextToSet("T7"));
+            game_info_text.setText(getTextToSet("T7"));
         }
     }
 
@@ -331,8 +331,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t2.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 3 Territory 2");
-            territory_info.setText(getTextToSet("T8"));
+            // territory_info.setText(getTextToSet("T8"));
+            game_info_text.setText(getTextToSet("T8"));
         }
     }
 
@@ -341,7 +341,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t3.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T9"));
+            // territory_info.setText(getTextToSet("T9"));
+            game_info_text.setText(getTextToSet("T9"));
         }
     }
 
@@ -350,8 +351,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player4_t1.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 4 Territory 1");
-            territory_info.setText(getTextToSet("T10"));
+            // territory_info.setText(getTextToSet("T10"));
+            game_info_text.setText(getTextToSet("T10"));
         }
     }
 
@@ -360,8 +361,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player4_t2.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 4 Territory 2");
-            territory_info.setText(getTextToSet("T11"));
+            // territory_info.setText(getTextToSet("T11"));
+            game_info_text.setText(getTextToSet("T11"));
         }
     }
 
@@ -370,8 +371,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player4_t3.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 4 Territory 3");
-            territory_info.setText(getTextToSet("T12"));
+            // territory_info.setText(getTextToSet("T12"));
+            game_info_text.setText(getTextToSet("T12"));
         }
     }
 
@@ -380,8 +381,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player5_t1.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 5 Territory 1");
-            territory_info.setText(getTextToSet("T13"));
+            // territory_info.setText(getTextToSet("T13"));
+            game_info_text.setText(getTextToSet("T13"));
         }
     }
 
@@ -390,8 +391,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player5_t2.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 5 Territory 2");
-            territory_info.setText(getTextToSet("T14"));
+            // territory_info.setText(getTextToSet("T14"));
+            game_info_text.setText(getTextToSet("T14"));
         }
     }
 
@@ -400,8 +401,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player5_t3.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 5 Territory 3");
-            territory_info.setText(getTextToSet("T15"));
+            // territory_info.setText(getTextToSet("T15"));
+            game_info_text.setText(getTextToSet("T15"));
         }
     }
 
