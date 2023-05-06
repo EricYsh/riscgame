@@ -13,13 +13,20 @@ import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
@@ -28,8 +35,14 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ViewController {
+public class ViewController implements Initializable{
+
+
+    
+
 
     public BoardGameMap boardGameMap;
 
@@ -84,6 +97,7 @@ public class ViewController {
     @FXML
     private Text game_info_text;
 
+
     @FXML
     private Button move_btn;
 
@@ -91,16 +105,66 @@ public class ViewController {
     private Button attack_btn;
 
     @FXML
-    private Button upgrade_btn;
-
+    private Button upgrade_unit_btn;
+    
     @FXML
     private Button commit_btn;
+
+
+
+
+    // <Button fx:id="attack_btn" layoutX="790.0" layoutY="385.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack"/>
+    // <Button fx:id="move_btn" layoutX="790.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_move" prefHeight="50.0" prefWidth="150.0" text="Move" />
+    // <Button fx:id="upgrade_unit_btn" layoutX="991.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_up_unit" prefHeight="50.0" prefWidth="150.0" text="Unit Up" />
+    // <Button fx:id="commit_btn" layoutX="986.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_commit" prefHeight="50.0" prefWidth="150.0" text="Commit" />
+
+    // <Button fx:id="upgrade_tech_btn" layoutX="986.0" layoutY="387.0" mnemonicParsing="false" onAction="#click_up_tech" prefHeight="50.0" prefWidth="150.0" text="Tech Up" />
+    // <Button fx:id="switch_btn" layoutX="30.0" layoutY="15.0" mnemonicParsing="false" onAction="#click_switch" prefHeight="30.0" prefWidth="100.0" text="Switch" />
+    // <Button fx:id="quit_btn" layoutX="150.0" layoutY="15.0" mnemonicParsing="false" onAction="#click_quit" prefHeight="30.0" prefWidth="100.0" text="Quit" />
+    // <Button fx:id="cloak_btn" layoutX="790.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_cloak" prefHeight="50.0" prefWidth="150.0" text="Cloak" />
+    // <Button fx:id="spy_move_btn" layoutX="790.0" layoutY="233.0" mnemonicParsing="false" onAction="#click_spy_move" prefHeight="50.0" prefWidth="150.0" text="Spy Move" />
+    // <Button fx:id="upgrade_spy_unit_btn" layoutX="990.0" layoutY="233.0" mnemonicParsing="false" onAction="#click_spy_up_unit" prefHeight="50.0" prefWidth="150.0" text="Spy Up" />
+
+    @FXML
+    private Button upgrade_tech_btn;
 
     @FXML
     private Button switch_btn;
 
     @FXML
     private Button quit_btn;
+
+    @FXML
+    private Button cloak_btn;
+
+    @FXML
+    private Button spy_move_btn;
+
+    @FXML
+    private Button upgrade_spy_unit_btn;
+
+    public void initialize(URL location, ResourceBundle resources) {
+        //set the background image of the button
+
+        // attack_btn.setStyle("-fx-background-color: #4CAF50;");
+        Image backgroundImage = new Image(getClass().getResourceAsStream("/images/button.png"));
+        BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+        
+        attack_btn.setBackground(new Background(background));
+        move_btn.setBackground(new Background(background));
+        commit_btn.setBackground(new Background(background));
+        upgrade_unit_btn.setBackground(new Background(background));
+
+        upgrade_tech_btn.setBackground(new Background(background));
+        switch_btn.setBackground(new Background(background));
+        quit_btn.setBackground(new Background(background));
+        cloak_btn.setBackground(new Background(background));
+        spy_move_btn.setBackground(new Background(background));
+        upgrade_spy_unit_btn.setBackground(new Background(background));
+        
+
+    }
 
     @FXML
     private Text territory_info;
@@ -150,6 +214,8 @@ public class ViewController {
     @FXML
     private Polygon player5_t3;
 
+
+
     // reset all territories to be transparent
     private void resetTerritoryOpacity() {
         player1_t1.setOpacity(1);
@@ -177,6 +243,7 @@ public class ViewController {
                     + "\nYour Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechResource()
                     + "\nYour Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechLevel()
                     + "\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo(clientID);
+
         } else { // otherwise display info by fog
             return "Territory Name: " + territoryName +
                     "\nFood Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()

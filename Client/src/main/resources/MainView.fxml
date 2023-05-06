@@ -18,13 +18,6 @@
       <AnchorPane prefHeight="587.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
           <background>
         <Background>
-    <!-- <fills>
-        <BackgroundFill>
-            <fill>
-                <Color red="0.5" green="1" blue="1" />
-            </fill>
-        </BackgroundFill>
-    </fills> -->
               <images>
             <BackgroundImage>
                 <image>
@@ -364,7 +357,7 @@
                   <Double fx:value="40.0" />
                </points>
             </Polygon>
-            <Button fx:id="attack_btn" layoutX="790.0" layoutY="385.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack" />
+            <Button fx:id="attack_btn" layoutX="790.0" layoutY="385.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack"/>
             <Button fx:id="move_btn" layoutX="790.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_move" prefHeight="50.0" prefWidth="150.0" text="Move" />
             <Button fx:id="upgrade_unit_btn" layoutX="991.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_up_unit" prefHeight="50.0" prefWidth="150.0" text="Unit Up" />
             <Button fx:id="commit_btn" layoutX="986.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_commit" prefHeight="50.0" prefWidth="150.0" text="Commit" />
