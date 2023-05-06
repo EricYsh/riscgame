@@ -385,6 +385,11 @@
             <Button fx:id="cloak_btn" layoutX="822.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_cloak" prefHeight="50.0" prefWidth="150.0" text="Cloak" />
             <Button fx:id="spy_move_btn" layoutX="822.0" layoutY="233.0" mnemonicParsing="false" onAction="#click_spy_move" prefHeight="50.0" prefWidth="150.0" text="Spy Move" />
             <Button fx:id="upgrade_spy_unit_btn" layoutX="990.0" layoutY="233.0" mnemonicParsing="false" onAction="#click_spy_up_unit" prefHeight="50.0" prefWidth="150.0" text="Spy Up" />
+            <ImageView fitHeight="118.0" fitWidth="189.0" layoutX="930.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/demo.jpg" />
+               </image>
+            </ImageView>
          </children>
          <BorderPane.margin>
             <Insets />
