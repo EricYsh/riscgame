@@ -1,14 +1,14 @@
 package edu.duke.ece651.riscgame;
 
-import java.net.Socket;
-import java.util.Vector;
-
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.commuMedium.GameMessageStream;
 import edu.duke.ece651.riscgame.commuMedium.ValidationResult;
 import edu.duke.ece651.riscgame.game.GameMap;
 import edu.duke.ece651.riscgame.order.Order;
 import edu.duke.ece651.riscgame.rule.*;
+
+import java.net.Socket;
+import java.util.Vector;
 
 /*
  * This class receives and handles the action order
