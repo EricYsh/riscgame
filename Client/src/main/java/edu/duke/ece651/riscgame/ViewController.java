@@ -21,12 +21,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+// import javafx.scene.layout.AnchorPane;
+// import javafx.scene.layout.Background;
+// import javafx.scene.layout.BackgroundImage;
+// import javafx.scene.layout.BackgroundPosition;
+// import javafx.scene.layout.BackgroundRepeat;
+// import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
@@ -100,7 +101,6 @@ public class ViewController implements Initializable{
 
     @FXML
     private Text game_info_text;
-
 
     @FXML
     private Button move_btn;
@@ -272,7 +272,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t1.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T1"));
+            // territory_info.setText(getTextToSet("T1"));
+            game_info_text.setText(getTextToSet("T1"));
         }
     }
 
@@ -281,7 +282,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t2.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T2"));
+            // territory_info.setText(getTextToSet("T2"));
+            game_info_text.setText(getTextToSet("T2"));
         }
     }
 
@@ -290,7 +292,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player1_t3.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T3"));
+            // territory_info.setText(getTextToSet("T3"));
+            game_info_text.setText(getTextToSet("T3"));
         }
     }
 
@@ -299,7 +302,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t1.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T4"));
+            // territory_info.setText(getTextToSet("T4"));
+            game_info_text.setText(getTextToSet("T4"));
         }
     }
 
@@ -308,7 +312,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t2.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T5"));
+            // territory_info.setText(getTextToSet("T5"));
+            game_info_text.setText(getTextToSet("T5"));
         }
     }
 
@@ -317,7 +322,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player2_t3.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T6"));
+            // territory_info.setText(getTextToSet("T6"));
+            game_info_text.setText(getTextToSet("T6"));
         }
     }
 
@@ -326,8 +332,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t1.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 3 Territory 1");
-            territory_info.setText(getTextToSet("T7"));
+            // territory_info.setText(getTextToSet("T7"));
+            game_info_text.setText(getTextToSet("T7"));
         }
     }
 
@@ -336,8 +342,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t2.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 3 Territory 2");
-            territory_info.setText(getTextToSet("T8"));
+            // territory_info.setText(getTextToSet("T8"));
+            game_info_text.setText(getTextToSet("T8"));
         }
     }
 
@@ -346,7 +352,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player3_t3.setOpacity(0.5);
-            territory_info.setText(getTextToSet("T9"));
+            // territory_info.setText(getTextToSet("T9"));
+            game_info_text.setText(getTextToSet("T9"));
         }
     }
 
@@ -355,8 +362,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player4_t1.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 4 Territory 1");
-            territory_info.setText(getTextToSet("T10"));
+            // territory_info.setText(getTextToSet("T10"));
+            game_info_text.setText(getTextToSet("T10"));
         }
     }
 
@@ -365,8 +372,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player4_t2.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 4 Territory 2");
-            territory_info.setText(getTextToSet("T11"));
+            // territory_info.setText(getTextToSet("T11"));
+            game_info_text.setText(getTextToSet("T11"));
         }
     }
 
@@ -375,8 +382,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player4_t3.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 4 Territory 3");
-            territory_info.setText(getTextToSet("T12"));
+            // territory_info.setText(getTextToSet("T12"));
+            game_info_text.setText(getTextToSet("T12"));
         }
     }
 
@@ -385,8 +392,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player5_t1.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 5 Territory 1");
-            territory_info.setText(getTextToSet("T13"));
+            // territory_info.setText(getTextToSet("T13"));
+            game_info_text.setText(getTextToSet("T13"));
         }
     }
 
@@ -395,8 +402,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player5_t2.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 5 Territory 2");
-            territory_info.setText(getTextToSet("T14"));
+            // territory_info.setText(getTextToSet("T14"));
+            game_info_text.setText(getTextToSet("T14"));
         }
     }
 
@@ -405,8 +412,8 @@ public class ViewController implements Initializable{
         if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             resetTerritoryOpacity();
             player5_t3.setOpacity(0.5);
-            // territory_info.setText("Territory Info:\nPlayer 5 Territory 3");
-            territory_info.setText(getTextToSet("T15"));
+            // territory_info.setText(getTextToSet("T15"));
+            game_info_text.setText(getTextToSet("T15"));
         }
     }
 
@@ -480,11 +487,53 @@ public class ViewController implements Initializable{
         Commit commitOrder = new Commit(0, null, null, Type.Commit, clientID, null, null);
         ActionInfo info = new ActionInfo(commitOrder);
         netClient.sendActionInfo(info);
-        setCommit(true);
-        setTechUpgrade(false);
-
         netClient.receiveValidationResult();
         setBoardGameMap(netClient.receiveGameMap());
+        setCommit(true);
+        setTechUpgrade(false);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoseDialog.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 600, 300);
+            LoseDialogController loseController = loader.getController();
+            // close lost player window
+//                Stage currentStage = (Stage) commit_btn.getScene().getWindow();
+//                currentStage.close();
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Lose");
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("player " + clientID + " : " + boardGameMap.isLose(clientID));
+        if (boardGameMap.isLose(clientID)) {// return true when the player lost
+            //TODO: jump to lose dialog and shut down this page
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoseDialog.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root, 600, 300);
+                LoseDialogController loseController = loader.getController();
+                // close lost player window
+//                Stage currentStage = (Stage) commit_btn.getScene().getWindow();
+//                currentStage.close();
+
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Lose");
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (boardGameMap.isAllTerritoryOccupiedByOne()) {
+            System.out.println("you wins");
+            // TODO: give one info to indicate winner and shut down this page
+        }
         System.out.println(boardGameMap.getTerritoryNameAndUnitNums());
         System.out.println(boardGameMap.getTerritoryNameAndOwnership());
         refreshMap();
@@ -493,10 +542,10 @@ public class ViewController implements Initializable{
 
     @FXML
     void click_switch(ActionEvent event) throws Exception{
-//        Switch LogOutOrder = new Switch(0, null, null, Type.Switch, clientID, null, null);
-//        ActionInfo info = new ActionInfo(LogOutOrder);
-//        netClient.sendActionInfo(info);
-//        netClient.receiveValidationResult();
+       Switch LogOutOrder = new Switch(0, null, null, Type.Switch, clientID, null, null);
+       ActionInfo info = new ActionInfo(LogOutOrder);
+       netClient.sendActionInfo(info);
+       netClient.receiveValidationResult();
 
         //close the current window
         Stage currentStage = (Stage) switch_btn.getScene().getWindow();
