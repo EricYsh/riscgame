@@ -181,7 +181,7 @@ public class ViewController {
             return "Territory Name: " + territoryName +
                     "\nFood Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()
                     + "\nTechnology Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getTechResource()
-                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getFogInfo();
+                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getFogInfo(clientID);
         }
     }
 

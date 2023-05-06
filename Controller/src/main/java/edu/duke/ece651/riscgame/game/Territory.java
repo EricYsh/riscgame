@@ -242,10 +242,9 @@ public class Territory implements Serializable {
         return info.toString();
     }
 
-    public String getFogInfo() {
+    public String getFogInfo(int playerID) {
         StringBuilder info = new StringBuilder("");
-        info.append("Size cost: ").append(size).append("\n");
-        info.append("This is not your territory! TODO");
+        info.append("Size : ").append(size).append("\n");
         // TODO any immediately adjacent enemy territory is visible to the player
 
         // TODO for any territory that has never been seen, only the outline should be displayed,
