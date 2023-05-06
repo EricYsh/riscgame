@@ -82,10 +82,10 @@ public class SpyUpDialogController {
             Territory src = gameMap.getTerritoryByName(territoryIn);
             
             // TODO: check order
-            // UpgradeUnit upgradeOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
-            // ActionInfo info = new ActionInfo(upgradeOrder);
-            // netClient.sendActionInfo(info);
-            // upgradeOrder.run(gameMap);
+//             UpgradeUnit upgradeOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
+//             ActionInfo info = new ActionInfo(upgradeOrder);
+//             netClient.sendActionInfo(info);
+//             upgradeOrder.run(gameMap);
             
             Stage stage = (Stage) up_unit_btn.getScene().getWindow();
             stage.close();

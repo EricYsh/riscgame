@@ -16,7 +16,11 @@ public class Cloak extends Order{
 
     @Override
     public void run(GameMap gameMap) {
-        gameMap.getTerritoryByName(this.getSrc().getName()).setCloackTimes(3);
+        if (gameMap.getTerritoryByName(this.getSrc().getName()).getIsResearched() == 1) {
+            gameMap.getPlayerById(this.getOrderOwnId()).minusTechResource(100);
+            gameMap.getTerritoryByName(this.getSrc().getName()).setIsResearched(0);
+        }
+        gameMap.getTerritoryByName(this.getSrc().getName()).setCloakTimes(3);
         gameMap.getPlayerById(this.getOrderOwnId()).minusTechResource(20);
     }
 

@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import static edu.duke.ece651.riscgame.MoveDialogController.validateInputUnitIndex;
+
 public class SpyMoveDialogController {
     private String sourceTerritory;
     private String targetTerritory;
@@ -79,7 +81,23 @@ public class SpyMoveDialogController {
         if (unitsIndex == null || unitsIndex.isEmpty()) {
             isValidInput = false;
         }
-        
+        checkTerritoryName();
+        if (!checkUnitIndex(sourceTerritory, unitsIndex)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Invalid Unit Index");
+            alert.showAndWait();
+        } else {
+            ArrayList<Integer> num = getUnits();
+            if (num.size() != 1) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You can only move One Spy unit each time");
+                alert.showAndWait();
+            }
+        }
         if (isValidInput) {
             // for test
             System.out.println("sourceTerritory: " + sourceTerritory);
@@ -108,6 +126,48 @@ public class SpyMoveDialogController {
             alert.showAndWait();
         }
     }
+
+    //src must be the clientID's own territory && valid dest
+
+    private void  checkTerritoryName() {
+        if (gameMap.getTerritoryByName(sourceTerritory) != null && gameMap.getTerritoryByName(targetTerritory) != null) {
+            if (gameMap.getTerritoryByName(sourceTerritory).getOwnId() != clientID) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You don't own " + sourceTerritory);
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please enter a valid territory name");
+            alert.showAndWait();
+        }
+    }
+
+    //Only one valid index
+    private ArrayList<Integer> getUnits() {
+        int maxNum = gameMap.getTerritoryByName(sourceTerritory).getUnits().size();
+
+        ArrayList<Integer> numbers;
+//            System.out.print("Please enter numbers with max length: " + territoryUnitMaxNum);
+        numbers = new ArrayList<>();
+        if (validateInputUnitIndex(unitsIndex, numbers, maxNum)) {
+            return numbers;
+        }
+        return null;
+    }
+
+    private boolean checkUnitIndex(String srcName, String unitsIndex) {
+        int maxNum = gameMap.getTerritoryByName(srcName).getUnits().size();
+        ArrayList<Integer> numbers  = new ArrayList<>();
+        //    System.out.print("Please enter numbers with max length: " + maxNum);
+        return validateInputUnitIndex(unitsIndex, numbers, maxNum);
+    }
+
+
 
     @FXML
     void click_cancel(ActionEvent event) {

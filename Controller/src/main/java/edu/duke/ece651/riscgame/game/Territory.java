@@ -10,7 +10,8 @@ public class Territory implements Serializable {
     private int unitNum;
     private int size;
     private HashSet<Territory> neighbors;
-    public int cloackTimes;
+    public int cloakTimes;
+    private int isResearched;
 
     private ArrayList<Unit> units;
     //  1 : level1
@@ -32,8 +33,9 @@ public class Territory implements Serializable {
         }
         this.spies = new ArrayList<>();
         this.enemySpies = new ArrayList<>();
-        this.cloackTimes = 0;
+        this.cloakTimes = 0;
         this.size = 10;
+        this.isResearched = 1;
     }
 
     public Territory(String tName, String oName, int oId, int unitNum) {
@@ -48,8 +50,9 @@ public class Territory implements Serializable {
         }
         this.spies = new ArrayList<>();
         this.enemySpies = new ArrayList<>();
-        this.cloackTimes = 0;
+        this.cloakTimes = 0;
         this.size = 10;
+        this.isResearched = 1;
     }
 
 
@@ -68,12 +71,12 @@ public class Territory implements Serializable {
         }
     }
 
-    public int getCloackTimes() {
-        return cloackTimes;
+    public int getCloakTimes() {
+        return cloakTimes;
     }
 
-    public void setCloackTimes(int cloackTimes) {
-        this.cloackTimes = cloackTimes;
+    public void setCloakTimes(int cloakTimes) {
+        this.cloakTimes = cloakTimes;
     }
 
     public ArrayList<Unit> getUnits() {
@@ -143,7 +146,6 @@ public class Territory implements Serializable {
     }
 
 
-
     public ArrayList<Spy> getSpies() {
         return spies;
     }
@@ -204,7 +206,7 @@ public class Territory implements Serializable {
     }
 
 
-    public String getAllUnitsInfo() {
+    public String getAllUnitsInfo(int viewerId) {
         StringBuilder info = new StringBuilder("");
         info.append("Size: ").append(size).append("\n");
         int[] levelCount = new int[7];
@@ -227,29 +229,47 @@ public class Territory implements Serializable {
             info.append("\n");
         }
         // display all your spy with index
-        info.append("Spies: " + "\n");
-        int spy_index = 0;
-        if (spies.size() > 0){
-            for (Spy s : spies) {
-                if (s.getSpyId() == this.ownId) {
-                    info.append("Spy ").append(s.getSpyId()).append(" with index: ").append(spy_index++).append("\n");
+        if (this.getOwnId() == viewerId) {
+            info.append("Spies: " + "\n");
+            int spy_index = 0;
+            if (spies.size() > 0) {
+                for (Spy s : spies) {
+                    if (s.getSpyId() == this.ownId) {
+                        info.append("Spy ").append(s.getSpyId()).append(" with index: ").append(spy_index++).append("\n");
+                    }
                 }
+            } else {
+                info.append("No Your Own Spy in this territory");
             }
-        } else {
-            info.append("No Spy in this territory");
         }
 
         return info.toString();
     }
 
-    public String getFogInfo(int playerID) {
+    public boolean isVisible(int viewerId) {
+        for (Spy s : enemySpies) {
+            if (s.getOwnerId() == viewerId) {
+                return true;
+            }
+        }
+        if (cloakTimes > 0) return false;
+        for (Territory tNeighbor : neighbors) {
+            if (tNeighbor.getOwnId() == viewerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getFogInfo(int viewerId) {
         StringBuilder info = new StringBuilder("");
-        info.append("Size : ").append(size).append("\n");
         // TODO any immediately adjacent enemy territory is visible to the player
 
         // TODO for any territory that has never been seen, only the outline should be displayed,
         //  but no information about who occurpy it or how many units are there
-
+        if (isVisible(viewerId)) {
+            info.append(getAllUnitsInfo(viewerId));
+        }
         // TODO if you have previously seen a territory, but no longer see it now (i.e. lose adjacncy)
         //  show what you know in the past and clearly indicate the info is old!!!
         return info.toString();
@@ -311,6 +331,14 @@ public class Territory implements Serializable {
     // remove all units in this territory
     public void removeAllUnits() {
         units.clear();
+    }
+
+    public int getIsResearched() {
+        return isResearched;
+    }
+
+    public void setIsResearched(int isResearched) {
+        this.isResearched = isResearched;
     }
 
     //    public boolean equals(Territory t1) {

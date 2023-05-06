@@ -135,7 +135,7 @@ public class UnitUpDialogController {
         }
     }
 
-    private void checkSourceName(String srcName) {
+    private void  checkSourceName(String srcName) {
         if (gameMap.getTerritoryByName(srcName) != null) {
             if (gameMap.getTerritoryByName(srcName).getOwnId() != clientID) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

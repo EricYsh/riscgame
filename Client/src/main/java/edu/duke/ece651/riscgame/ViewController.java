@@ -176,7 +176,7 @@ public class ViewController {
                     "\nYour Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getFoodResource()
                     + "\nYour Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechResource()
                     + "\nYour Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechLevel()
-                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo();
+                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo(clientID);
         } else { // otherwise display info by fog
             return "Territory Name: " + territoryName +
                     "\nFood Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()
