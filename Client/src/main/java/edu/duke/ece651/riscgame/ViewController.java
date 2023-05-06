@@ -31,6 +31,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 
 import javafx.stage.Stage;
 
@@ -144,13 +147,10 @@ public class ViewController implements Initializable{
     private Button upgrade_spy_unit_btn;
 
     public void initialize(URL location, ResourceBundle resources) {
-        //set the background image of the button
 
-        // attack_btn.setStyle("-fx-background-color: #4CAF50;");
         Image backgroundImage = new Image(getClass().getResourceAsStream("/images/button.png"));
         BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-        
         attack_btn.setBackground(new Background(background));
         move_btn.setBackground(new Background(background));
         commit_btn.setBackground(new Background(background));
@@ -162,7 +162,21 @@ public class ViewController implements Initializable{
         cloak_btn.setBackground(new Background(background));
         spy_move_btn.setBackground(new Background(background));
         upgrade_spy_unit_btn.setBackground(new Background(background));
+
+        Media audioFile = new Media(getClass().getResource("/audio/bgm.mp3").toExternalForm());
         
+
+        // Create a new MediaPlayer with the audio file
+        MediaPlayer mediaPlayer = new MediaPlayer(audioFile);
+
+
+        // Set the MediaPlayer to loop indefinitely
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Start playing the audio
+        mediaPlayer.play();
+
+
 
     }
 
