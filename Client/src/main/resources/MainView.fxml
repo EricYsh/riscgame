@@ -21,7 +21,7 @@
               <images>
             <BackgroundImage>
                 <image>
-                    <Image url="@test.png" />
+                    <Image url="@images/background.png" />
                 </image>
                                 <size>
                     <BackgroundSize width="1200" height="600" />
