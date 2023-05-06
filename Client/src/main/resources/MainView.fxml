@@ -10,10 +10,34 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+
 
 <BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.ViewController">
    <top>
       <AnchorPane prefHeight="587.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+          <background>
+        <Background>
+    <!-- <fills>
+        <BackgroundFill>
+            <fill>
+                <Color red="0.5" green="1" blue="1" />
+            </fill>
+        </BackgroundFill>
+    </fills> -->
+              <images>
+            <BackgroundImage>
+                <image>
+                    <Image url="@test.png" />
+                </image>
+                                <size>
+                    <BackgroundSize width="1200" height="600" />
+                </size>
+            </BackgroundImage>
+        </images>
+
+</Background>
+    </background>
          <children>         
             <Polygon fx:id="player1_t1" fill="#f44336" layoutX="275.0" layoutY="70.0" onMouseClicked="#click_player1_t1" stroke="BLACK" strokeType="INSIDE">
                 <points>
