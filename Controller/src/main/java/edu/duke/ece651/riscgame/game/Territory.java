@@ -206,7 +206,7 @@ public class Territory implements Serializable {
 
     public String getAllUnitsInfo() {
         StringBuilder info = new StringBuilder("");
-        info.append("Size cost: ").append(size).append("\n");
+        info.append("Size: ").append(size).append("\n");
         int[] levelCount = new int[7];
         List<List<Integer>> levelIndices = new ArrayList<>();
 

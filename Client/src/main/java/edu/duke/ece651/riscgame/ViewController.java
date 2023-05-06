@@ -27,6 +27,8 @@ import javafx.scene.control.Label;
 
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class ViewController {
 
     public BoardGameMap boardGameMap;
@@ -174,7 +176,7 @@ public class ViewController {
                     "\nYour Food Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getFoodResource()
                     + "\nYour Technology Resources:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechResource()
                     + "\nYour Technology Level:" + boardGameMap.getPlayerById(boardGameMap.getTerritoryByName(territoryName).getOwnId()).getTechLevel()
-                    + "\n\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo();
+                    + "\n" + boardGameMap.getTerritoryByName(territoryName).getAllUnitsInfo();
         } else { // otherwise display info by fog
             return "Territory Name: " + territoryName +
                     "\nFood Resource increase:" + boardGameMap.getTerritoryByName(territoryName).getFoodResource()
@@ -441,18 +443,55 @@ public class ViewController {
     }
 
     @FXML
-    void click_cloak(ActionEvent event) {
-
+    void click_cloak(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/CloakDialog.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        CloakDialogController cloakController = loader.getController();
+        cloakController.setGameMap(boardGameMap);
+        cloakController.setClientID(clientID);
+        cloakController.setNetClient(netClient);
+        cloakController.setGameMap(boardGameMap);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Unit Up");
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML
-    void click_spy_move(ActionEvent event) {
+    void click_spy_move(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SpyMoveDialog.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        SpyMoveDialogController spyMoveController = loader.getController();
+        spyMoveController.setGameMap(boardGameMap);
+        spyMoveController.setClientID(clientID);
+        spyMoveController.setNetClient(netClient);
+        spyMoveController.setGameMap(boardGameMap);
 
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Move SPY");
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML
-    void click_spy_up_unit(ActionEvent event) {
-
+    void click_spy_up_unit(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SpyUpDialog.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        SpyUpDialogController unitSpyUpController = loader.getController();
+        unitSpyUpController.setGameMap(boardGameMap);
+        unitSpyUpController.setClientID(clientID);
+        unitSpyUpController.setNetClient(netClient);
+        unitSpyUpController.setGameMap(boardGameMap);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Spy Unit Up");
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML
