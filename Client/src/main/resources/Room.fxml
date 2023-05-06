@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.RoomController"
-style="-fx-background-image: url('/images/bg3.png'); -fx-background-size: cover;">
+style="-fx-background-image: url('/images/bg3.png'); -fx-background-size: cover;" stylesheets="/stylesheet/risc.css">
    <children>
       <Button fx:id="room1_enter_btn" layoutX="199.0" layoutY="30.0" mnemonicParsing="false" onAction="#click_one" text="Enter" />
       <Button fx:id="room2_enter_btn" layoutX="199.0" layoutY="130.0" mnemonicParsing="false" onAction="#click_two" text="Enter" />

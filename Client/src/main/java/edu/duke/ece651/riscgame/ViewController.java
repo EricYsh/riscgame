@@ -138,37 +138,42 @@ public class ViewController implements Initializable{
     private Button upgrade_spy_unit_btn;
 
     public void initialize(URL location, ResourceBundle resources) {
+        setButtonWithHoverEffect(attack_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(move_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(commit_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(upgrade_unit_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(upgrade_tech_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(switch_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(quit_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(cloak_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(spy_move_btn, "/images/button.png", "/images/hover_button.png");
+        setButtonWithHoverEffect(upgrade_spy_unit_btn, "/images/button.png", "/images/hover_button.png");
 
-        Image backgroundImage = new Image(getClass().getResourceAsStream("/images/button.png"));
-        BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
-        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-        attack_btn.setBackground(new Background(background));
-        move_btn.setBackground(new Background(background));
-        commit_btn.setBackground(new Background(background));
-        upgrade_unit_btn.setBackground(new Background(background));
-
-        upgrade_tech_btn.setBackground(new Background(background));
-        switch_btn.setBackground(new Background(background));
-        quit_btn.setBackground(new Background(background));
-        cloak_btn.setBackground(new Background(background));
-        spy_move_btn.setBackground(new Background(background));
-        upgrade_spy_unit_btn.setBackground(new Background(background));
+        // ... (repeat for all buttons)
 
         Media audioFile = new Media(getClass().getResource("/audio/bgm.mp3").toExternalForm());
-        
 
         // Create a new MediaPlayer with the audio file
         MediaPlayer mediaPlayer = new MediaPlayer(audioFile);
-
 
         // Set the MediaPlayer to loop indefinitely
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         // Start playing the audio
         mediaPlayer.play();
+    }
 
+    private void setButtonWithHoverEffect(Button button, String defaultImagePath, String hoverImagePath) {
+        Image defaultImage = new Image(getClass().getResourceAsStream(defaultImagePath));
+        Image hoverImage = new Image(getClass().getResourceAsStream(hoverImagePath));
+        BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
+        BackgroundImage defaultBackground = new BackgroundImage(defaultImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+        BackgroundImage hoverBackground = new BackgroundImage(hoverImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 
+        button.setBackground(new Background(defaultBackground));
 
+        button.setOnMouseEntered(e -> button.setBackground(new Background(hoverBackground)));
+        button.setOnMouseExited(e -> button.setBackground(new Background(defaultBackground)));
     }
 
     @FXML
