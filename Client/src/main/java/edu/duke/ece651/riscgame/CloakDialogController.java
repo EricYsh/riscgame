@@ -2,7 +2,11 @@ package edu.duke.ece651.riscgame;
 
 import java.util.ArrayList;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Cloak;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -46,29 +50,22 @@ public class CloakDialogController {
     void click_cloak(ActionEvent event) {
         territoryCloak = territory_cloak.getText();
         boolean isValidInput = true;
-        
+
         if (territoryCloak == null || territoryCloak.isEmpty()) {
             isValidInput = false;
         }
-        
+
         if (isValidInput) {
             // for test
             System.out.println("Territory Cloak: " + territoryCloak);
-            
-            String[] territoryCloakArray = territoryCloak.split(" ");
+            Territory src = gameMap.getTerritoryByName(territoryCloak);
 
-            // TODO: check order!!
-            // for (String territory : territoryCloakArray) {
-            //     territoryCloakArray.add();
-            // }
-            // Territory src = gameMap.getTerritoryByName(sourceTerritory);
-            // Territory dest = gameMap.getTerritoryByName(targetTerritory);
-            // // TODO: check order!!
-            // Move moveOrder = new Move(unitsIndexList.size(), src, dest, Type.Move, clientID, unitsIndexList, null);
-            // ActionInfo info = new ActionInfo(moveOrder);
-            // netClient.sendActionInfo(info);
-            // moveOrder.run(gameMap);
-            
+            // issue cloak order
+            Cloak moveOrder = new Cloak(1, src, null, Type.Cloak, clientID, null, null);
+            ActionInfo info = new ActionInfo(moveOrder);
+            netClient.sendActionInfo(info);
+            moveOrder.run(gameMap);
+
             Stage stage = (Stage) cloak_btn.getScene().getWindow();
             stage.close();
         } else {

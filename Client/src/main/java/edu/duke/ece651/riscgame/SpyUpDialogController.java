@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.UpgradeSpy;
 import edu.duke.ece651.riscgame.order.UpgradeUnit;
 import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
@@ -81,11 +82,11 @@ public class SpyUpDialogController {
 
             Territory src = gameMap.getTerritoryByName(territoryIn);
             
-            // TODO: check order
-            // UpgradeUnit upgradeOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
-            // ActionInfo info = new ActionInfo(upgradeOrder);
-            // netClient.sendActionInfo(info);
-            // upgradeOrder.run(gameMap);
+            // issue upgrade spy order
+             UpgradeSpy upgradeOrder = new UpgradeSpy(unitsIndexList.size(), src, null, Type.UpgradeSpy, clientID, unitsIndexList, null);
+             ActionInfo info = new ActionInfo(upgradeOrder);
+             netClient.sendActionInfo(info);
+             upgradeOrder.run(gameMap);
             
             Stage stage = (Stage) up_unit_btn.getScene().getWindow();
             stage.close();
