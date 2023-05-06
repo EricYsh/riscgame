@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="178.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.UnitUpDialogController">
+<BorderPane prefHeight="178.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.CloakDialogController">
    <center>
       <AnchorPane prefHeight="394.0" prefWidth="532.0" BorderPane.alignment="CENTER">
          <children>

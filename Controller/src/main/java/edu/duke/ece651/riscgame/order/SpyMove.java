@@ -18,8 +18,14 @@ public class SpyMove extends Order{
         int spyIndex = this.getSelectedUnitsIndex().get(0);
         Spy tmp = gameMap.getTerritoryByName(getSrc().getName()).getSpies().get(spyIndex);
         int spyId = tmp.getSpyId();
-        gameMap.getTerritoryByName(getSrc().getName()).deleteSpy(spyId);
-        gameMap.getTerritoryByName(getDest().getName()).addSpyList(tmp);
+        int dest_ownerId = gameMap.getTerritoryByName(getDest().getName()).getOwnId();
+        if(dest_ownerId == this.getOrderOwnId()) { // move to own territory
+            gameMap.getTerritoryByName(getSrc().getName()).deleteSpy(spyId);
+            gameMap.getTerritoryByName(getDest().getName()).addSpyList(tmp);
+        } else { // move to enemy territory
+            gameMap.getTerritoryByName(getSrc().getName()).deleteSpy(spyId);
+            gameMap.getTerritoryByName(getDest().getName()).addEnemySpyList(tmp);
+        }
     }
 
     @Override

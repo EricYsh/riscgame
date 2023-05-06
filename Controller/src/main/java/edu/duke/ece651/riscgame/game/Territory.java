@@ -19,6 +19,8 @@ public class Territory implements Serializable {
     //  user input : 1,2,3
 
     private ArrayList<Spy> spies;
+
+    private ArrayList<Spy> enemySpies;
     UnitFactory unitFactory = new UnitFactory();
 
     public Territory(String tname) {
@@ -28,6 +30,8 @@ public class Territory implements Serializable {
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
         }
+        this.spies = new ArrayList<>();
+        this.enemySpies = new ArrayList<>();
         this.cloackTimes = 0;
         this.size = 10;
     }
@@ -42,6 +46,9 @@ public class Territory implements Serializable {
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
         }
+        this.spies = new ArrayList<>();
+        this.enemySpies = new ArrayList<>();
+        this.cloackTimes = 0;
         this.size = 10;
     }
 
@@ -135,18 +142,38 @@ public class Territory implements Serializable {
         units.addAll(unitsList);
     }
 
+
+
     public ArrayList<Spy> getSpies() {
         return spies;
+    }
+
+    public ArrayList<Spy> getEnemySpies() {
+        return enemySpies;
     }
 
     public void addSpyList(Spy... spyList) {
         spies.addAll(Arrays.asList(spyList));
     }
 
+    public void addEnemySpyList(Spy... spyList) {
+        enemySpies.addAll(List.of(spyList));
+    }
+
+
     public void deleteSpy(int spyId) {
         for (Spy s : spies) {
             if (s.getSpyId() == spyId) {
                 spies.remove(s);
+                break;
+            }
+        }
+    }
+
+    public void deleteEnemySpy(int spyId) {
+        for (Spy s : enemySpies) {
+            if (s.getSpyId() == spyId) {
+                enemySpies.remove(s);
                 break;
             }
         }
@@ -179,6 +206,7 @@ public class Territory implements Serializable {
 
     public String getAllUnitsInfo() {
         StringBuilder info = new StringBuilder("");
+        info.append("Size cost: ").append(size).append("\n");
         int[] levelCount = new int[7];
         List<List<Integer>> levelIndices = new ArrayList<>();
 
@@ -195,13 +223,29 @@ public class Territory implements Serializable {
 
         for (int i = 0; i < levelCount.length; i++) {
             info.append("Level " + i + " : " + levelCount[i]);
-            info.append(" with Index: " + "\n " + splitString(levelIndices.get(i).toString(), 30) );
+            info.append(" with Index: " + "\n " + splitString(levelIndices.get(i).toString(), 30));
             info.append("\n");
         }
+        // display all your spy with index
+        info.append("Spies: " + "\n");
+        int spy_index = 0;
+        if (spies.size() > 0){
+            for (Spy s : spies) {
+                if (s.getSpyId() == this.ownId) {
+                    info.append("Spy ").append(s.getSpyId()).append(" with index: ").append(spy_index++).append("\n");
+                }
+            }
+        } else {
+            info.append("No Spy in this territory");
+        }
+
         return info.toString();
     }
 
     public String getFogInfo() {
+        StringBuilder info = new StringBuilder("");
+        info.append("Size cost: ").append(size).append("\n");
+        info.append("This is not your territory! TODO");
         // TODO any immediately adjacent enemy territory is visible to the player
 
         // TODO for any territory that has never been seen, only the outline should be displayed,
@@ -209,7 +253,7 @@ public class Territory implements Serializable {
 
         // TODO if you have previously seen a territory, but no longer see it now (i.e. lose adjacncy)
         //  show what you know in the past and clearly indicate the info is old!!!
-        return "This is not your territory! TODO";
+        return info.toString();
     }
 
     public void displayAllUnit() {

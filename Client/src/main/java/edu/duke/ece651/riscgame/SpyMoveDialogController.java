@@ -5,6 +5,7 @@ import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Move;
+import edu.duke.ece651.riscgame.order.SpyMove;
 import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -92,7 +93,7 @@ public class SpyMoveDialogController {
             Territory src = gameMap.getTerritoryByName(sourceTerritory);
             Territory dest = gameMap.getTerritoryByName(targetTerritory);
             // TODO: check order!!
-            Move moveOrder = new Move(unitsIndexList.size(), src, dest, Type.Move, clientID, unitsIndexList, null);
+            SpyMove moveOrder = new SpyMove(unitsIndexList.size(), src, dest, Type.SpyMove, clientID, unitsIndexList, null);
             ActionInfo info = new ActionInfo(moveOrder);
             netClient.sendActionInfo(info);
             moveOrder.run(gameMap);
