@@ -66,6 +66,12 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
              if (oneOrder.getType() == Type.UpgradeUnit) {
                  check = upgradeUnitChecker.checkOrder(oneOrder, map);
              }
+            if (oneOrder.getType() == Type.UpgradeSpy) {
+                check = spyUpChecker.checkOrder(oneOrder, map);
+            }
+            if (oneOrder.getType() == Type.Cloak) {
+                check = cloakChecker.checkOrder(oneOrder, map);
+            }
             // GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {
                 System.out.println("receive valid order");

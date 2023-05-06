@@ -84,6 +84,7 @@ public class ViewController implements Initializable{
     }
 
     public boolean isTechUpgrade() {
+
         return isTechUpgrade;
     }
 
@@ -464,11 +465,13 @@ public class ViewController implements Initializable{
 
     @FXML
     void click_up_tech(ActionEvent event) {
-        UpgradeTech techUpgradeOrder = new UpgradeTech(0, null, null, Type.UpgradeTech, clientID, null, null);
-        ActionInfo info = new ActionInfo(techUpgradeOrder);
-        netClient.sendActionInfo(info);
-        techUpgradeOrder.run(boardGameMap);
-        setTechUpgrade(true);
+        if (!isTechUpgrade) {
+            UpgradeTech techUpgradeOrder = new UpgradeTech(0, null, null, Type.UpgradeTech, clientID, null, null);
+            ActionInfo info = new ActionInfo(techUpgradeOrder);
+            netClient.sendActionInfo(info);
+            techUpgradeOrder.run(boardGameMap);
+            setTechUpgrade(true);
+        }
         // setBoardGameMap(netClient.receiveGameMap());
     }
 
@@ -478,6 +481,7 @@ public class ViewController implements Initializable{
         ActionInfo info = new ActionInfo(commitOrder);
         netClient.sendActionInfo(info);
         setCommit(true);
+        setTechUpgrade(false);
 
         netClient.receiveValidationResult();
         setBoardGameMap(netClient.receiveGameMap());

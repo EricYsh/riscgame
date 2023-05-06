@@ -118,7 +118,7 @@ public class GameServer {
     public void executeOrders(ArrayList<Order> orders) {
         System.out.println("orders size:" + orders.size());
         // upgrade unit first
-        System.out.println("upgrade units....");
+        System.out.println("upgrade units || spy....");
         for (Order o : orders) {
             if (o.getType().equals(Type.UpgradeUnit) || o.getType().equals(Type.UpgradeSpy)) {
                 o.run(gameMap);
@@ -126,7 +126,7 @@ public class GameServer {
         }
 
         // make modification to gameMap
-        System.out.println("move units....");
+        System.out.println("move units || spy....");
         for (Order o : orders) {
             if (o.getType().equals(Type.Move) || o.getType().equals(Type.SpyMove)) {
                 o.run(gameMap);
@@ -154,6 +154,7 @@ public class GameServer {
             }
         }
 
+        System.out.println("attack....");
         ArrayList<ArrayList<Unit>> attackUnitList = new ArrayList<>();
         for (Order o : orders) {
             if (o.getType().equals(Type.Attack)) {
@@ -182,11 +183,15 @@ public class GameServer {
             }
         }
 
-        boolean Flag = false;
+        System.out.println("upgrade Technology Level....");
+        boolean[] Flag = { true, true, true, true, true };
         for (Order o : orders) {
-            if (!Flag && o.getType().equals(Type.UpgradeTech)) {
-                Flag = true;
-                o.run(gameMap);
+            if (o.getType().equals(Type.UpgradeTech)) {
+                int playerId = o.getOrderOwnId();
+                if (Flag[playerId]) {
+                    o.run(gameMap);
+                    Flag[playerId] = false;
+                }
             }
         }
 
