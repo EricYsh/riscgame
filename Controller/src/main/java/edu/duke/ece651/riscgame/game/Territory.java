@@ -11,7 +11,7 @@ public class Territory implements Serializable {
     private int size;
     private HashSet<Territory> neighbors;
     public int cloakTimes;
-    private int isResearched;
+
 
     private ArrayList<Unit> units;
     //  1 : level1
@@ -35,7 +35,6 @@ public class Territory implements Serializable {
         this.enemySpies = new ArrayList<>();
         this.cloakTimes = 0;
         this.size = 10;
-        this.isResearched = 1;
     }
 
     public Territory(String tName, String oName, int oId, int unitNum) {
@@ -52,7 +51,6 @@ public class Territory implements Serializable {
         this.enemySpies = new ArrayList<>();
         this.cloakTimes = 0;
         this.size = 10;
-        this.isResearched = 1;
     }
 
 
@@ -341,13 +339,6 @@ public class Territory implements Serializable {
         units.clear();
     }
 
-    public int getIsResearched() {
-        return isResearched;
-    }
-
-    public void setIsResearched(int isResearched) {
-        this.isResearched = isResearched;
-    }
 
     //    public boolean equals(Territory t1) {
 //        if (this.ownId == t1.ownId && this.getUnitNum() == t1.getUnitNum()) {

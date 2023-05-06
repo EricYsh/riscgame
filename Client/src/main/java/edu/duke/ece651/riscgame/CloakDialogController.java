@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Cloak;
 import edu.duke.ece651.riscgame.rule.Type;
@@ -109,15 +110,16 @@ public class CloakDialogController {
     }
 
     public void checkResource() {
-        int resource = gameMap.getPlayerById(clientID).getTechResource();
-        Territory target = gameMap.getTerritoryByName(territoryCloak);
-        if (target.getIsResearched() == 1 && resource < 120) {
+        Player p = gameMap.getPlayerById(clientID);
+        int resource = p.getTechResource();
+
+        if (p.getCloakFlag() == 1 && resource < 120) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Insufficient Resource");
             alert.setContentText("Your technology resource is not enough");
             alert.showAndWait();
-        } else if (target.getIsResearched() == 0 && resource < 20) {
+        } else if (p.getCloakFlag() == 0 && resource < 20) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Insufficient Resource");

@@ -20,6 +20,9 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
     private final OrderRuleChecker attackChecker;
     private final OrderRuleChecker upgradePlayerChecker;
     private final OrderRuleChecker upgradeUnitChecker;
+    private final OrderRuleChecker spyUpChecker;
+    private final OrderRuleChecker cloakChecker;
+
     private final GameMessageStream<ActionInfo> gameMsgStream;
     public ReceiveActionOrderThread(Socket socket, GameMap m1) {
         super(socket);
@@ -27,6 +30,8 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
         attackChecker = new DestChecker(new UnitChecker(new AdjacentChecker(new ConsumeFoodChecker(null))));
         upgradePlayerChecker = new UpgradePlayerLevelChecker(new UpgradePlayerResourceChecker(null));
         upgradeUnitChecker = new UpgradeUnitLevelChecker(new UpgradeUnitResourceChecker(null));
+        spyUpChecker = new UpgradeSpyResourcesChecker(null);
+        cloakChecker = new CloakTechResourceChecker(new CloakTechLevelChecker(null));
         gameMsgStream = new GameMessageStream<>();
         this.map = m1;
     }
@@ -49,18 +54,18 @@ public class ReceiveActionOrderThread extends SocketThread<Vector<Order> >{
                 orders.add(oneOrder);
                 return orders;
             }
-            // if (oneOrder.getType() == Type.Move) {
-            //     check = moveChecker.checkOrder(oneOrder, map);
-            // }
-            // if (oneOrder.getType() == Type.Attack) {
-            //     check = attackChecker.checkOrder(oneOrder, map);
-            // }
-            // if (oneOrder.getType() == Type.UpgradeTech) {
-            //     check = upgradePlayerChecker.checkOrder(oneOrder, map);
-            // }
-            // if (oneOrder.getType() == Type.UpgradeUnit) {
-            //     check = upgradeUnitChecker.checkOrder(oneOrder, map);
-            // }
+             if (oneOrder.getType() == Type.Move) {
+                 check = moveChecker.checkOrder(oneOrder, map);
+             }
+             if (oneOrder.getType() == Type.Attack) {
+                 check = attackChecker.checkOrder(oneOrder, map);
+             }
+             if (oneOrder.getType() == Type.UpgradeTech) {
+                 check = upgradePlayerChecker.checkOrder(oneOrder, map);
+             }
+             if (oneOrder.getType() == Type.UpgradeUnit) {
+                 check = upgradeUnitChecker.checkOrder(oneOrder, map);
+             }
             // GameMessageStream.sendObject(new ValidationResult(check, false), socket);
             if (check == null) {
                 System.out.println("receive valid order");
