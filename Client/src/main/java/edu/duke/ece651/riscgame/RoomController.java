@@ -1,16 +1,15 @@
 package edu.duke.ece651.riscgame;
 
-import java.net.Socket;
-import java.util.HashMap;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-
 import javafx.stage.Stage;
+
+import java.net.Socket;
+import java.util.HashMap;
 
 public class RoomController {
 
@@ -21,7 +20,7 @@ public class RoomController {
     public NetClient netClient;
 
     public HashMap<Integer, Integer> roomInfo = new HashMap<Integer, Integer>();
-
+    public HashMap<Integer, NetClient> NetClientInfo = new HashMap<>();
 
     public LoginController loginController1, loginController2, loginController3;
 
@@ -49,9 +48,20 @@ public class RoomController {
 
     @FXML
     void click_one(ActionEvent event) throws Exception {
-        netClient = new NetClient(8888);
-        int clientID = netClient.receiveClientID();
-        roomInfo.put(1, clientID);
+        int clientID = - 2;
+        if (roomInfo.containsKey(1)) {
+            System.out.println("s");
+            clientID = roomInfo.get(1);
+            System.out.println("a");
+            netClient = NetClientInfo.get(1);
+            System.out.println("b");
+        } else {
+            netClient = new NetClient(8888);
+            clientID = netClient.receiveClientID();
+            roomInfo.put(1, clientID);
+            NetClientInfo.put(1, netClient);
+        }
+        System.out.println("room 1, client ID: " + clientID);
         //gui
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();
@@ -81,6 +91,7 @@ public class RoomController {
         Scene scene = new Scene(root, 400, 250);
         loginController2 = loader.getController();
         loginController2.setNetClient(netClient);
+        loginController2.setClientId(clientID);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
@@ -96,12 +107,14 @@ public class RoomController {
         netClient = new NetClient(8890);
         int clientID = netClient.receiveClientID();
         roomInfo.put(3, clientID);
+        System.out.println("room 3, client ID: " + clientID);
         //gui
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 400, 250);
         loginController3 = loader.getController();
         loginController3.setNetClient(netClient);
+        loginController3.setClientId(clientID);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
