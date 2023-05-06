@@ -10,10 +10,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+
 
 <BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.ViewController">
    <top>
       <AnchorPane prefHeight="587.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+          <background>
+        <Background>
+              <images>
+            <BackgroundImage>
+                <image>
+                    <Image url="@test.png" />
+                </image>
+                                <size>
+                    <BackgroundSize width="1200" height="600" />
+                </size>
+            </BackgroundImage>
+        </images>
+
+</Background>
+    </background>
          <children>         
             <Polygon fx:id="player1_t1" fill="#f44336" layoutX="275.0" layoutY="70.0" onMouseClicked="#click_player1_t1" stroke="BLACK" strokeType="INSIDE">
                 <points>
@@ -340,7 +357,7 @@
                   <Double fx:value="40.0" />
                </points>
             </Polygon>
-            <Button fx:id="attack_btn" layoutX="790.0" layoutY="385.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack" />
+            <Button fx:id="attack_btn" layoutX="790.0" layoutY="385.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack"/>
             <Button fx:id="move_btn" layoutX="790.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_move" prefHeight="50.0" prefWidth="150.0" text="Move" />
             <Button fx:id="upgrade_unit_btn" layoutX="991.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_up_unit" prefHeight="50.0" prefWidth="150.0" text="Unit Up" />
             <Button fx:id="commit_btn" layoutX="986.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_commit" prefHeight="50.0" prefWidth="150.0" text="Commit" />
