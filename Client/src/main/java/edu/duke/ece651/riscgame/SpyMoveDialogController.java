@@ -127,15 +127,7 @@ public class SpyMoveDialogController {
     //src must be the clientID's own territory && valid dest
 
     private void  checkTerritoryName() {
-        if (gameMap.getTerritoryByName(sourceTerritory) != null && gameMap.getTerritoryByName(targetTerritory) != null) {
-            if (gameMap.getTerritoryByName(sourceTerritory).getOwnId() != clientID) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Invalid Input");
-                alert.setContentText("You don't own " + sourceTerritory);
-                alert.showAndWait();
-            }
-        } else {
+        if (gameMap.getTerritoryByName(sourceTerritory) == null || gameMap.getTerritoryByName(targetTerritory) == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Invalid Input");

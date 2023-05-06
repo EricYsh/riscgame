@@ -712,7 +712,7 @@ public class ViewController implements Initializable{
     private void setColor(int clientID, Polygon player1_t1) {
         switch (clientID + 1) {
             case 1:
-                player1_t1.setFill(Color.web("#f4727d"));
+                player1_t1.setFill(Color.web("#f44336"));
                 break;
             case 2:
                 player1_t1.setFill(Color.web("#4caf50"));

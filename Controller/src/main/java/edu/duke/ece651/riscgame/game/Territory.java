@@ -235,7 +235,7 @@ public class Territory implements Serializable {
             int spy_index = 0;
             if (spies.size() > 0) {
                 for (Spy s : spies) {
-                    if (s.getSpyId() == this.ownId) {
+                    if (s.getOwnerId() == this.ownId) {
                         info.append("Spy ").append(s.getSpyId()).append(" with index: ").append(spy_index++).append("\n");
                     }
                 }
