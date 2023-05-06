@@ -5,7 +5,6 @@ import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Commit;
 import edu.duke.ece651.riscgame.order.LogOut;
-import edu.duke.ece651.riscgame.order.Switch;
 import edu.duke.ece651.riscgame.order.UpgradeTech;
 import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
@@ -23,6 +22,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -72,6 +76,7 @@ public class ViewController implements Initializable{
     }
 
     public boolean isTechUpgrade() {
+
         return isTechUpgrade;
     }
 
@@ -153,7 +158,21 @@ public class ViewController implements Initializable{
         cloak_btn.setBackground(new Background(background));
         spy_move_btn.setBackground(new Background(background));
         upgrade_spy_unit_btn.setBackground(new Background(background));
-        
+
+        Media audioFile = new Media(getClass().getResource("/audio/bgm.mp3").toExternalForm());
+
+
+        // Create a new MediaPlayer with the audio file
+        MediaPlayer mediaPlayer = new MediaPlayer(audioFile);
+
+
+        // Set the MediaPlayer to loop indefinitely
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Start playing the audio
+        mediaPlayer.play();
+
+
 
     }
 
@@ -441,11 +460,13 @@ public class ViewController implements Initializable{
 
     @FXML
     void click_up_tech(ActionEvent event) {
-        UpgradeTech techUpgradeOrder = new UpgradeTech(0, null, null, Type.UpgradeTech, clientID, null, null);
-        ActionInfo info = new ActionInfo(techUpgradeOrder);
-        netClient.sendActionInfo(info);
-        techUpgradeOrder.run(boardGameMap);
-        setTechUpgrade(true);
+        if (!isTechUpgrade) {
+            UpgradeTech techUpgradeOrder = new UpgradeTech(0, null, null, Type.UpgradeTech, clientID, null, null);
+            ActionInfo info = new ActionInfo(techUpgradeOrder);
+            netClient.sendActionInfo(info);
+            techUpgradeOrder.run(boardGameMap);
+            setTechUpgrade(true);
+        }
         // setBoardGameMap(netClient.receiveGameMap());
     }
 
@@ -454,8 +475,10 @@ public class ViewController implements Initializable{
         Commit commitOrder = new Commit(0, null, null, Type.Commit, clientID, null, null);
         ActionInfo info = new ActionInfo(commitOrder);
         netClient.sendActionInfo(info);
-        netClient.receiveValidationResult();
         setCommit(true);
+        setTechUpgrade(false);
+
+        netClient.receiveValidationResult();
         setBoardGameMap(netClient.receiveGameMap());
         System.out.println("player " + clientID + " : " + boardGameMap.isLose(clientID));
         if (boardGameMap.isLose(clientID)) {// return true when the player lost
@@ -612,71 +635,71 @@ public class ViewController implements Initializable{
 
     //change the color of the territory, according to the winner name
     public void changeTerritoryColor(int clientID, String territoryName) {
-        switch (clientID) {
+        switch (territoryName) {
+            case "T1":
+                setColor(clientID, player1_t1);
+                break;
+            case "T2":
+                setColor(clientID, player1_t2);
+                break;
+            case "T3":
+                setColor(clientID, player1_t3);
+                break;
+            case "T4":
+                setColor(clientID, player2_t1);
+                break;
+            case "T5":
+                setColor(clientID, player2_t2);
+                break;
+            case "T6":
+                setColor(clientID, player2_t3);
+                break;
+            case "T7":
+                setColor(clientID, player3_t1);
+                break;
+            case "T8":
+                setColor(clientID, player3_t2);
+                break;
+            case "T9":
+                setColor(clientID, player3_t3);
+                break;
+            case "T10":
+                setColor(clientID, player4_t1);
+                break;
+            case "T11":
+                setColor(clientID, player4_t2);
+                break;
+            case "T12":
+                setColor(clientID, player4_t3);
+                break;
+            case "T13":
+                setColor(clientID, player5_t1);
+                break;
+            case "T14":
+                setColor(clientID, player5_t2);
+                break;
+            case "T15":
+                setColor(clientID, player5_t3);
+                break;
+        }
+    }
+
+    private void setColor(int clientID, Polygon player1_t1) {
+        switch (clientID + 1) {
             case 1:
-                switch (territoryName) {
-                    case "Player 1 Territory 1":
-                        player1_t1.setFill(Color.RED);
-                        break;
-                    case "Player 1 Territory 2":
-                        player1_t2.setFill(Color.RED);
-                        break;
-                    case "Player 1 Territory 3":
-                        player1_t3.setFill(Color.RED);
-                        break;
-                }
+                player1_t1.setFill(Color.web("#f4727d"));
                 break;
             case 2:
-                switch (territoryName) {
-                    case "Player 2 Territory 1":
-                        player2_t1.setFill(Color.BLUE);
-                        break;
-                    case "Player 2 Territory 2":
-                        player2_t2.setFill(Color.BLUE);
-                        break;
-                    case "Player 2 Territory 3":
-                        player2_t3.setFill(Color.BLUE);
-                        break;
-                }
+                player1_t1.setFill(Color.web("#4caf50"));
                 break;
             case 3:
-                switch (territoryName) {
-                    case "Player 3 Territory 1":
-                        player3_t1.setFill(Color.GREEN);
-                        break;
-                    case "Player 3 Territory 2":
-                        player3_t2.setFill(Color.GREEN);
-                        break;
-                    case "Player 3 Territory 3":
-                        player3_t3.setFill(Color.GREEN);
-                        break;
-                }
+                player1_t1.setFill(Color.web("#2196f3"));
                 break;
             case 4:
-                switch (territoryName) {
-                    case "Player 4 Territory 1":
-                        player4_t1.setFill(Color.YELLOW);
-                        break;
-                    case "Player 4 Territory 2":
-                        player4_t2.setFill(Color.YELLOW);
-                        break;
-                    case "Player 4 Territory 3":
-                        player4_t3.setFill(Color.YELLOW);
-                        break;
-                }
+                player1_t1.setFill(Color.web("#ffeb3b"));
                 break;
             case 5:
-                switch (territoryName) {
-                    case "Player 5 Territory 1":
-                        player5_t1.setFill(Color.PURPLE);
-                        break;
-                    case "Player 5 Territory 2":
-                        player5_t2.setFill(Color.PURPLE);
-                        break;
-                    case "Player 5 Territory 3":
-                        player5_t3.setFill(Color.PURPLE);
-                        break;
-                }
+                player1_t1.setFill(Color.web("#9c27b0"));
                 break;
         }
     }

@@ -21,7 +21,7 @@
               <images>
             <BackgroundImage>
                 <image>
-                    <Image url="@test.png" />
+                    <Image url="@images/bg2.png" />
                 </image>
                                 <size>
                     <BackgroundSize width="1200" height="600" />
@@ -272,11 +272,11 @@
                   <Double fx:value="262.5" />
                </points>
             </Polygon>
-            <Label layoutX="25.0" layoutY="555.0" text="Player 1" />
-            <Label layoutX="175.0" layoutY="555.0" text="Player 2" />
-            <Label layoutX="325.0" layoutY="555.0" text="Player 3" />
-            <Label layoutX="475.0" layoutY="555.0" text="Player 4" />
-            <Label layoutX="625.0" layoutY="555.0" text="Player 5" />
+            <Label layoutX="25.0" layoutY="555.0" text="Player 1" textFill="WHITE"/>
+            <Label layoutX="175.0" layoutY="555.0" text="Player 2" textFill="WHITE"/>
+            <Label layoutX="325.0" layoutY="555.0" text="Player 3" textFill="WHITE"/>
+            <Label layoutX="475.0" layoutY="555.0" text="Player 4" textFill="WHITE"/>
+            <Label layoutX="625.0" layoutY="555.0" text="Player 5" textFill="WHITE"/>
             <Polygon fill="#f44336" layoutX="108.0" layoutY="531.0" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="10.0" />

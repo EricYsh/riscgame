@@ -253,6 +253,9 @@ public class Territory implements Serializable {
         return info.toString();
     }
 
+    private boolean[] visibleForPlayer = {false, false, false, false, false};
+    private StringBuilder oldInfo;
+
     public boolean isVisible(int viewerId) {
         for (Spy s : enemySpies) {
             if (s.getOwnerId() == viewerId) {
@@ -275,9 +278,14 @@ public class Territory implements Serializable {
         //  but no information about who occurpy it or how many units are there
         if (isVisible(viewerId)) {
             info.append(getAllUnitsInfo(viewerId));
+            System.out.println("visible" + viewerId);
+            visibleForPlayer[viewerId] = true;
         }
         // TODO if you have previously seen a territory, but no longer see it now (i.e. lose adjacncy)
         //  show what you know in the past and clearly indicate the info is old!!!
+        oldInfo = info;
+
+
         return info.toString();
     }
 

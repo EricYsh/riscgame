@@ -27,12 +27,12 @@ public class UpgradeUnitResourceChecker extends OrderRuleChecker{
             int maxLevel = player.getTechLevel();
             ArrayList<Unit> units = map.getTerritoryByName(theOrder.getSrc().getName()).getUnits();
 
-            for (Integer i : theOrder.getSelectedUnitsIndex()) {
+            ArrayList<Integer> levelToUpgrade = theOrder.getLevelToUpgrade();
+            for (int i = 0; i < levelToUpgrade.size(); i++) {
                 int originLevel = units.get(i).getLevel();
-                int aimLevel = theOrder.getLevelToUpgrade().get(i);
+                int aimLevel = levelToUpgrade.get(i);
                 int TechCost = costForUpgrade[aimLevel] - costForUpgrade[originLevel];
-                if (TechCost <= originTech) return null;
-                return "The technology resources are not enough to upgrade";
+                if (TechCost > originTech) return "The technology resources are not enough to upgrade";
             }
             return null;
         }

@@ -22,7 +22,7 @@ public class Player implements Serializable {
         this.playerName = playerName;
         this.techLevel = 1;
         this.techResource = 150;
-        this.foodResource = 30;
+        this.foodResource = 300;
         this.cloakFlag = 1;
     }
 
