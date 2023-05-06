@@ -103,15 +103,12 @@ public class SpyMoveDialogController {
             System.out.println("sourceTerritory: " + sourceTerritory);
             System.out.println("targetTerritory: " + targetTerritory);
             System.out.println("unitsIndex: " + unitsIndex);
-            String[] unitsIndexArray = unitsIndex.split(" ");
             ArrayList<Integer> unitsIndexList = new ArrayList<Integer>();
-            for (String index : unitsIndexArray) {
-                unitsIndexList.add(Integer.parseInt(index));
-            }
+            unitsIndexList.add(Integer.parseInt(unitsIndex));
             Territory src = gameMap.getTerritoryByName(sourceTerritory);
             Territory dest = gameMap.getTerritoryByName(targetTerritory);
-            // TODO: check order!!
-            SpyMove moveOrder = new SpyMove(unitsIndexList.size(), src, dest, Type.SpyMove, clientID, unitsIndexList, null);
+            // issue spy move order
+            SpyMove moveOrder = new SpyMove(1, src, dest, Type.SpyMove, clientID, unitsIndexList, null);
             ActionInfo info = new ActionInfo(moveOrder);
             netClient.sendActionInfo(info);
             moveOrder.run(gameMap);

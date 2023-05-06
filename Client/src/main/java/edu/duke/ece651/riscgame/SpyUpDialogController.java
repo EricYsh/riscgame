@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
 import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.UpgradeSpy;
 import edu.duke.ece651.riscgame.order.UpgradeUnit;
 import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
@@ -13,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import static edu.duke.ece651.riscgame.MoveDialogController.validateInputUnitIndex;
 
 public class SpyUpDialogController {
     private String territoryIn;
@@ -67,7 +70,15 @@ public class SpyUpDialogController {
         if (unitsIndex == null || unitsIndex.isEmpty()) {
             isValidInput = false;
         }
-        
+        checkSourceName(territoryIn);
+        if (!checkUnitIndex(territoryIn, unitsIndex)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Invalid Unit Index");
+            alert.showAndWait();
+        }
+        checkResource();
         if (isValidInput) {
             // for test
             System.out.println("territoryIn: " + territoryIn);
@@ -80,12 +91,12 @@ public class SpyUpDialogController {
             }
 
             Territory src = gameMap.getTerritoryByName(territoryIn);
-            
-            // TODO: check order
-//             UpgradeUnit upgradeOrder = new UpgradeUnit(unitsIndexList.size(), src, null, Type.UpgradeUnit, clientID, unitsIndexList, unitsLevelToList);
-//             ActionInfo info = new ActionInfo(upgradeOrder);
-//             netClient.sendActionInfo(info);
-//             upgradeOrder.run(gameMap);
+
+            // issue upgrade spy order
+             UpgradeSpy upgradeOrder = new UpgradeSpy(unitsIndexList.size(), src, null, Type.UpgradeSpy, clientID, unitsIndexList, null);
+             ActionInfo info = new ActionInfo(upgradeOrder);
+             netClient.sendActionInfo(info);
+             upgradeOrder.run(gameMap);
             
             Stage stage = (Stage) up_unit_btn.getScene().getWindow();
             stage.close();
@@ -94,6 +105,43 @@ public class SpyUpDialogController {
             alert.setTitle("Error");
             alert.setHeaderText("Invalid Input");
             alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+        }
+    }
+
+//Src must be valid and it is the player's territory
+    private void checkSourceName(String srcName) {
+        if (gameMap.getTerritoryByName(srcName) != null) {
+            if (gameMap.getTerritoryByName(srcName).getOwnId() != clientID) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You don't own " + srcName);
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please enter a valid territory name");
+            alert.showAndWait();
+        }
+    }
+//Unit index must be valid
+    private boolean checkUnitIndex(String srcName, String unitsIndex) {
+        int maxNum = gameMap.getTerritoryByName(srcName).getUnits().size();
+        ArrayList<Integer> numbers  = new ArrayList<>();
+        //    System.out.print("Please enter numbers with max length: " + maxNum);
+        return validateInputUnitIndex(unitsIndex, numbers, maxNum);
+    }
+
+    public void checkResource() {
+        int resource = gameMap.getPlayerById(clientID).getTechResource();
+        if (resource < 20) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Insufficient Resource");
+            alert.setContentText("Your technology resource is not enough");
             alert.showAndWait();
         }
     }

@@ -50,12 +50,14 @@ public class GameServer {
             countryName.add(countries[i]);
         }
     }
-    public void connect () {
+
+    public void connect() {
         netServer.connectWithMultiClients();
         System.out.println("connected");
         netServer.sendClientID();
 
     }
+
     public void GameInit() {
         int numUnit = 30;
 
@@ -102,6 +104,7 @@ public class GameServer {
         System.out.println(gameMap.getTerritoryNameAndUnitNums());
         System.out.println(gameMap.getTerritoryNameAndOwnership());
     }
+
     //TODO: check this func by tests
     private void playerLost() {
         for (int i = 0; i < numClient; i++) {
@@ -116,7 +119,7 @@ public class GameServer {
         // upgrade unit first
         System.out.println("upgrade units....");
         for (Order o : orders) {
-            if (o.getType().equals(Type.UpgradeUnit)) {
+            if (o.getType().equals(Type.UpgradeUnit) || o.getType().equals(Type.UpgradeSpy)) {
                 o.run(gameMap);
             }
         }
@@ -124,7 +127,7 @@ public class GameServer {
         // make modification to gameMap
         System.out.println("move units....");
         for (Order o : orders) {
-            if (o.getType().equals(Type.Move)) {
+            if (o.getType().equals(Type.Move) || o.getType().equals(Type.SpyMove)) {
                 o.run(gameMap);
             }
         }
@@ -155,7 +158,7 @@ public class GameServer {
             if (o.getType().equals(Type.Attack)) {
                 ArrayList<Unit> origin = gameMap.getTerritoryByName(o.getSrc().getName()).getUnits();
                 ArrayList<Unit> unitForAttack = new ArrayList<>();
-                for(Integer i : o.getSelectedUnitsIndex()) {
+                for (Integer i : o.getSelectedUnitsIndex()) {
                     unitForAttack.add(origin.get(i));
                 }
                 attackUnitList.add(unitForAttack);
@@ -178,14 +181,22 @@ public class GameServer {
             }
         }
 
-    boolean Flag = false;
-        for(Order o : orders) {
+        boolean Flag = false;
+        for (Order o : orders) {
             if (!Flag && o.getType().equals(Type.UpgradeTech)) {
                 Flag = true;
                 o.run(gameMap);
             }
         }
+
+        System.out.println("cloak....");
+        for (Order o : orders) {
+            if (o.getType().equals(Type.Cloak)) {
+                o.run(gameMap);
+            }
+        }
     }
+
 
     public GameMap getGameMap() {
         return gameMap;

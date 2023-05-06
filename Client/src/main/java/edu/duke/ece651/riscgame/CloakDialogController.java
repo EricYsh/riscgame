@@ -2,7 +2,11 @@ package edu.duke.ece651.riscgame;
 
 import java.util.ArrayList;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
 import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Cloak;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -46,29 +50,24 @@ public class CloakDialogController {
     void click_cloak(ActionEvent event) {
         territoryCloak = territory_cloak.getText();
         boolean isValidInput = true;
-        
+
         if (territoryCloak == null || territoryCloak.isEmpty()) {
             isValidInput = false;
         }
-        
+        checkSourceName(territoryCloak);
+        checkLevel();
+        checkResource();
         if (isValidInput) {
             // for test
             System.out.println("Territory Cloak: " + territoryCloak);
-            
-            String[] territoryCloakArray = territoryCloak.split(" ");
+            Territory src = gameMap.getTerritoryByName(territoryCloak);
 
-            // TODO: check order!!
-            // for (String territory : territoryCloakArray) {
-            //     territoryCloakArray.add();
-            // }
-            // Territory src = gameMap.getTerritoryByName(sourceTerritory);
-            // Territory dest = gameMap.getTerritoryByName(targetTerritory);
-            // // TODO: check order!!
-            // Move moveOrder = new Move(unitsIndexList.size(), src, dest, Type.Move, clientID, unitsIndexList, null);
-            // ActionInfo info = new ActionInfo(moveOrder);
-            // netClient.sendActionInfo(info);
-            // moveOrder.run(gameMap);
-            
+            // issue cloak order
+            Cloak moveOrder = new Cloak(1, src, null, Type.Cloak, clientID, null, null);
+            ActionInfo info = new ActionInfo(moveOrder);
+            netClient.sendActionInfo(info);
+            moveOrder.run(gameMap);
+
             Stage stage = (Stage) cloak_btn.getScene().getWindow();
             stage.close();
         } else {
@@ -76,6 +75,53 @@ public class CloakDialogController {
             alert.setTitle("Error");
             alert.setHeaderText("Invalid Input");
             alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+        }
+    }
+
+    private void checkSourceName(String srcName) {
+        if (gameMap.getTerritoryByName(srcName) != null) {
+            if (gameMap.getTerritoryByName(srcName).getOwnId() != clientID) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You don't own " + srcName);
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please enter a valid territory name");
+            alert.showAndWait();
+        }
+    }
+
+    public void checkLevel() {
+       int level = gameMap.getPlayerById(clientID).getTechLevel();
+       if (level < 3) {
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+           alert.setTitle("Error");
+           alert.setHeaderText("Insufficient Level");
+           alert.setContentText("Your techLevel must be greater than or equal to 3");
+           alert.showAndWait();
+       }
+    }
+
+    public void checkResource() {
+        int resource = gameMap.getPlayerById(clientID).getTechResource();
+        Territory target = gameMap.getTerritoryByName(territoryCloak);
+        if (target.getIsResearched() == 1 && resource < 120) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Insufficient Resource");
+            alert.setContentText("Your technology resource is not enough");
+            alert.showAndWait();
+        } else if (target.getIsResearched() == 0 && resource < 20) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Insufficient Resource");
+            alert.setContentText("Your technology resource is not enough");
             alert.showAndWait();
         }
     }

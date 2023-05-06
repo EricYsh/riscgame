@@ -79,6 +79,10 @@ public class Territory implements Serializable {
         this.cloakTimes = cloakTimes;
     }
 
+    public void minusCloakByOne() {
+        this.cloakTimes--;
+    }
+
     public ArrayList<Unit> getUnits() {
         return units;
     }
@@ -230,7 +234,6 @@ public class Territory implements Serializable {
         }
         // display all your spy with index
         if (this.getOwnId() == viewerId) {
-            info.append("Spies: " + "\n");
             int spy_index = 0;
             if (spies.size() > 0) {
                 for (Spy s : spies) {
@@ -239,7 +242,13 @@ public class Territory implements Serializable {
                     }
                 }
             } else {
-                info.append("No Your Own Spy in this territory");
+                info.append("Spies: No Your Own Spy in this territory\n");
+            }
+            if (cloakTimes > 0) {
+                info.append("Cloak remaining times: ").append(cloakTimes).append("\n");
+            }
+            else {
+                info.append("No Cloak \n");
             }
         }
 
@@ -263,9 +272,8 @@ public class Territory implements Serializable {
 
     public String getFogInfo(int viewerId) {
         StringBuilder info = new StringBuilder("");
-        // TODO any immediately adjacent enemy territory is visible to the player
-
-        // TODO for any territory that has never been seen, only the outline should be displayed,
+        // any immediately adjacent enemy territory is visible to the player
+        // for any territory that has never been seen, only the outline should be displayed,
         //  but no information about who occurpy it or how many units are there
         if (isVisible(viewerId)) {
             info.append(getAllUnitsInfo(viewerId));
