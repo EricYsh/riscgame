@@ -107,6 +107,12 @@ public class BoardGameMap implements GameMap, Serializable {
             p.addFoodResource(p.getTerritoriesNum() * getTerritories().get(0).getFoodResource());
             p.addTechResource(p.getTerritoriesNum() * getTerritories().get(0).getTechResource());
         }
+
+        for(Territory t : territories) {
+            if (t.getCloakTimes() > 0) {
+                t.minusCloakByOne();
+            }
+        }
     }
 
     public Vector<Territory> getTerritoriesByOwnId(int ownId) {

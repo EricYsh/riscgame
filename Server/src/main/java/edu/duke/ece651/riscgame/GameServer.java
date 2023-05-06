@@ -92,7 +92,8 @@ public class GameServer {
         //     System.out.println(oneOrder.toString());
         // }
         executeOrders(orders);
-        gameMap.callUp(); // add one unit in territories
+        gameMap.callUp();
+        // add one unit in territories
         playerLost();
         // netServer.reLogin(players);
 

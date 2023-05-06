@@ -10,6 +10,7 @@ public class Player implements Serializable {
     private final int clientID;
     private String playerName;
     private String password;
+    private int cloakFlag;
     // private Vector<Territory> ownedTerr;
     private int techLevel;
     private int techResource; // send to server and receive back each turn
@@ -22,6 +23,7 @@ public class Player implements Serializable {
         this.techLevel = 1;
         this.techResource = 150;
         this.foodResource = 30;
+        this.cloakFlag = 1;
     }
 
     public String getPlayerName() {
@@ -90,5 +92,13 @@ public class Player implements Serializable {
 
     public void minusFoodResource(int foodResource) {
         this.foodResource -= foodResource;
+    }
+
+    public int getCloakFlag() {
+        return cloakFlag;
+    }
+
+    public void setCloakFlag(int cloakFlag) {
+        this.cloakFlag = cloakFlag;
     }
 }
