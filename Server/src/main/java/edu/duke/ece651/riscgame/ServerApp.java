@@ -2,11 +2,6 @@ package edu.duke.ece651.riscgame;
 
 import java.io.IOException;
 
-import edu.duke.ece651.riscgame.RoomController;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
-
 public class ServerApp {
     public String getGreeting() {
         return "Hello World!";
@@ -25,39 +20,53 @@ public class ServerApp {
             System.out.println("err: number of players must be between 2 and 5");
             return;
         }
+        // GameServer gameServer = new GameServer(numClient);
+        // gameServer.GameInit();
+        // gameServer.playRounds();
+        // gameServer.gameOver();
+    
+
+
 
         Room room1 = new Room(1, numClient, 8888);
         Room room2 = new Room(2, numClient, 8889);
         Room room3 = new Room(3, numClient, 8890);
+        Thread thread1 = new Thread(room1);
+        Thread thread2 = new Thread(room2);
+        Thread thread3 = new Thread(room3);
 
-        // Load FXML file and create RoomController object
-        // how to load the fxml file
-        //TODO: toolkit bug, why??
+        thread1.start();
+        thread2.start();
+        thread3.start();
 
-        Platform.startup(() -> {});
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServerApp.class.getResource("/Room.fxml"));
-        AnchorPane room = loader.load();
-        RoomController roomController = loader.getController();
+        // // Load FXML file and create RoomController object
+        // // how to load the fxml file
+        // //TODO: toolkit bug, why??
 
-        // Get room ID from RoomController
-        int roomID = roomController.getRoomID();
+        // Platform.startup(() -> {});
+        // FXMLLoader loader = new FXMLLoader();
+        // loader.setLocation(ServerApp.class.getResource("/Room.fxml"));
+        // AnchorPane room = loader.load();
+        // RoomController roomController = loader.getController();
 
-        // Start corresponding Room object based on room ID
-        switch (roomID) {
-            case 1:
-                room1.start();
-                break;
-            case 2:
-                room2.start();
-                break;
-            case 3:
-                room3.start();
-                break;
-            default:
-                System.out.println("err: invalid room ID");
-                break;
-        }
+        // // Get room ID from RoomController
+        // int roomID = roomController.getRoomID();
+
+        // // Start corresponding Room object based on room ID
+        // switch (roomID) {
+        //     case 1:
+        //         room1.start();
+        //         break;
+        //     case 2:
+        //         room2.start();
+        //         break;
+        //     case 3:
+        //         room3.start();
+        //         break;
+        //     default:
+        //         System.out.println("err: invalid room ID");
+        //         break;
+        // }
 
     }
 

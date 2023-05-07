@@ -44,7 +44,9 @@ public abstract class Order implements Serializable {
         this.levelToUpgrade = levelToUpgrade;
     }
     // Getters
-
+    public String toString() {
+        return "Order: " + type + " " + unitNum + " " + src.getName() + " " + dest.getName();
+    }
     public ArrayList<Integer> getLevelToUpgrade() {
         return levelToUpgrade;
     }

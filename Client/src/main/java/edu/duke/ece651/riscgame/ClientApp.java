@@ -40,15 +40,16 @@ public class ClientApp extends Application{
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Room.fxml"));
         
-        Scene scene = new Scene(loader.load(), 1000, 600);
+        Scene scene = new Scene(loader.load(), 300, 300);
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("RISC Game Room");
         stage.show();
-
     }
 
 
     public static void main(String[] args) {
-       launch(args); // load the GUI
+        launch(args); // load the GUI
         System.out.println(new ClientApp().getGreeting());
 
         GameClient gameClient = new GameClient(System.in);
@@ -60,6 +61,7 @@ public class ClientApp extends Application{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
 //        gameClient.gameOver();
 
 //         the two lines below for testing assign units manually

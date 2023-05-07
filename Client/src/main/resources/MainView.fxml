@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
@@ -10,14 +11,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.ViewController">
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="58.0" layoutY="553.0" text="Player 1" />
-         
-            <Polygon fx:id="player1_t1" fill="#f44336" layoutX="275.0" layoutY="70.0" onMouseClicked="#click_player1_t1" stroke="BLACK" strokeType="INSIDE">
+<BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.ViewController">
+   <top>
+      <AnchorPane prefHeight="587.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+          <background>
+        <Background>
+              <images>
+            <BackgroundImage>
+                <image>
+                    <Image url="@images/bg2.png" />
+                </image>
+                                <size>
+                    <BackgroundSize height="600" width="1200" />
+                </size>
+            </BackgroundImage>
+        </images>
+
+</Background>
+    </background>
+         <children>         
+            <Polygon fx:id="player1_t1" fill="#f44336" layoutX="304.0" layoutY="70.0" onMouseClicked="#click_player1_t1" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="100.0" />
                     <Double fx:value="75.0" />
@@ -33,7 +48,7 @@
                     <Double fx:value="137.5" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player1_t2" fill="#f44336" layoutX="251.0" layoutY="69.0" onMouseClicked="#click_player1_t2" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player1_t2" fill="#f44336" layoutX="280.0" layoutY="69.0" onMouseClicked="#click_player1_t2" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="50.0" />
                   <Double fx:value="137.5" />
@@ -49,7 +64,7 @@
                   <Double fx:value="200.0" />
                </points>
             </Polygon>
-            <Polygon fx:id="player1_t3" fill="#f44336" layoutX="299.0" layoutY="134.0" onMouseClicked="#click_player1_t3" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player1_t3" fill="#f44336" layoutX="328.0" layoutY="134.0" onMouseClicked="#click_player1_t3" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="150.0" />
                     <Double fx:value="75.0" />
@@ -65,7 +80,7 @@
                     <Double fx:value="137.5" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player2_t1" fill="#4caf50" layoutX="325.0" layoutY="132.0" onMouseClicked="#click_player2_t1" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player2_t1" fill="#4caf50" layoutX="354.0" layoutY="132.0" onMouseClicked="#click_player2_t1" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="50.0" />
                   <Double fx:value="137.5" />
@@ -81,7 +96,7 @@
                   <Double fx:value="200.0" />
                </points>
             </Polygon>
-            <Polygon fx:id="player2_t2" fill="#4caf50" layoutX="251.0" layoutY="194.0" onMouseClicked="#click_player2_t2" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player2_t2" fill="#4caf50" layoutX="280.0" layoutY="194.0" onMouseClicked="#click_player2_t2" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="50.0" />
                   <Double fx:value="137.5" />
@@ -97,7 +112,7 @@
                   <Double fx:value="200.0" />
                </points>
             </Polygon>
-            <Polygon fx:id="player2_t3" fill="#4caf50" layoutX="325.0" layoutY="256.0" onMouseClicked="#click_player2_t3" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player2_t3" fill="#4caf50" layoutX="354.0" layoutY="256.0" onMouseClicked="#click_player2_t3" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="50.0" />
                   <Double fx:value="137.5" />
@@ -113,7 +128,7 @@
                   <Double fx:value="200.0" />
                </points>
             </Polygon>
-            <Polygon fx:id="player3_t1" fill="#2196f3" layoutX="324.0" layoutY="73.0" onMouseClicked="#click_player3_t1" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player3_t1" fill="#2196f3" layoutX="353.0" layoutY="73.0" onMouseClicked="#click_player3_t1" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="200.0" />
                     <Double fx:value="200.0" />
@@ -129,7 +144,7 @@
                     <Double fx:value="137.5" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player3_t2" fill="#2196f3" layoutX="422.0" layoutY="73.0" onMouseClicked="#click_player3_t2" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player3_t2" fill="#2196f3" layoutX="451.0" layoutY="73.0" onMouseClicked="#click_player3_t2" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="100.0" />
                     <Double fx:value="200.0" />
@@ -145,7 +160,7 @@
                     <Double fx:value="262.5" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player3_t3" fill="#2196f3" layoutX="399.0" layoutY="195.0" onMouseClicked="#click_player3_t3" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player3_t3" fill="#2196f3" layoutX="428.0" layoutY="195.0" onMouseClicked="#click_player3_t3" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="50.0" />
                   <Double fx:value="137.5" />
@@ -161,7 +176,7 @@
                   <Double fx:value="200.0" />
                </points>
             </Polygon>
-            <Polygon fx:id="player4_t1" fill="#ffeb3b" layoutX="620.0" layoutY="9.0" onMouseClicked="#click_player4_t1" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player4_t1" fill="#ffeb3b" layoutX="649.0" layoutY="9.0" onMouseClicked="#click_player4_t1" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="50.0" />
                     <Double fx:value="137.5" />
@@ -177,7 +192,7 @@
                     <Double fx:value="200.0" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player4_t2" fill="#ffeb3b" layoutX="547.0" layoutY="73.0" onMouseClicked="#click_player4_t2" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player4_t2" fill="#ffeb3b" layoutX="576.0" layoutY="73.0" onMouseClicked="#click_player4_t2" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="50.0" />
                     <Double fx:value="137.5" />
@@ -193,7 +208,7 @@
                     <Double fx:value="200.0" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player4_t3" fill="#ffeb3b" layoutX="621.0" layoutY="133.0" onMouseClicked="#click_player4_t3" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player4_t3" fill="#ffeb3b" layoutX="650.0" layoutY="133.0" onMouseClicked="#click_player4_t3" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="50.0" />
                     <Double fx:value="137.5" />
@@ -209,7 +224,7 @@
                     <Double fx:value="200.0" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player5_t1" fill="#9c27b0" layoutX="621.0" layoutY="257.0" onMouseClicked="#click_player5_t1" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player5_t1" fill="#9c27b0" layoutX="650.0" layoutY="257.0" onMouseClicked="#click_player5_t1" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="50.0" />
                   <Double fx:value="137.5" />
@@ -225,7 +240,7 @@
                   <Double fx:value="200.0" />
                </points>
             </Polygon>
-            <Polygon fx:id="player5_t2" fill="#9c27b0" layoutX="547.0" layoutY="197.0" onMouseClicked="#click_player5_t2" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player5_t2" fill="#9c27b0" layoutX="576.0" layoutY="197.0" onMouseClicked="#click_player5_t2" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="50.0" />
                     <Double fx:value="137.5" />
@@ -241,7 +256,7 @@
                     <Double fx:value="200.0" />
                 </points>
             </Polygon>
-            <Polygon fx:id="player5_t3" fill="#9c27b0" layoutX="423.0" layoutY="198.0" onMouseClicked="#click_player5_t3" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fx:id="player5_t3" fill="#9c27b0" layoutX="452.0" layoutY="198.0" onMouseClicked="#click_player5_t3" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="100.0" />
                   <Double fx:value="200.0" />
@@ -257,11 +272,12 @@
                   <Double fx:value="262.5" />
                </points>
             </Polygon>
-            <Label layoutX="240.0" layoutY="553.0" text="Player 2" />
-            <Label layoutX="427.0" layoutY="553.0" text="Player 3" />
-            <Label layoutX="610.0" layoutY="553.0" text="Player 4" />
-            <Label layoutX="792.0" layoutY="553.0" text="Player 5" />
-            <Polygon fill="#f44336" layoutX="163.0" layoutY="527.0" stroke="BLACK" strokeType="INSIDE">
+            <Label layoutX="25.0" layoutY="555.0" text="Player 1" textFill="WHITE" />
+            <Label layoutX="175.0" layoutY="555.0" text="Player 2" textFill="WHITE" />
+            <Label layoutX="325.0" layoutY="555.0" text="Player 3" textFill="WHITE" />
+            <Label layoutX="475.0" layoutY="555.0" text="Player 4" textFill="WHITE" />
+            <Label layoutX="625.0" layoutY="555.0" text="Player 5" textFill="WHITE" />
+            <Polygon fill="#f44336" layoutX="108.0" layoutY="531.0" stroke="BLACK" strokeType="INSIDE">
                 <points>
                     <Double fx:value="10.0" />
                     <Double fx:value="27.5" />
@@ -277,7 +293,7 @@
                     <Double fx:value="40.0" />
                 </points>
             </Polygon>
-            <Polygon fill="#4caf50" layoutX="345.0" layoutY="529.0" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fill="#4caf50" layoutX="261.0" layoutY="532.0" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="10.0" />
                   <Double fx:value="27.5" />
@@ -293,7 +309,7 @@
                   <Double fx:value="40.0" />
                </points>
             </Polygon>
-            <Polygon fill="#2196f3" layoutX="532.0" layoutY="529.0" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fill="#2196f3" layoutX="411.0" layoutY="531.0" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="10.0" />
                   <Double fx:value="27.5" />
@@ -309,7 +325,7 @@
                   <Double fx:value="40.0" />
                </points>
             </Polygon>
-            <Polygon fill="#ffeb3b" layoutX="715.0" layoutY="529.0" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fill="#ffeb3b" layoutX="562.0" layoutY="532.0" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="10.0" />
                   <Double fx:value="27.5" />
@@ -325,7 +341,7 @@
                   <Double fx:value="40.0" />
                </points>
             </Polygon>
-            <Polygon fill="#9c27b0" layoutX="897.0" layoutY="529.0" stroke="BLACK" strokeType="INSIDE">
+            <Polygon fill="#9c27b0" layoutX="711.0" layoutY="532.0" stroke="BLACK" strokeType="INSIDE">
                <points>
                   <Double fx:value="10.0" />
                   <Double fx:value="27.5" />
@@ -341,33 +357,43 @@
                   <Double fx:value="40.0" />
                </points>
             </Polygon>
-            <Button fx:id="attack_btn" layoutX="790.0" layoutY="226.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack" />
-            <Button fx:id="move_btn" layoutX="790.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_move" prefHeight="50.0" prefWidth="150.0" text="Move" />
-            <Button fx:id="upgrade_unit_btn" layoutX="790.0" layoutY="309.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Unit Up" />
-            <Button fx:id="commit_btn" layoutX="790.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_commit" prefHeight="50.0" prefWidth="150.0" text="Commit" />
-            <Label layoutX="398.0" layoutY="83.0" text="You are the Player 1">
+            <Button fx:id="attack_btn" layoutX="822.0" layoutY="385.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="50.0" prefWidth="150.0" text="Attack" />
+            <Button fx:id="move_btn" layoutX="822.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_move" prefHeight="50.0" prefWidth="150.0" text="Move" />
+            <Button fx:id="upgrade_unit_btn" layoutX="991.0" layoutY="146.0" mnemonicParsing="false" onAction="#click_up_unit" prefHeight="50.0" prefWidth="150.0" text="Unit Up" />
+            <Button fx:id="commit_btn" layoutX="986.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_commit" prefHeight="50.0" prefWidth="150.0" text="Commit" />
+            <Label fx:id="player_info" layoutX="432.0" layoutY="37.0" text="You are the Player 1">
                <font>
-                  <Font name="System Italic" size="25.0" />
+                  <Font name="System Italic" size="24.0" />
                </font>
             </Label>
-            <ScrollPane layoutX="30.0" layoutY="124.0" prefHeight="400.0" prefWidth="220.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="220.0" />
-              </content>
-            </ScrollPane>
-            <Label layoutX="29.0" layoutY="76.0" text="Game Info">
+            <ScrollPane fx:id="infoScrollPane" layoutX="30.0" layoutY="139.0" prefHeight="382.0" prefWidth="239.0">
+               <content>
+                  <Text fx:id="game_info_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to RISC">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </content></ScrollPane>
+            <Label layoutX="30.0" layoutY="98.0" text="Game Info">
                <font>
-                  <Font name="System Italic" size="25.0" />
+                  <Font name="System Italic" size="23.0" />
                </font>
             </Label>
-            <Text fx:id="territory_info" layoutX="282.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Territory Info:" />
-            <Button fx:id="upgrade_tech_btn" layoutX="790.0" layoutY="387.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Tech Up" />
-            <Button fx:id="switch_btn" layoutX="28.0" layoutY="6.0" mnemonicParsing="false" text="Switch" />
-            <Button fx:id="quit_btn" layoutX="144.0" layoutY="6.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="106.0" text="Quit" />
+            <Button fx:id="upgrade_tech_btn" layoutX="986.0" layoutY="387.0" mnemonicParsing="false" onAction="#click_up_tech" prefHeight="50.0" prefWidth="150.0" text="Tech Up" />
+            <Button fx:id="switch_btn" layoutX="30.0" layoutY="15.0" mnemonicParsing="false" onAction="#click_switch" prefHeight="30.0" prefWidth="100.0" text="Switch" />
+            <Button fx:id="quit_btn" layoutX="150.0" layoutY="15.0" mnemonicParsing="false" onAction="#click_quit" prefHeight="30.0" prefWidth="100.0" text="Quit" />
+            <Button fx:id="cloak_btn" layoutX="822.0" layoutY="470.0" mnemonicParsing="false" onAction="#click_cloak" prefHeight="50.0" prefWidth="150.0" text="Cloak" />
+            <Button fx:id="spy_move_btn" layoutX="822.0" layoutY="233.0" mnemonicParsing="false" onAction="#click_spy_move" prefHeight="50.0" prefWidth="150.0" text="Spy Move" />
+            <Button fx:id="upgrade_spy_unit_btn" layoutX="990.0" layoutY="233.0" mnemonicParsing="false" onAction="#click_spy_up_unit" prefHeight="50.0" prefWidth="150.0" text="Spy Up" />
+            <ImageView fitHeight="130.0" fitWidth="219.0" layoutX="877.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo2.png" />
+               </image>
+            </ImageView>
          </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
       </AnchorPane>
-   </center>
+   </top>
 </BorderPane>

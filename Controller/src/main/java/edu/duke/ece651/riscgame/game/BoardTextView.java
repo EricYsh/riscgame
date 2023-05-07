@@ -41,31 +41,6 @@ public class BoardTextView {
         System.out.println("(D)one");
     }
 
-    // public HashMap<String, Integer> initUnitAssignment(String playerName, int initTotalUnits) throws IOException {
-    //     System.out.println("Please set your units: E.g. Narnia 10 Midkemia 12 Oz 8");
-    //     int numUnits = initTotalUnits;
-    //     HashMap<String, Integer> res = new HashMap<String, Integer>();
-    //     for(Territory territory : boardMap.getTerritoriesByOwnerName(playerName)) {
-    //         while(true) {
-    //             try (Scanner scanner = new Scanner(System.in)) {
-    //                 System.out.println("How many units do you want to place in " + territory.getName() + "? (You have " + numUnits + " units left)");
-    //                 int numUnitInTerr = scanner.nextInt();
-    //                 if(numUnitInTerr > numUnits) {
-    //                     System.out.println("You don't have enough units to place in " + territory.getName());
-    //                     continue;
-    //                 }
-    //                 territory.setUnitNum(numUnitInTerr);
-    //                 numUnits -= numUnitInTerr;
-    //                 res.put(territory.getName(), numUnitInTerr);
-    //                 break;
-    //             } catch (Exception e) {
-    //                 System.out.println("Please enter a valid number:");
-    //                 continue;
-    //             }
-    //         }
-    //     }
-    //     return res;
-    // }
 
     public void printPlayerMap(String playerName) {
         System.out.println("\n" + playerName + " Player:");
@@ -246,15 +221,6 @@ public class BoardTextView {
         return true;
     }
 
-//    public Move issueMoveOrder(int playerId) {
-//        System.out.println("Please enter the territory you want to move from:");
-//        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
-//        System.out.println("Please enter the territory you want to move to:");
-//        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "MOVE");
-//        System.out.println("Please enter the number of units you want to move:");
-//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-//        return new Move(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId);
-//    }
 
     public Move issueMoveOrder(int playerId) {
         System.out.println("Please enter the territory you want to move from:");
@@ -270,15 +236,6 @@ public class BoardTextView {
         return new Move(unitIndex.size(), boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Move, playerId, unitIndex, null);
     }
 
-//    public Attack issueAttackOrder(int playerId) {
-//        System.out.println("Please enter the territory you want to attack from:");
-//        String fromTerritoryName = getStartTerritoryNameFromUser(playerId);
-//        System.out.println("Please enter the territory you want to attack:");
-//        String toTerritoryName = getDestTerritoryNameFromUser(playerId, fromTerritoryName, "ATTACK");
-//        System.out.println("Please enter the number of units you want to attack with:");
-//        int numUnits = getNumUnitsFromUser(boardMap.getTerritoryByName(fromTerritoryName).getUnitNum());
-//        return new Attack(numUnits, boardMap.getTerritoryByName(fromTerritoryName), boardMap.getTerritoryByName(toTerritoryName), Type.Attack, playerId);
-//    }
 
     public Attack issueAttackOrder(int playerId) {
         System.out.println("Please enter the territory you want to attack from:");

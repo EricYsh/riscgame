@@ -10,28 +10,30 @@ public class Territory implements Serializable {
     private int unitNum;
     private int size;
     private HashSet<Territory> neighbors;
+    public int cloakTimes;
 
-    // {unitId, Real Unit}
-//    private HashMap<Integer, Unit> units;
-    //  TODO confirm evol2 design. Use hashmap or arraylist?
+
     private ArrayList<Unit> units;
     //  1 : level1
     //  2 : leve 3
     //  3 : level7
     //  user input : 1,2,3
+
+    private ArrayList<Spy> spies;
+
+    private ArrayList<Spy> enemySpies;
     UnitFactory unitFactory = new UnitFactory();
 
     public Territory(String tname) {
         this.name = tname;
         neighbors = new HashSet<>();
-//        units = new HashMap<>();
-//        for (int i = 0; i < unitNum; i++) {
-//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
-//        }
         units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
         }
+        this.spies = new ArrayList<>();
+        this.enemySpies = new ArrayList<>();
+        this.cloakTimes = 0;
         this.size = 10;
     }
 
@@ -41,33 +43,16 @@ public class Territory implements Serializable {
         this.ownId = oId;
         this.unitNum = unitNum;
         neighbors = new HashSet<>();
-//        units = new HashMap<>();
-//        for (int i = 0; i < unitNum; i++) {
-//            units.put(i, (Unit) unitFactory.createUnit(0, 0));
-//        }
         units = new ArrayList<>();
         for (int i = 0; i < unitNum; i++) {
             units.add((Unit) unitFactory.createUnit(0, 0));
         }
+        this.spies = new ArrayList<>();
+        this.enemySpies = new ArrayList<>();
+        this.cloakTimes = 0;
         this.size = 10;
     }
 
-
-//    public Territory(String tName, int ownId, int unitNum) {
-//        this.name = tName;
-//        this.ownId = ownId;
-//        this.unitNum = unitNum;
-//        neighbors = new HashSet<>();
-////        units = new HashMap<>();
-////        for (int i = 0; i < unitNum; i++) {
-////            units.put(i, (Unit) unitFactory.createUnit(0, 0));
-////        }
-//        units = new ArrayList<>();
-//        for (int i = 0; i < unitNum; i++) {
-//            units.add((Unit) unitFactory.createUnit(0, 0));
-//        }
-//        this.size = 10;
-//    }
 
     public void addUpgradeUnit(Unit unitToAdd) {
         units.add(unitToAdd);
@@ -75,7 +60,7 @@ public class Territory implements Serializable {
 
     public void deleteOldLevelUnit(int level) {
         Iterator<Unit> iterator = units.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Unit unit = iterator.next();
             if (unit.getLevel() == level) {
                 iterator.remove();
@@ -84,14 +69,17 @@ public class Territory implements Serializable {
         }
     }
 
+    public int getCloakTimes() {
+        return cloakTimes;
+    }
 
-//    public HashMap<Integer, Unit> getUnits() {
-//        return units;
-//    }
-//
-//    public void setUnits(HashMap<Integer, Unit> units) {
-//        this.units = units;
-//    }
+    public void setCloakTimes(int cloakTimes) {
+        this.cloakTimes = cloakTimes;
+    }
+
+    public void minusCloakByOne() {
+        this.cloakTimes--;
+    }
 
     public ArrayList<Unit> getUnits() {
         return units;
@@ -159,6 +147,42 @@ public class Territory implements Serializable {
         units.addAll(unitsList);
     }
 
+
+    public ArrayList<Spy> getSpies() {
+        return spies;
+    }
+
+    public ArrayList<Spy> getEnemySpies() {
+        return enemySpies;
+    }
+
+    public void addSpyList(Spy... spyList) {
+        spies.addAll(Arrays.asList(spyList));
+    }
+
+    public void addEnemySpyList(Spy... spyList) {
+        enemySpies.addAll(List.of(spyList));
+    }
+
+
+    public void deleteSpy(int spyId) {
+        for (Spy s : spies) {
+            if (s.getSpyId() == spyId) {
+                spies.remove(s);
+                break;
+            }
+        }
+    }
+
+    public void deleteEnemySpy(int spyId) {
+        for (Spy s : enemySpies) {
+            if (s.getSpyId() == spyId) {
+                enemySpies.remove(s);
+                break;
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -167,11 +191,104 @@ public class Territory implements Serializable {
         return ownId == territory.ownId && unitNum == territory.unitNum && name.equals(territory.name) && ownerName.equals(territory.ownerName);
     }
 
-    //    public void displayAllUnit() {
-//        for (int i = 0; i < units.size(); i++) {
-//            System.out.println("Unit " + (i+1) + ": " + units.get(i).getLevel() + " level, " + units.get(i).getBonus() + " bonus");
-//        }
-//    }
+
+    private String splitString(String input, int length) {
+        String[] words = input.split("\\s+"); // 根据空格分隔字符串
+        StringBuilder output = new StringBuilder(input.length());
+        int lineLength = 0;
+        for (String word : words) {
+            if (lineLength + word.length() > length) {
+                output.append("\n"); // 换行
+                lineLength = 0;
+            }
+            output.append(word).append(" ");
+            lineLength += word.length() + 1;
+        }
+        return output.toString();
+    }
+
+
+    public String getAllUnitsInfo(int viewerId) {
+        StringBuilder info = new StringBuilder("");
+        info.append("Size: ").append(size).append("\n");
+        int[] levelCount = new int[7];
+        List<List<Integer>> levelIndices = new ArrayList<>();
+
+        // Initialize the ArrayLists in the list
+        for (int i = 0; i < 7; i++) {
+            levelIndices.add(new ArrayList<>());
+        }
+
+        for (Unit u : units) {
+            int level = u.getLevel();
+            levelCount[level]++;
+            levelIndices.get(level).add(units.indexOf(u));
+        }
+
+        for (int i = 0; i < levelCount.length; i++) {
+            info.append("Level " + i + " : " + levelCount[i]);
+            info.append(" with Index: " + "\n " + splitString(levelIndices.get(i).toString(), 30));
+            info.append("\n");
+        }
+        // display all your spy with index
+        if (this.getOwnId() == viewerId) {
+            int spy_index = 0;
+            if (spies.size() > 0) {
+                for (Spy s : spies) {
+                    if (s.getOwnerId() == this.ownId) {
+                        info.append("Spy ").append(s.getSpyId()).append(" with index: ").append(spy_index++).append("\n");
+                    }
+                }
+            } else {
+                info.append("Spies: No Your Own Spy in this territory\n");
+            }
+            if (cloakTimes > 0) {
+                info.append("Cloak remaining times: ").append(cloakTimes).append("\n");
+            }
+            else {
+                info.append("No Cloak \n");
+            }
+        }
+
+        return info.toString();
+    }
+
+    private boolean[] visibleForPlayer = {false, false, false, false, false};
+    private StringBuilder oldInfo;
+
+    public boolean isVisible(int viewerId) {
+        for (Spy s : enemySpies) {
+            if (s.getOwnerId() == viewerId) {
+                return true;
+            }
+        }
+        if (cloakTimes > 0) return false;
+        for (Territory tNeighbor : neighbors) {
+            if (tNeighbor.getOwnId() == viewerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getFogInfo(int viewerId) {
+        StringBuilder info = new StringBuilder("");
+        // any immediately adjacent enemy territory is visible to the player
+        // for any territory that has never been seen, only the outline should be displayed,
+        //  but no information about who occurpy it or how many units are there
+        if (isVisible(viewerId)) {
+            info.append(getAllUnitsInfo(viewerId));
+            System.out.println("visible" + viewerId);
+            visibleForPlayer[viewerId] = true;
+        }
+        // TODO if you have previously seen a territory, but no longer see it now (i.e. lose adjacncy)
+        //  show what you know in the past and clearly indicate the info is old!!!
+        oldInfo = info;
+
+
+        return info.toString();
+    }
+
     public void displayAllUnit() {
         // display all units according to 7 levels
         int[] levelCount = new int[7];
@@ -229,6 +346,7 @@ public class Territory implements Serializable {
     public void removeAllUnits() {
         units.clear();
     }
+
 
     //    public boolean equals(Territory t1) {
 //        if (this.ownId == t1.ownId && this.getUnitNum() == t1.getUnitNum()) {

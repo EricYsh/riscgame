@@ -2,15 +2,19 @@ package edu.duke.ece651.riscgame;
 
 import edu.duke.ece651.riscgame.commuMedium.*;
 import edu.duke.ece651.riscgame.game.GameMap;
+import edu.duke.ece651.riscgame.game.Player;
 import edu.duke.ece651.riscgame.game.Territory;
 import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.Type;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Vector;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
+import java.util.*;
 import java.util.concurrent.*;
 
 
@@ -24,6 +28,7 @@ public class NetServer {
 
     // this variable is designed to record those players lost (no matter watching or disconnected)
     private final HashSet<Socket> lostClientSockets;
+    private final HashSet<Socket> logOutClientSockets;
     private final int numClient;
 
     /**
@@ -33,6 +38,7 @@ public class NetServer {
         this.numClient  = numClient;
         this.clientSockets = new Vector<Socket>();
         this.lostClientSockets = new HashSet<Socket>();
+        this.logOutClientSockets = new HashSet<Socket>();
         try {
             this.serverSocket = new ServerSocket(port);
             System.out.println("Server is listening and waiting for connection");
@@ -42,6 +48,9 @@ public class NetServer {
     }
     public void addLostPlayer (int i) {
         lostClientSockets.add(clientSockets.get(i));
+    }
+    public void addLogOutPlayer (int i) {
+        logOutClientSockets.add(clientSockets.get(i));
     }
 
     /**
@@ -71,6 +80,7 @@ public class NetServer {
     }
     public void broadCast (Object object) {
         for (Socket socket: clientSockets) {
+            if (logOutClientSockets.contains(socket)) continue;
             GameMessageStream.sendObject(object, socket);
         }
     }
@@ -109,18 +119,35 @@ public class NetServer {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         for (Socket socket: clientSockets) {
             if (lostClientSockets.contains(socket)) continue;
+            if (logOutClientSockets.contains(socket)) continue;
             ReceiveActionOrderThread task = new ReceiveActionOrderThread(socket, map);
             Future<Vector<Order> > actionOrder = executorService.submit(task);
             actionOrderFutures.add(actionOrder);
         }
         executorService.shutdown();
+        int i = 0;
         for (Future<Vector<Order>> future: actionOrderFutures) {
             try {
-                container.addAll(future.get());
+                Vector<Order> temp = future.get();
+                for (Order onOrder : temp) {
+                    System.out.println(i + "order type: " + onOrder.getType());
+                }
+                if (temp.size() != 0) {
+                    if (temp.lastElement().getType() == Type.Switch ||
+                        temp.lastElement().getType() == Type.LogOut) {
+                        logOutClientSockets.add(clientSockets.get(i));
+                    }
+                }
+                
+                System.out.println("action order size: " + temp.size());
+                container.addAll(temp);
+                i++;
+                if (i >= numClient) i -= numClient;
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
+        System.out.println("action order size: " + container.size());
         return container;
     }
 
@@ -133,6 +160,57 @@ public class NetServer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void reLogin(ArrayList<Player> players) {
+        try {
+            Selector selector = Selector.open();
+            for (Socket socket: logOutClientSockets) {
+                SocketChannel channel = socket.getChannel();
+                channel.configureBlocking(false);
+                channel.register(selector, SelectionKey.OP_READ);
+            }
+            // while (true) {
+            selector.select(2000);
+            Set<SelectionKey> selectedKeys = selector.selectedKeys();
+            Iterator<SelectionKey> iterator = selectedKeys.iterator();
+            GameMessageStream<Player> gameMsgStream = new GameMessageStream<>();
+            while (iterator.hasNext()) {
+                SelectionKey key = iterator.next();
+                if (key.isValid() && key.isReadable()) {
+                    SocketChannel channel = (SocketChannel) key.channel();
+                    Socket socket = channel.socket();
+                    Player p = gameMsgStream.receiveObject(socket);
+                    for (Player pl: players) {
+                        if (pl.getClientID() == p.getClientID()) {
+                            if (pl.getPassword() == p.getPassword()) {
+                                logOutClientSockets.remove(socket);
+                            }
+                        }
+                    }
+//                    ByteBuffer buffer = ByteBuffer.allocate(10);
+//                    int bytesRead = channel.read(buffer);
+//                    if (bytesRead != -1) {
+//                        logOutClientSockets.remove(socket);
+//                    }
+                }
+                iterator.remove();
+            }
+            // }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<Player> receivePlayer () {
+        GameMessageStream<Player> gameMsgStream = new GameMessageStream<>();
+        ArrayList<Player> players = new ArrayList<>();
+        for (Socket s : clientSockets) {
+            players.add(gameMsgStream.receiveObject(s));
+        }
+
+        return players;
     }
 }
 

@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="720.0" prefWidth="573.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.AttackDialogController">
-   <children>
-      <Label layoutX="63.0" layoutY="33.0" text="Input the source territory" />
-      <TextField fx:id="source_territory" layoutX="63.0" layoutY="72.0" prefHeight="48.0" prefWidth="183.0" />
-      <Label layoutX="63.0" layoutY="142.0" text="Input the target territory" />
-      <TextField fx:id="target_territory" layoutX="63.0" layoutY="180.0" prefHeight="48.0" prefWidth="183.0" />
-      <Label layoutX="63.0" layoutY="247.0" text="Available Units:" />
-      <Label fx:id="available_level_1" layoutX="63.0" layoutY="289.0" text="Level 1: XX units" />
-      <Label fx:id="available_level_2" layoutX="63.0" layoutY="349.0" text="Level 1: XX units" />
-      <Label fx:id="available_level_3" layoutX="63.0" layoutY="402.0" text="Level 1: XX units" />
-      <Label fx:id="available_level_4" layoutX="63.0" layoutY="460.0" text="Level 1: XX units" />
-      <Label fx:id="available_level_5" layoutX="63.0" layoutY="513.0" text="Level 1: XX units" />
-      <Label fx:id="available_level_6" layoutX="63.0" layoutY="571.0" text="Level 1: XX units" />
-      <Label fx:id="available_level_7" layoutX="63.0" layoutY="630.0" text="Level 1: XX units" />
-      <Label layoutX="373.0" layoutY="247.0" text="Call-Up Units:" />
-      <TextField fx:id="call_up_level_1" layoutX="379.0" layoutY="279.0" prefHeight="20.0" prefWidth="100.0" />
-      <TextField fx:id="call_up_level_2" layoutX="379.0" layoutY="337.0" prefHeight="20.0" prefWidth="100.0" />
-      <TextField fx:id="call_up_level_3" layoutX="379.0" layoutY="393.0" prefHeight="20.0" prefWidth="100.0" />
-      <TextField fx:id="call_up_level_4" layoutX="379.0" layoutY="449.0" prefHeight="20.0" prefWidth="100.0" />
-      <TextField fx:id="call_up_level_5" layoutX="379.0" layoutY="505.0" prefHeight="20.0" prefWidth="100.0" />
-      <TextField fx:id="call_up_level_6" layoutX="379.0" layoutY="560.0" prefHeight="20.0" prefWidth="100.0" />
-      <TextField fx:id="call_up_level_7" layoutX="379.0" layoutY="617.0" prefHeight="20.0" prefWidth="100.0" />
-      <Button fx:id="attack_btn" layoutX="397.0" layoutY="150.0" mnemonicParsing="false" onAction="#click_attack" text="Attack" />
-      <Button fx:id="cancel_btn" layoutX="397.0" layoutY="72.0" mnemonicParsing="false" onAction="#click_cancel" text="Cancel" />
-   </children>
-</AnchorPane>
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.AttackDialogController" style="-fx-background-image: url('/images/bg3.png'); -fx-background-size: cover;" stylesheets="/stylesheet/risc.css">
+   <center>
+      <AnchorPane prefHeight="394.0" prefWidth="532.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="66.0" layoutY="26.0" text="Source Territory">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="67.0" layoutY="137.0" text="Target Territory">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="66.0" layoutY="254.0" prefHeight="24.0" prefWidth="454.0" text="Please enter the index of units you want to attack">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="attack_btn" layoutX="367.0" layoutY="173.0" mnemonicParsing="false" onAction="#click_attack" prefHeight="48.0" prefWidth="159.0" text="Attack" />
+            <Button fx:id="cancel_btn" layoutX="367.0" layoutY="58.0" mnemonicParsing="false" onAction="#click_cancel" prefHeight="48.0" prefWidth="158.0" text="Cancel" />
+            <TextField fx:id="target_territory" layoutX="66.0" layoutY="170.0" prefHeight="50.0" prefWidth="170.0" />
+            <TextField fx:id="source_territory" layoutX="66.0" layoutY="59.0" prefHeight="50.0" prefWidth="170.0" />
+            <TextField fx:id="units_index" layoutX="66.0" layoutY="320.0" prefHeight="50.0" prefWidth="170.0" />
+            <Label layoutX="66.0" layoutY="285.0" prefHeight="24.0" prefWidth="380.0" text="with (separate by a space): e.g. &quot;1 2 3&quot; ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

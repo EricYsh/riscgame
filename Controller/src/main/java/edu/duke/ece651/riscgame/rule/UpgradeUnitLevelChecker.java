@@ -22,7 +22,7 @@ public class UpgradeUnitLevelChecker extends OrderRuleChecker{
         if (theOrder.getType().equals(Type.UpgradeUnit)) {
             ArrayList<Integer> targetLevel = theOrder.getLevelToUpgrade();
             ArrayList<Integer> unitIndex = theOrder.getSelectedUnitsIndex();
-            ArrayList<Unit> unitList = theOrder.getSrc().getUnits();
+            ArrayList<Unit> unitList = map.getTerritoryByName(theOrder.getSrc().getName()).getUnits();
 
             for (int i = 0; i < targetLevel.size(); i++) {
                 int levelToCheck = targetLevel.get(i);

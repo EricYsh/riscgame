@@ -33,9 +33,9 @@ public class UpgradeUnit extends Order {
                 Unit unit = terrUnits.get(i); // unit to upgrade
                 int oldLevel = unit.getLevel();
                 int newLevel = this.getLevelToUpgrade().get(i);
-                this.getSrc().deleteOldLevelUnit(oldLevel);
+                boardMap.getTerritoryByName(this.getSrc().getName()).deleteOldLevelUnit(oldLevel);
                 Unit unitToAdd = (Unit) factory.createUnit(newLevel, bonusForUnit[newLevel]);
-                this.getSrc().addUpgradeUnit(unitToAdd);
+                boardMap.getTerritoryByName(this.getSrc().getName()).addUpgradeUnit(unitToAdd);
                 System.out.print("Bonus : ");
                 System.out.println(unitToAdd.getBonus());
                 System.out.print("Level : ");

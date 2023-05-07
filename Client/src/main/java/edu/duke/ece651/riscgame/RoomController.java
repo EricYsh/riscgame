@@ -1,47 +1,39 @@
 package edu.duke.ece651.riscgame;
 
-
-import edu.duke.ece651.riscgame.game.BoardGameMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
-import javafx.scene.control.Label;
-
 import javafx.stage.Stage;
+
+import java.net.Socket;
+import java.util.HashMap;
 
 public class RoomController {
 
-//     <?xml version="1.0" encoding="UTF-8"?>
+    public int roomID;
 
-// <?import javafx.scene.text.*?>
-// <?import javafx.scene.*?>
-// <?import javafx.scene.shape.*?>
-// <?import javafx.scene.control.*?>
-// <?import java.lang.*?>
-// <?import javafx.scene.layout.*?>
+    public Socket socket;
 
-// <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-//    <children>
-//       <Button fx:id="room1_enter_btn" layoutX="399.0" layoutY="79.0" onAction="#click_one" mnemonicParsing="false" text="Enter" />
-//       <Button fx:id="room2_enter_btn" layoutX="399.0" layoutY="176.0" onAction="#click_two" mnemonicParsing="false" text="Enter" />
-//       <Button fx:id="room3_enter_btn" layoutX="399.0" layoutY="264.0" onAction="#click_three" mnemonicParsing="false" text="Enter" />
-//       <Text layoutX="110.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room 1" />
-//       <Line endX="200.0" layoutX="300.0" layoutY="150.0" startX="-200.0" />
-//       <Line endX="200.0" layoutX="300.0" layoutY="250.0" startX="-200.0" />
-//       <Text layoutX="110.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room 2" />
-//       <Text layoutX="110.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room 3" />
-//    </children>
-// </AnchorPane>
-    private int roomID;
+    public NetClient netClient;
+
+    public HashMap<Integer, Integer> roomInfo = new HashMap<Integer, Integer>();
+    public HashMap<Integer, NetClient> NetClientInfo = new HashMap<>();
+
+    public LoginController loginController1, loginController2, loginController3;
+
+    public LoginController getLoginController(int roomID) {
+        if (roomID == 1) {
+            return loginController1;
+        } else if (roomID == 2) {
+            return loginController2;
+        } else {
+            return loginController3;
+        }
+    }
+
 
     @FXML
     private Button room1_enter_btn;
@@ -56,46 +48,82 @@ public class RoomController {
 
     @FXML
     void click_one(ActionEvent event) throws Exception {
-        this.roomID = 1;
+        int clientID = - 2;
+        if (roomInfo.containsKey(1)) {
+            System.out.println("s");
+            clientID = roomInfo.get(1);
+            System.out.println("a");
+            netClient = NetClientInfo.get(1);
+            System.out.println("b");
+        } else {
+            netClient = new NetClient(8888);
+            clientID = netClient.receiveClientID();
+            roomInfo.put(1, clientID);
+            NetClientInfo.put(1, netClient);
+        }
+        System.out.println("room 1, client ID: " + clientID);
+        //gui
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 400, 400);
-        LoginController loginController = loader.getController();
+        Scene scene = new Scene(root, 400, 250);
+        loginController1 = loader.getController();
+        loginController1.setNetClient(netClient);
+        loginController1.setClientId(clientID);
         Stage stage = new Stage();
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Login");
         stage.show();
+
+        Stage roomStage = (Stage) room1_enter_btn.getScene().getWindow();
+        roomStage.close();
     }
 
     @FXML
     void click_two(ActionEvent event) throws Exception{
-        this.roomID = 2;
+        netClient = new NetClient(8889);
+        int clientID = netClient.receiveClientID();
+        System.out.println("room 2, client ID: " + clientID);
+        roomInfo.put(2, clientID);
+        //gui
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 400, 400);
-        LoginController loginController = loader.getController();
+        Scene scene = new Scene(root, 400, 250);
+        loginController2 = loader.getController();
+        loginController2.setNetClient(netClient);
+        loginController2.setClientId(clientID);
         Stage stage = new Stage();
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Login");
         stage.show();
 
-        
-
+        Stage roomStage = (Stage) room2_enter_btn.getScene().getWindow();
+        roomStage.close();
     }
 
     @FXML
     void click_three(ActionEvent event) throws Exception{
-        this.roomID = 3;
+        netClient = new NetClient(8890);
+        int clientID = netClient.receiveClientID();
+        roomInfo.put(3, clientID);
+        System.out.println("room 3, client ID: " + clientID);
+        //gui
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginDialog.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 400, 400);
-        LoginController loginController = loader.getController();
+        Scene scene = new Scene(root, 400, 250);
+        loginController3 = loader.getController();
+        loginController3.setNetClient(netClient);
+        loginController3.setClientId(clientID);
         Stage stage = new Stage();
-
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Login");
         stage.show();
         
+        Stage roomStage = (Stage) room3_enter_btn.getScene().getWindow();
+        roomStage.close();
     }
-
-
 
     public int getRoomID() {
         return roomID;

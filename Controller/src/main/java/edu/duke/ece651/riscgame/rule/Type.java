@@ -13,12 +13,16 @@ package edu.duke.ece651.riscgame.rule;
  *  - AttackAndChangeHome: Represents a combination of attack order and changing the home territory.
  */
 public enum Type {
-
     Move,
+    SpyMove,
     Attack,
     AttackAndChangeHome,
     Attack2,
     Commit,
     UpgradeUnit,
-    UpgradeTech
+    UpgradeSpy,
+    UpgradeTech,
+    Cloak,
+    LogOut,
+    Switch
 }

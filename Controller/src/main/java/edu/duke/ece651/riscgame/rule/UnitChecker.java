@@ -31,7 +31,7 @@ public class UnitChecker<T> extends OrderRuleChecker<T> {
      */
     @Override
     protected String checkMyRule(Order theOrder, GameMap map) {
-        if (!theOrder.getSrc().getName().equals(theOrder.getDest().getName()) && theOrder.getSrc().getUnitNum() < theOrder.getUnitNum()) {
+        if (!theOrder.getSrc().getName().equals(theOrder.getDest().getName()) && map.getTerritoryByName(theOrder.getSrc().getName()).getUnitNum() < theOrder.getUnitNum()) {
             return "There is not that much Units from the source : " + theOrder.getSrc().getName();
         }
         return null;

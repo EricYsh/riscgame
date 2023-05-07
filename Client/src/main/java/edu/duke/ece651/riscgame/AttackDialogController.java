@@ -1,7 +1,14 @@
 package edu.duke.ece651.riscgame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.duke.ece651.riscgame.commuMedium.ActionInfo;
+import edu.duke.ece651.riscgame.game.BoardGameMap;
+import edu.duke.ece651.riscgame.game.Territory;
+import edu.duke.ece651.riscgame.order.Attack;
+import edu.duke.ece651.riscgame.order.Order;
+import edu.duke.ece651.riscgame.rule.Type;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,65 +17,29 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import static edu.duke.ece651.riscgame.MoveDialogController.validateInputUnitIndex;
+
 public class AttackDialogController {
 
     private String sourceTerritory;
     private String targetTerritory;
-    private int numUnitsLevel1;
-    private int numUnitsLevel2;
-    private int numUnitsLevel3;
-    private int numUnitsLevel4;
-    private int numUnitsLevel5;
-    private int numUnitsLevel6;
-    private int numUnitsLevel7;
+    private String unitsIndex;
+    
+    public NetClient netClient;
+    public BoardGameMap gameMap;
+    public int clientID;
 
-    @FXML
-    private TextField source_territory;
+    public void setNetClient(NetClient netClient) {
+        this.netClient = netClient;
+    }
 
-    @FXML
-    private TextField target_territory;
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
 
-    @FXML
-    private TextField call_up_level_1;
-
-    @FXML
-    private TextField call_up_level_2;
-
-    @FXML
-    private TextField call_up_level_3;
-
-    @FXML
-    private TextField call_up_level_4;
-
-    @FXML
-    private TextField call_up_level_5;
-
-    @FXML
-    private TextField call_up_level_6;
-
-    @FXML
-    private TextField call_up_level_7;
-
-    @FXML
-    private Label available_level_1;
-
-    @FXML
-    private Label available_level_2;
-
-    @FXML
-    private Label available_level_3;
-
-    @FXML
-    private Label available_level_4;
-
-    @FXML
-    private Label available_level_5;
-
-    @FXML
-    private Label available_level_6;
-
-    @FXML
-    private Label available_level_7;
+    public void setGameMap(BoardGameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     @FXML
     private Button cancel_btn;
@@ -77,110 +48,13 @@ public class AttackDialogController {
     private Button attack_btn;
 
     @FXML
-    void click_attack(ActionEvent event) {
-        sourceTerritory = source_territory.getText();
-        targetTerritory = target_territory.getText();
-        boolean isValidInput = true;
-
-        if (sourceTerritory == null || sourceTerritory.isEmpty()) {
-            isValidInput = false;
-        }
-        if (targetTerritory == null || targetTerritory.isEmpty()) {
-            isValidInput = false;
-        }
-        if (call_up_level_1.getText() != null && !call_up_level_1.getText().isEmpty()) {
-            try {
-                numUnitsLevel1 = Integer.parseInt(call_up_level_1.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-        if (call_up_level_2.getText() != null && !call_up_level_2.getText().isEmpty()) {
-            try {
-                numUnitsLevel2 = Integer.parseInt(call_up_level_2.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-        if (call_up_level_3.getText() != null && !call_up_level_3.getText().isEmpty()) {
-            try {
-                numUnitsLevel3 = Integer.parseInt(call_up_level_3.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-        if (call_up_level_4.getText() != null && !call_up_level_4.getText().isEmpty()) {
-            try {
-                numUnitsLevel4 = Integer.parseInt(call_up_level_4.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-        if (call_up_level_5.getText() != null && !call_up_level_5.getText().isEmpty()) {
-            try {
-                numUnitsLevel5 = Integer.parseInt(call_up_level_5.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-        if (call_up_level_6.getText() != null && !call_up_level_6.getText().isEmpty()) {
-            try {
-                numUnitsLevel6 = Integer.parseInt(call_up_level_6.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-        if (call_up_level_7.getText() != null && !call_up_level_7.getText().isEmpty()) {
-            try {
-                numUnitsLevel7 = Integer.parseInt(call_up_level_7.getText());
-            } catch (NumberFormatException e) {
-                isValidInput = false;
-            }
-        } else {
-            isValidInput = false;
-        }
-
-        if (isValidInput) {
-            // for test
-            System.out.println("sourceTerritory: " + sourceTerritory);
-            System.out.println("targetTerritory: " + targetTerritory);
-            System.out.println("numUnitsLevel1: " + numUnitsLevel1);
-            System.out.println("numUnitsLevel2: " + numUnitsLevel2);
-            System.out.println("numUnitsLevel3: " + numUnitsLevel3);
-            System.out.println("numUnitsLevel4: " + numUnitsLevel4);
-            System.out.println("numUnitsLevel5: " + numUnitsLevel5);
-            System.out.println("numUnitsLevel6: " + numUnitsLevel6);
-            System.out.println("numUnitsLevel7: " + numUnitsLevel7);
-        
-            Stage stage = (Stage) attack_btn.getScene().getWindow();
-            stage.close();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Invalid Input");
-            alert.setContentText("Please fill in all fields.");
-            alert.showAndWait();
-        }
-
-    }
+    private TextField source_territory;
 
     @FXML
-    void click_cancel(ActionEvent event) {
-        Stage stage = (Stage) cancel_btn.getScene().getWindow();
-        stage.close();
-    } 
+    private TextField target_territory;
+
+    @FXML
+    private TextField units_index;
 
     public String getSourceTerritory() {
         return sourceTerritory;
@@ -190,16 +64,118 @@ public class AttackDialogController {
         return targetTerritory;
     }
 
-    public HashMap<String, Integer> getUserAttackInput() {
-        HashMap<String, Integer> userAttackInput = new HashMap<>();
-        userAttackInput.put("numUnitsLevel1", numUnitsLevel1);
-        userAttackInput.put("numUnitsLevel2", numUnitsLevel2);
-        userAttackInput.put("numUnitsLevel3", numUnitsLevel3);
-        userAttackInput.put("numUnitsLevel4", numUnitsLevel4);
-        userAttackInput.put("numUnitsLevel5", numUnitsLevel5);
-        userAttackInput.put("numUnitsLevel6", numUnitsLevel6);
-        userAttackInput.put("numUnitsLevel7", numUnitsLevel7);
-        return userAttackInput;
+    public String getUnitsIndex() {
+        return unitsIndex;
+    }   
+
+    @FXML
+    void click_attack(ActionEvent event) {
+        sourceTerritory = source_territory.getText();
+        targetTerritory = target_territory.getText();
+        unitsIndex = units_index.getText();
+
+        boolean isValidInput = true;
+        
+        if (sourceTerritory == null || sourceTerritory.isEmpty()) {
+            isValidInput = false;
+        }
+        if (targetTerritory == null || targetTerritory.isEmpty()) {
+            isValidInput = false;
+        }
+        if (unitsIndex == null || unitsIndex.isEmpty()) {
+            isValidInput = false;
+        }
+        checkTerritoryName(sourceTerritory,targetTerritory);
+        if (!checkUnitIndex(sourceTerritory, unitsIndex)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Invalid Unit Index");
+            alert.showAndWait();
+        }
+        if (isValidInput) {
+            // for test
+            System.out.println("sourceTerritory: " + sourceTerritory);
+            System.out.println("targetTerritory: " + targetTerritory);
+            System.out.println("unitsIndex: " + unitsIndex);
+            String[] unitsIndexArray = unitsIndex.split(" ");
+            ArrayList<Integer> unitsIndexList = new ArrayList<Integer>();
+            for (String index : unitsIndexArray) {
+                unitsIndexList.add(Integer.parseInt(index));
+            }
+            Territory src = gameMap.getTerritoryByName(sourceTerritory);
+            System.out.println("src: " + src.displayInfo());
+            Territory dest = gameMap.getTerritoryByName(targetTerritory);
+            System.out.println("dest: " + dest.displayInfo());
+            
+            Attack attackOrder = new Attack(unitsIndexList.size(), src, dest, Type.Attack, clientID, unitsIndexList, null);
+            ActionInfo info = new ActionInfo(attackOrder);
+            netClient.sendActionInfo(info);
+            attackOrder.run(gameMap);
+            
+
+            Stage stage = (Stage) attack_btn.getScene().getWindow();
+            stage.close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean checkNeighbor(String fromTerritoryName, String toTerritoryName) {
+        for (Territory neighbor : gameMap.getTerritoryByName(fromTerritoryName).getNeighbors()) {
+            if (neighbor.getName().equals(toTerritoryName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkTerritoryName(String srcName, String destName) {
+        if (gameMap.getTerritoryByName(srcName) != null || gameMap.getTerritoryByName(destName) != null ) {
+            if (gameMap.getTerritoryByName(srcName).getOwnId() != clientID) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("You don't own " + srcName);
+                alert.showAndWait();
+            } else if (!checkNeighbor(srcName, destName)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText(srcName + " is not a neighbor of " + destName);
+                alert.showAndWait();
+            } else if (gameMap.getTerritoryByName(destName).getOwnId() == clientID){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText(destName + " is your own territory!");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please enter a valid territory name");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean checkUnitIndex(String srcName, String unitsIndex) {
+        int maxNum = gameMap.getTerritoryByName(srcName).getUnits().size();
+        ArrayList<Integer> numbers  = new ArrayList<>();
+        //    System.out.print("Please enter numbers with max length: " + maxNum);
+        return validateInputUnitIndex(unitsIndex, numbers, maxNum);
+    }
+
+
+    @FXML
+    void click_cancel(ActionEvent event) {
+        Stage stage = (Stage) cancel_btn.getScene().getWindow();
+        stage.close();
     }
 }
 

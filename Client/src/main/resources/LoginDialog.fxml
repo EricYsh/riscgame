@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.LoginController">
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.riscgame.LoginController" style="-fx-background-image: url('/images/bg3.png'); -fx-background-size: cover;" stylesheets="/stylesheet/risc.css">
    <children>
-      <Label layoutX="138.0" layoutY="105.0" text="ID:" />
-      <Label layoutX="73.0" layoutY="172.0" text="Password:" />
-      <TextField fx:id="id" layoutX="199.0" layoutY="97.0" prefHeight="48.0" prefWidth="232.0" />
-      <TextField fx:id="password" layoutX="199.0" layoutY="164.0" prefHeight="48.0" prefWidth="232.0" />
-      <Button fx:id="cancel_btn" layoutX="188.0" layoutY="276.0" mnemonicParsing="false" onAction="#click_cancel" text="Cancel" />
-      <Button fx:id="login_btn" layoutX="334.0" layoutY="276.0" mnemonicParsing="false" onAction="#click_login" text="Login" />
+      <Label layoutX="30.0" layoutY="53.0" text="ID:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label layoutX="30.0" layoutY="123.0" text="Password:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <TextField fx:id="id" layoutX="160.0" layoutY="50.0" prefHeight="30.0" prefWidth="200.0" />
+      <TextField fx:id="password" layoutX="160.0" layoutY="120.0" prefHeight="30.0" prefWidth="200.0" />
+      <Button fx:id="cancel_btn" layoutX="100.0" layoutY="180.0" mnemonicParsing="false" onAction="#click_cancel" prefHeight="30.0" prefWidth="80.0" text="Cancel" />
+      <Button fx:id="login_btn" layoutX="250.0" layoutY="180.0" mnemonicParsing="false" onAction="#click_login" prefHeight="30.0" prefWidth="80.0" text="Login" />
    </children>
 </AnchorPane>

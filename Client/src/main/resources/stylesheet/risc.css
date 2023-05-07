@@ -1,0 +1,29 @@
+#Source_Territory, #Target_Territory, #Units_Index {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 100%);
+    -fx-border-color: #b3b3b3;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 1, 0, 0, 1);
+}
+
+#Source_Territory:focused, #Target_Territory:focused, #Units_Index:focused {
+    -fx-border-color: #FFA500;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 165, 0, 0.5), 6, 0, 0, 2);
+}
+
+#Source_Territory:hover, #Target_Territory:hover, #Units_Index:hover {
+    -fx-border-color: #FFA500;
+}
+
+.button {
+    -fx-background-image: url("/images/button.png");
+    -fx-background-size: cover;
+}
+
+.button:hover {
+    -fx-background-image: url("/images/hover_button.png");
+    -fx-background-size: cover;
+}
+

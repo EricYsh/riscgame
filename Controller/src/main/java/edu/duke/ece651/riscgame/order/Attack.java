@@ -24,6 +24,8 @@ public class Attack extends Order {
         super(unitNum, src, dest, type, orderOwnId, selectedUnitsIndex, levelToUpgrade);
     }
 
+
+
     @Override
     public void run(GameMap gameMap) {
         gameMap.getTerritoryByName(this.getSrc().getName()).minusUnit(this.getUnitNum());
@@ -118,7 +120,7 @@ public class Attack extends Order {
             String ownerName = ownership.get(this.getOrderOwnId());
             gameMap.getTerritoryByName(this.getDest().getName()).setOwnerName(ownerName);
             gameMap.getTerritoryByName(this.getDest().getName()).setOwnId(this.getOrderOwnId());
-            this.getDest().removeAllUnits();
+            gameMap.getTerritoryByName(this.getDest().getName()).removeAllUnits();
             for (Integer bonus : attackBonus) {
                 System.out.println("to add bonus is : " + bonus);
                 Unit unit = (Unit) unitFactory.createUnit(bonus);
@@ -128,7 +130,7 @@ public class Attack extends Order {
             System.out.println("Defender wins");
             // TODO defender wins, remove attacker units
             // create unit according the remaining bonus and add to the dest territory
-            this.getDest().removeAllUnits();
+            gameMap.getTerritoryByName(this.getDest().getName()).removeAllUnits();
             for (Integer bonus : defendBonus) {
                 Unit unit = (Unit) unitFactory.createUnit(bonus);
                 gameMap.getTerritoryByName(this.getDest().getName()).addUpgradeUnit(unit);
